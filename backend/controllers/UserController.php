@@ -72,7 +72,7 @@ class UserController extends Controller
         );
 
         return $this->redirect(
-            Yii::$app->urlManagerFrontend->createAbsoluteUrl(['user/sign-in/login-by-pass', 'token' => $tokenModel->token])
+            Yii::$app->urlManagerBackend->createAbsoluteUrl(['user/sign-in/login-by-pass', 'token' => $tokenModel->token])
         );
     }
 

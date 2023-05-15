@@ -431,18 +431,6 @@ $logEntries[] = [
             <?php echo FormWidget::widget([
                 'model' => new FormModel([
                     'keys' => [
-                        'frontend.options' => [
-                            'type' => FormModel::TYPE_HEADER,
-                            'content' => 'Frontend Options'
-                        ],
-                        'frontend.maintenance' => [
-                            'label' => Yii::t('backend', 'Maintenance mode'),
-                            'type' => FormModel::TYPE_DROPDOWN,
-                            'items' => [
-                                'disabled' => Yii::t('backend', 'Disabled'),
-                                'enabled' => Yii::t('backend', 'Enabled'),
-                            ],
-                        ],
                         'backend.options' => [
                             'type' => FormModel::TYPE_HEADER,
                             'content' => 'Backend Options'

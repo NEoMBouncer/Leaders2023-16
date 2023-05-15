@@ -90,8 +90,7 @@ $config = [
                     'basePath' => '@common/messages',
                     'fileMap' => [
                         'common' => 'common.php',
-                        'backend' => 'backend.php',
-                        'frontend' => 'frontend.php',
+                        'backend' => 'backend.php'
                     ],
                     'on missingTranslation' => [backend\modules\translation\Module::class, 'missingTranslation'],
                 ],
@@ -132,13 +131,6 @@ $config = [
             ],
             require(Yii::getAlias('@backend/config/_urlManager.php'))
         ),
-        'urlManagerFrontend' => \yii\helpers\ArrayHelper::merge(
-            [
-                'hostInfo' => env('FRONTEND_HOST_INFO'),
-                'baseUrl' => env('FRONTEND_BASE_URL'),
-            ],
-            require(Yii::getAlias('@frontend/config/_urlManager.php'))
-        ),
         'urlManagerStorage' => \yii\helpers\ArrayHelper::merge(
             [
                 'hostInfo' => env('STORAGE_HOST_INFO'),
@@ -158,14 +150,6 @@ $config = [
         'availableLocales' => [
             'en-US' => 'English (US)',
             'ru-RU' => 'Русский (РФ)',
-            'uk-UA' => 'Українська (Україна)',
-            'es' => 'Español',
-            'fr' => 'Français',
-            'vi' => 'Tiếng Việt',
-            'zh-CN' => '简体中文',
-            'pl-PL' => 'Polski (PL)',
-            'id-ID' => 'Indonesian (Bahasa)',
-            'hu-HU' => 'Magyar',
         ],
         'bsVersion' => '4.x', // bootstrap version
     ],

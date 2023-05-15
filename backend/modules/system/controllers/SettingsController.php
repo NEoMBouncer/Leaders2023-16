@@ -13,7 +13,7 @@ class SettingsController extends Controller
     {
         $model = new FormModel([
             'keys' => [
-                'frontend.maintenance' => [
+                'backend.maintenance' => [
                     'label' => Yii::t('backend', 'Maintenance mode'),
                     'type' => FormModel::TYPE_DROPDOWN,
                     'items' => [

@@ -1,7 +1,13 @@
 ## Локальное развертывание через Docker
 
 1. В корне проекта создать файл .env и скопировать в него содержимое из файла .env.example
-2. Запустить сборку проекта
+2. Добавить на своём компьютере в файл hosts следующие поддомены (для Linux запустить команду из терминала "sudo nano /etc/hosts")
+```
+127.0.0.1       backend.platform.local
+127.0.0.1       api.platform.local
+127.0.0.1       storage.platform.local
+```
+3. Запустить сборку проекта
 ```
 docker-compose up --build
 ```
@@ -9,20 +15,15 @@ docker-compose up --build
 ```
 docker exec -it <имя контейнера> bash
 ```
-2. Установить зависимости
+4. Установить зависимости в корне приложения
 ```
 composer install --prefer-dist --ignore-platform-reqs -o
 ```
-3. Все миграции выполняются из папки app/console
+5. Все миграции выполняются из папки app/console
 ```
+cd console
 php yii migrate
 php yii rbac-migrate
-```
-4. Создать 3 симлинка в папке app/frontend/web
-```
-ln -s /app/api/web/ api
-ln -s /app/backend/web/ backend
-ln -s /app/storage/web/ storage
 ```
 
 ## Настройка локальной базы данных

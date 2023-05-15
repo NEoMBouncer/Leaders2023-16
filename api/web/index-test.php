@@ -23,7 +23,6 @@ $config = yii\helpers\ArrayHelper::merge(
     require(__DIR__ . '/../config/web.php'),
     require(__DIR__ . '/../../tests/config/base.php'),
     require(__DIR__ . '/../../tests/config/common/acceptance.php'),
-    require(__DIR__ . '/../../tests/config/frontend/acceptance.php')
 );
 
 (new yii\web\Application($config))->run();

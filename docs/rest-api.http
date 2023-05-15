@@ -1,0 +1,23 @@
+POST http://api.platform.local/v1/signup
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "tester",
+  "email": "xjyx10@gmail.com",
+  "password": "123qwe",
+  "password_confirm": "123qwe"
+}
+
+###
+POST http://api.platform.local/v1/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "identity": "tester",
+  "password": "123qwe"
+}
+
+
+###

@@ -44,22 +44,14 @@ class User extends ActiveRecord implements IdentityInterface
     const EVENT_AFTER_SIGNUP = 'afterSignup';
     const EVENT_AFTER_LOGIN = 'afterLogin';
 
+    public $token = null;
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return '{{%user}}';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        $this->on(self::EVENT_AFTER_INSERT, [$this, 'notifySignup']);
-        $this->on(self::EVENT_AFTER_DELETE, [$this, 'notifyDeletion']);
-        parent::init();
     }
 
     /**
@@ -106,18 +98,9 @@ class User extends ActiveRecord implements IdentityInterface
             ->one();
     }
 
-    /**
-     * Finds user by username or email
-     *
-     * @param string $login
-     * @return User|array|null
-     */
-    public static function findByLogin($login)
+    public static function findByEmail($email)
     {
-        return static::find()
-            ->active()
-            ->andWhere(['or', ['username' => $login], ['email' => $login]])
-            ->one();
+        return static::find()->where(['email' => $email])->one();
     }
 
     /**
@@ -248,24 +231,16 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
     }
 
+    public function afterLogin()
+    {
+        $this->trigger(self::EVENT_AFTER_LOGIN);
+    }
+
     /**
      * Creates user profile and application event
      * @param array $profileData
      */
     public function afterSignup(array $profileData = [])
-    {
-        $this->refresh();
-        $profile = new UserProfile();
-        $profile->locale = Yii::$app->language;
-        $profile->load($profileData, '');
-        $this->link('userProfile', $profile);
-        $this->trigger(self::EVENT_AFTER_SIGNUP);
-        // Default role
-        $auth = Yii::$app->authManager;
-        $auth->assign($auth->getRole(User::ROLE_USER), $this->getId());
-    }
-
-    public function notifySignup($event)
     {
         $this->refresh();
         Yii::$app->commandBus->handle(new AddToTimelineCommand([
@@ -277,19 +252,19 @@ class User extends ActiveRecord implements IdentityInterface
                 'created_at' => $this->created_at
             ]
         ]));
-    }
-
-    public function notifyDeletion($event)
-    {
-        Yii::$app->commandBus->handle(new AddToTimelineCommand([
-            'category' => 'user',
-            'event' => 'delete',
-            'data' => [
-                'public_identity' => $this->getPublicIdentity(),
-                'user_id' => $this->getId(),
-                'deleted_at' => time()
-            ]
-        ]));
+        foreach($profileData AS $field=>$data) {
+            if(empty($profileData[$field])) {
+                unset($profileData[$field]);
+            }
+        }
+        $profile = new UserProfile();
+        $profile->locale = Yii::$app->language;
+        $profile->load($profileData, '');
+        $this->link('userProfile', $profile);
+        $this->trigger(self::EVENT_AFTER_SIGNUP);
+        // Default role
+        $auth = Yii::$app->authManager;
+        $auth->assign($auth->getRole(User::ROLE_USER), $this->getId());
     }
 
     /**
