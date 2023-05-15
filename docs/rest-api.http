@@ -16,7 +16,8 @@ Content-Type: application/json
 
 {
   "identity": "tester",
-  "password": "123qwe"
+  "password": "123qwe",
+  "rememberMe": true
 }
 
 
