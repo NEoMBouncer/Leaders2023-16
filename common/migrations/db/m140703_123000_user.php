@@ -33,6 +33,7 @@ class m140703_123000_user extends Migration
             'user_id' => $this->primaryKey(),
             'firstname' => $this->string(),
             'middlename' => $this->string(),
+            'position' => $this->string()->null(),
             'lastname' => $this->string(),
             'age' => $this->integer(),
             'city' => $this->string(),

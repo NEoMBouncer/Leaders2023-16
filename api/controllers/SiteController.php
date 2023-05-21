@@ -7,16 +7,24 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\helpers\Url;
 
-/**
- * @SWG\Swagger(
- *     basePath="/",
- *     produces={"application/json"},
- *     consumes={"application/x-www-form-urlencoded"},
- *     @SWG\Info(version="1.0", title="Simple API"),
- * )
- */
 class SiteController extends Controller
 {
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['corsFilter'] = [
+            'class' => \yii\filters\Cors::className(),
+            'cors'  => [
+                'Access-Control-Allow-Origin' => ['*'],
+                'Access-Control-Request-Method' => ['GET', 'POST', 'HEAD', 'OPTIONS'],
+                'Access-Control-Allow-Credentials' => true,
+            ],
+        ];
+        return $behaviors;
+    }
+
     /**
      * @inheritdoc
      */
@@ -36,21 +44,6 @@ class SiteController extends Controller
                 ],
             ],
         ];
-    }
-
-    public function behaviors()
-    {
-        $behaviors = parent::behaviors();
-
-        $behaviors['corsFilter'] = [
-            'class' => \yii\filters\Cors::className(),
-            'cors'  => [
-                'Access-Control-Allow-Origin' => ['*'],
-                'Access-Control-Request-Method' => ['GET', 'POST', 'HEAD', 'OPTIONS'],
-                'Access-Control-Allow-Credentials' => true,
-            ],
-        ];
-        return $behaviors;
     }
 
     public function actionIndex()

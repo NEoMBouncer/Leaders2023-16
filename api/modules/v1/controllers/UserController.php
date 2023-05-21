@@ -17,6 +17,11 @@ use yii\rest\OptionsAction;
 class UserController extends Controller
 {
     /**
+     * @var string
+     */
+    public $modelClass = 'api\modules\v1\resources\User';
+
+    /**
      * @return array
      */
     public function behaviors()

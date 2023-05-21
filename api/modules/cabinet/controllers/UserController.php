@@ -39,7 +39,7 @@ class UserController extends BaseController
                 'email' => $user->email,
                 'role' => $user->userProfile->role,
                 'scores' => $user->userProfile->scores,
-                'avatar' => $user->userProfile->avatar
+//                'avatar' => $user->userProfile->avatar
             ]];
         else {
             Yii::$app->response->setStatusCode(421);

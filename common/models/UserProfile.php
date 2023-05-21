@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
  * @property string $firstname
  * @property string $middlename
  * @property string $lastname
+ * @property string $position
  * @property string $avatar
  * @property integer $gender
  * @property int $age
@@ -27,6 +28,8 @@ use yii\db\ActiveRecord;
  */
 class UserProfile extends ActiveRecord
 {
+    protected $_oldAttributes;
+
     const GENDER_MALE = 1;
     const GENDER_FEMALE = 2;
 
@@ -49,6 +52,17 @@ class UserProfile extends ActiveRecord
         return '{{%user_profile}}';
     }
 
+    public static function roles()
+    {
+        return [
+            self::ROLE_CANDIDATE => Yii::t('common', 'Candidate'),
+            self::ROLE_INTERN => Yii::t('common', 'Intern'),
+            self::ROLE_SUPERVISOR => Yii::t('common', 'Supervisor'),
+            self::ROLE_MENTOR => Yii::t('common', 'Mentor'),
+            self::ROLE_ORGANIZATION_MEMBER => Yii::t('common', 'Organization member'),
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -62,8 +76,22 @@ class UserProfile extends ActiveRecord
             [['firstname', 'middlename', 'lastname', 'avatar'], 'string', 'max' => 255],
             ['locale', 'default', 'value' => 'ru-RU'],
             ['locale', 'in', 'range' => array_keys(Yii::$app->params['availableLocales'])],
-            ['picture', 'safe']
+            ['picture', 'safe'],
+
+            ['role', function ($attribute, $params) {
+                if ($this->_oldAttributes['role'] != $this->$attribute &&
+                    $this->_oldAttributes['role'] == self::ROLE_CANDIDATE) {
+                    $candidate = Candidate::findOne($this->user_id);
+                    $candidate->is_deleted = 1;
+                    $candidate->save();
+                }
+            }]
         ];
+    }
+
+    public function afterFind()
+    {
+        $this->_oldAttributes = $this->attributes;
     }
 
     /**
@@ -99,5 +127,14 @@ class UserProfile extends ActiveRecord
             return implode(' ', [$this->firstname, $this->lastname]);
         }
         return null;
+    }
+
+    /**
+     * @param null $default
+     * @return bool|null|string
+     */
+    public function getAvatar($default = null)
+    {
+        return $default;
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace common\modules\user\controllers;
+namespace api\modules\v1\controllers;
 
 use api\controllers\SiteController;
+use api\modules\v1\resources\User;
 use common\commands\SendEmailCommand;
-use common\models\User;
 use common\models\UserToken;
 use common\modules\user\models\LoginForm;
 use common\modules\user\models\PasswordResetRequestForm;
@@ -15,9 +15,16 @@ use Yii;
 use yii\authclient\AuthAction;
 use yii\base\Exception;
 use yii\base\InvalidArgumentException;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\rest\IndexAction;
+use yii\rest\OptionsAction;
+use yii\rest\CreateAction;
+use yii\rest\ViewAction;
+use yii\rest\UpdateAction;
+use yii\rest\DeleteAction;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -31,6 +38,22 @@ use yii\widgets\ActiveForm;
  */
 class SignInController extends SiteController
 {
+    /**
+     * @var string
+     */
+    public $modelClass = 'api\modules\v1\resources\User';
+
+    /**
+     * @SWG\Post(path="/v1/signup",
+     *     tags={"signup", "auth"},
+     *     summary="Retrieves the collection of Articles.",
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "Article collection response",
+     *         @SWG\Schema(ref = "#/definitions/User")
+     *     ),
+     * )
+     **/
 
     public function beforeAction($action) {
         $this->enableCsrfValidation = false;
@@ -84,7 +107,7 @@ class SignInController extends SiteController
             $token = $model->login();
             if($token) {
                 $user = $model->getUser();
-                if($user->status != User::STATUS_ACTIVE) {
+                if($user->status != \common\models\User::STATUS_ACTIVE) {
                     return [
                         'success' => false,
                         'error' => 'User not active'
@@ -115,9 +138,6 @@ class SignInController extends SiteController
         }
     }
 
-    /**
-     * @return string|Response
-     */
     public function actionSignup(): array
     {
         $model = new SignupForm();

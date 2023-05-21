@@ -1,15 +1,16 @@
 <?php
 
-use api\modules\v1\Module;
-
 $config = [
     'homeUrl' => Yii::getAlias('@apiUrl'),
     'controllerNamespace' => 'api\controllers',
     'defaultRoute' => 'site/index',
-    'bootstrap' => ['maintenance'],
+    'bootstrap' => ['maintenance', 'candidate'],
     'modules' => [
-        'v1' => Module::class,
+        'v1' => api\modules\v1\Module::class,
         'cabinet' => api\modules\cabinet\Module::class,
+        'candidate' => [
+            'class' => common\modules\candidate\Module::class
+        ],
         'user' => [
             'class' => common\modules\user\Module::class,
             'shouldBeActivated' => false,

@@ -14,6 +14,23 @@ use yii\rest\Serializer;
 use yii\rest\ViewAction;
 use yii\web\HttpException;
 
+/**
+ * @SWG\Swagger(
+ *     schemes={"http","https"},
+ *     basePath="/",
+ *     @SWG\Info(
+ *         version="1.0.0",
+ *         title="API Documentation",
+ *         description="API description...",
+ *         termsOfService="",
+ *         @SWG\License(
+ *             name="BSD License",
+ *             url="https://raw.githubusercontent.com/yii2-starter-kit/yii2-starter-kit/master/LICENSE.md"
+ *         )
+ *     ),
+ * )
+ * @author Eugene Terentev <eugene@terentev.net>
+ */
 class ArticleController extends ActiveController
 {
     /**

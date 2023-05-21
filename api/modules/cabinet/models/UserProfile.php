@@ -11,6 +11,7 @@ class UserProfile extends \common\models\UserProfile
             'firstname',
             'middlename',
             'lastname',
+            'gender',
             'phone',
             'age',
             'city',
