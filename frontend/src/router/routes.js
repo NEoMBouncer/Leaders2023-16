@@ -21,9 +21,9 @@ export const routes = [
         }
     },
     {
-        path: '/cabinet/setting',
-        name: 'Setting',
-        component: () => import('@/pages/cabinet/Setting.vue'),
+        path: '/cabinet/profile',
+        name: 'Profile',
+        component: () => import('@/pages/cabinet/Profile.vue'),
         meta: {
             requiresAuth: true,
             layout: 'main',

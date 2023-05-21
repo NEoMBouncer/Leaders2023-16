@@ -37,7 +37,7 @@
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <router-link
-                      to="/cabinet/setting"
+                      to="/cabinet/profile"
                       :class="[active ? 'bg-gray-100' : '', 'w-full items-start justify-start flex px-4 py-2 text-sm text-gray-700']"
                   >
                     Настройки профиля

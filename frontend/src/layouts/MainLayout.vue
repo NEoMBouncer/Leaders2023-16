@@ -136,7 +136,7 @@
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
                     <router-link
-                        to="/cabinet/setting"
+                        to="/cabinet/profile"
                         :class="[active ? 'bg-gray-100' : '', 'w-full items-start justify-start flex px-4 py-2 text-sm text-gray-700']"
                     >
                       Настройки профиля
@@ -288,7 +288,7 @@ export default {
         { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
       ],
       teams: [
-        { id: 1, name: 'Профиль', href: '/cabinet/setting', initial: 'П', current: false },
+        { id: 1, name: 'Профиль', href: '/cabinet/profile', initial: 'П', current: false },
         { id: 2, name: 'Анкета', href: '/cabinet/questionnaire', initial: 'А', current: false },
       ],
       navigationLanding: [
