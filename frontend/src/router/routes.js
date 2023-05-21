@@ -1,16 +1,37 @@
 
 export const routes = [
+    // DEFAULT
     {
         path: '/',
         name: 'home',
-        component: () => import('@/pages/d.vue'),
+        component: () => import('@/pages/Home.vue'),
         meta: {
-            requiresAuth: true
+            requiresAuth: false
+        }
+    },
+
+    // MAIN
+    {
+        path: '/cabinet',
+        name: 'Cabinet',
+        component: () => import('@/pages/cabinet/Cabinet.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
+    {
+        path: '/cabinet/setting',
+        name: 'Setting',
+        component: () => import('@/pages/cabinet/Setting.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
         }
     },
 
 
-    // System
+    // SYSTEM
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFoundPage',
