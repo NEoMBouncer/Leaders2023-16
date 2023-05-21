@@ -2,11 +2,10 @@
 
 namespace common\modules\user\controllers;
 
+use api\controllers\SiteController;
 use common\commands\SendEmailCommand;
-use common\models\PartnerLinkClick;
 use common\models\User;
 use common\models\UserToken;
-use common\modules\partner\models\Partner;
 use common\modules\user\models\LoginForm;
 use common\modules\user\models\PasswordResetRequestForm;
 use common\modules\user\models\ResendEmailForm;
@@ -30,21 +29,8 @@ use yii\widgets\ActiveForm;
  * @package frontend\modules\user\controllers
  * @author Eugene Terentev <eugene@terentev.net>
  */
-class SignInController extends \yii\web\Controller
+class SignInController extends SiteController
 {
-
-    /**
-     * @return array
-     */
-    public function actions()
-    {
-        return [
-            'oauth' => [
-                'class' => AuthAction::class,
-                'successCallback' => [$this, 'successOAuthCallback']
-            ]
-        ];
-    }
 
     public function beforeAction($action) {
         $this->enableCsrfValidation = false;
@@ -63,34 +49,25 @@ class SignInController extends \yii\web\Controller
                 'rules' => [
                     [
                         'actions' => [
-                            'signup', 'login', 'login-by-pass', 'request-password-reset', 'reset-password', 'oauth', 'activation', 'resend-email'
+                            'signup', 'login', 'logout', 'login-by-pass', 'request-password-reset', 'reset-password', 'oauth', 'activation', 'request-activation'
                         ],
                         'allow' => true,
                         'roles' => ['?']
                     ],
                     [
                         'actions' => [
-                            'signup', 'login', 'request-password-reset', 'reset-password', 'oauth', 'activation', 'resend-email'
+                            'signup', 'login-by-pass', 'request-password-reset', 'reset-password', 'oauth', 'activation', 'request-activation'
                         ],
                         'allow' => false,
-                        'roles' => ['@'],
-                        'denyCallback' => function () {
-                            return Yii::$app->controller->redirect(['/user/default/index']);
-                        }
+                        'roles' => ['@']
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'login', 'signup'],
                         'allow' => true,
                         'roles' => ['@'],
                     ]
                 ]
             ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post']
-                ]
-            ]
         ];
     }
 
@@ -100,7 +77,6 @@ class SignInController extends \yii\web\Controller
     public function actionLogin(): array
     {
         $model = new LoginForm();
-        Yii::$app->response->format = Response::FORMAT_JSON;
         $response = ['success' => false];
 
         try {
@@ -121,31 +97,21 @@ class SignInController extends \yii\web\Controller
             }
             else
             {
+                Yii::$app->response->setStatusCode(422);
                 $modelErrors = $model->getErrors();
                 foreach ($modelErrors as $fieldError => $errors)
-                    $response['field_errors'][$fieldError] = $errors[0];
+                {
+                    $response['error'] = $errors[0];
+                    break;
+                }
 
                 return $response;
             }
         }
         catch (\Exception $e)
         {
+            Yii::$app->response->setStatusCode(500);
             return ['success' => false, 'error' => $e->getMessage()];
-        }
-    }
-
-    /**
-     * @return Response
-     */
-    public function actionLogout(): array
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        try {
-            return ['success' => true];
-        }
-        catch (\Exception $exception)
-        {
-            return ['success' => false, 'error' => $exception->getMessage()];
         }
     }
 
@@ -157,7 +123,14 @@ class SignInController extends \yii\web\Controller
         $model = new SignupForm();
         $params = Yii::$app->request->post();
         $model->attributes = $params;
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        $username = stristr($model->email, '@', true);
+        $users = User::find()->where(['like', 'username', $username])->count();
+        if ($users != 0)
+        {
+            $lastUser = User::find()->orderBy('id DESC')->limit(1)->one();
+            $username = $username . $lastUser->id;
+        }
+        $model->username = $username;
         $response = ['success' => false];
 
         try {
@@ -168,15 +141,20 @@ class SignInController extends \yii\web\Controller
 
             else
             {
+                Yii::$app->response->setStatusCode(422);
                 $modelErrors = $model->getErrors();
                 foreach ($modelErrors as $fieldError => $errors)
-                    $response['field_errors'][$fieldError] = $errors[0];
+                {
+                    $response['error'] = $errors[0];
+                    break;
+                }
 
                 return $response;
             }
         }
         catch (\Exception $exception)
         {
+            Yii::$app->response->setStatusCode(500);
             return ['success' => false, 'error' => $exception->getMessage()];
         }
     }

@@ -78,10 +78,13 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::find()
-            ->active()
-            ->andWhere(['access_token' => $token])
-            ->one();
+        $user = self::findByUsername((string) $token->getClaim('uid')->username);
+        if ($user)
+        {
+            $user->token = $token;
+            return $user;
+        }
+        else return null;
     }
 
     /**
@@ -258,7 +261,7 @@ class User extends ActiveRecord implements IdentityInterface
             }
         }
         $profile = new UserProfile();
-        $profile->locale = Yii::$app->language;
+        $profile->locale = 'ru-RU';
         $profile->load($profileData, '');
         $this->link('userProfile', $profile);
         $this->trigger(self::EVENT_AFTER_SIGNUP);

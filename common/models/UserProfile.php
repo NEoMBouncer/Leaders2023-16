@@ -14,11 +14,14 @@ use yii\db\ActiveRecord;
  * @property string $firstname
  * @property string $middlename
  * @property string $lastname
- * @property string $picture
  * @property string $avatar
- * @property string $avatar_path
- * @property string $avatar_base_url
  * @property integer $gender
+ * @property int $age
+ * @property string $city
+ * @property string $phone
+ * @property int $role
+ * @property int $is_russian_citizenship
+ * @property int $scores
  *
  * @property User $user
  */
@@ -26,6 +29,12 @@ class UserProfile extends ActiveRecord
 {
     const GENDER_MALE = 1;
     const GENDER_FEMALE = 2;
+
+    const ROLE_CANDIDATE = 0;
+    const ROLE_INTERN = 1;
+    const ROLE_SUPERVISOR = 2;
+    const ROLE_MENTOR = 3;
+    const ROLE_ORGANIZATION_MEMBER = 4;
 
     /**
      * @var
@@ -41,31 +50,17 @@ class UserProfile extends ActiveRecord
     }
 
     /**
-     * @return array
-     */
-    public function behaviors()
-    {
-        return [
-            'picture' => [
-                'class' => UploadBehavior::class,
-                'attribute' => 'picture',
-                'pathAttribute' => 'avatar_path',
-                'baseUrlAttribute' => 'avatar_base_url'
-            ]
-        ];
-    }
-
-    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
             [['user_id'], 'required'],
-            [['user_id', 'gender'], 'integer'],
+            [['user_id', 'gender', 'role', 'is_russian_citizenship'], 'integer'],
+            ['scores', 'integer', 'min' => 0],
             [['gender'], 'in', 'range' => [NULL, self::GENDER_FEMALE, self::GENDER_MALE]],
-            [['firstname', 'middlename', 'lastname', 'avatar_path', 'avatar_base_url'], 'string', 'max' => 255],
-            ['locale', 'default', 'value' => Yii::$app->language],
+            [['firstname', 'middlename', 'lastname', 'avatar'], 'string', 'max' => 255],
+            ['locale', 'default', 'value' => 'ru-RU'],
             ['locale', 'in', 'range' => array_keys(Yii::$app->params['availableLocales'])],
             ['picture', 'safe']
         ];
@@ -104,16 +99,5 @@ class UserProfile extends ActiveRecord
             return implode(' ', [$this->firstname, $this->lastname]);
         }
         return null;
-    }
-
-    /**
-     * @param null $default
-     * @return bool|null|string
-     */
-    public function getAvatar($default = null)
-    {
-        return $this->avatar_path
-            ? Yii::getAlias($this->avatar_base_url . '/' . $this->avatar_path)
-            : $default;
     }
 }

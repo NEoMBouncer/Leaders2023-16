@@ -1,7 +1,6 @@
 <?php
 
 namespace common\components\jwt;
-use yii\helpers\Url;
 
 class JwtValidationData extends \sizeg\jwt\JwtValidationData
 {

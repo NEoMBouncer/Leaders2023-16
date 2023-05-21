@@ -22,4 +22,31 @@ return [
             'templateFile' => '@common/rbac/views/migration.php'
         ],
     ],
+    'components' => [
+        'redis' => [
+            'class' => yii\redis\Connection::class,
+            'database' => env('REDIS_DATABASE'),
+            'hostname' => env('REDIS_HOST'),
+            'port' => env('REDIS_PORT'),
+            'password' => env('REDIS_PASSWORD'),
+            'retries' => 1,
+        ],
+        'queue' => [
+            'class' => common\base\OpenQueue::class,
+            'as log' => \yii\queue\LogBehavior::class,
+            'redis' => 'redis', // Redis connection component or its config
+            'channel' => 'queue', // Queue channel key
+        ],
+        'jwt' => [
+            'class' => \sizeg\jwt\Jwt::class,
+            'key'   => env('JWT_SECRET'),
+            'jwtValidationData' => \common\components\jwt\JwtValidationData::class,
+        ],
+        'user' => [
+            'class' => yii\web\User::class,
+            'identityClass' => common\models\User::class,
+            'enableSession' => false,
+            'enableAutoLogin' => false,
+        ],
+    ]
 ];

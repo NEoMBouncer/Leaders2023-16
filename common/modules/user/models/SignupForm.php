@@ -41,12 +41,11 @@ class SignupForm extends Model
     {
         return [
             ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required'],
             ['username', 'unique',
                 'targetClass' => '\common\models\User',
                 'message' => Yii::t('app', 'This username has already been taken.')
             ],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['username', 'string'],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
@@ -90,16 +89,11 @@ class SignupForm extends Model
             $user->status = $shouldBeActivated ? User::STATUS_NOT_ACTIVE : User::STATUS_ACTIVE;
             $user->setPassword($this->password);
 
-//            if ($ref != null)
-//            {
-//                $parent = User::findOne(['partners_link' => $ref]);
-//                if ($parent)
-//                    $user->parent_id = $parent->id;
-//            }
-
             if (!$user->save()) {
                 throw new Exception("User couldn't be  saved");
             };
+
+            $user->afterSignup();
 
             if ($shouldBeActivated) {
                 $activationForm = new ActivationForm($user);

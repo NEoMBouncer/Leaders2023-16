@@ -36,7 +36,7 @@ class LoginForm extends Model
     public function attributeLabels()
     {
         return [
-            'identity' => Yii::t('app', 'Username or email'),
+            'identity' => Yii::t('app', 'Email'),
             'password' => Yii::t('app', 'Password'),
             'rememberMe' => Yii::t('app', 'Remember Me'),
         ];
@@ -90,10 +90,6 @@ class LoginForm extends Model
             $user->afterLogin();
 
             return $token;
-
-            /*if (Yii::$app->user->login($this->getUser(), $this->rememberMe ? Time::SECONDS_IN_A_MONTH : 0)) {
-                return true;
-            }*/
         }
         return false;
     }

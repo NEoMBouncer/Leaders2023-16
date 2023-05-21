@@ -100,10 +100,6 @@ class FixtureHelper extends Module
                 'class' => RbacAuthAssignmentFixture::class,
                 'dataFile' => '@tests/common/fixtures/data/rbac_auth_assignment.php',
             ],
-            'page' => [
-                'class' => PageFixture::class,
-                'dataFile' => '@tests/common/fixtures/data/page.php',
-            ],
             'widget_carousel' => [
                 'class' => WidgetCarouselFixture::class,
                 'dataFile' => '@tests/common/fixtures/data/widget_carousel.php',

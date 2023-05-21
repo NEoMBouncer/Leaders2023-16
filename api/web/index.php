@@ -19,4 +19,9 @@ $config = \yii\helpers\ArrayHelper::merge(
     require(__DIR__ . '/../config/web.php')
 );
 
+header('Origin: *');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization');
+header('Access-Control-Allow-Credentials: true');
+
 (new yii\web\Application($config))->run();
