@@ -2,10 +2,10 @@
   <div>
     <span
         v-if="selectLabel"
-        class="block font-semibold text-xs pb-2 label"
+        class="block font-medium text-sm pb-2 label"
     >
-      <sup v-if="star">*</sup>
       {{ selectLabel }}
+      <sup v-if="star" class="text-red-600">*</sup>
     </span>
     <div :class="rootClasses">
       <multiselect
@@ -327,8 +327,9 @@ export default {
 	
 	}
 	:deep(.multiselect__tags) {
-		min-height: 42px;
-		
+		min-height: 38px;
+    height: 38px;
+    @apply text-sm border border-gray-300 rounded-md py-2 px-3 placeholder-gray-500;
 	}
 	:deep(.multiselect__option--highlight) {
 		background: $background-blue;
@@ -343,8 +344,9 @@ export default {
 	}
 	:deep(.multiselect__single) {
 		font-size: 0.875rem;
-		margin-bottom: 0.25rem;
-		margin-top: 0.2rem;
+		margin-bottom: 0;
+    padding-left: 0;
+    color: black;
 	}
 	.multiselect--disabled {
 		@apply select-none pointer-events-none opacity-60;
@@ -388,7 +390,7 @@ export default {
 	}
 }
 .label {
-	color: $color-light-text-gray;
+  @apply text-gray-700;
 }
 .solo {
 	input:-webkit-autofill {
