@@ -9,13 +9,57 @@
 
       <div class="md:col-span-2">
         <div class="grid grid-cols-1 gap-x-6 gap-y-5 sm:max-w-xl sm:grid-cols-6">
-          <div class="col-span-full flex items-center gap-x-8">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="h-24 w-24 flex-none rounded-lg bg-gray-800 object-cover" />
+          <div v-if="file" ref="cropper" class="col-span-full flex items-center gap-x-3">
             <div>
-              <button type="button" class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm">Change avatar</button>
+              <img
+                  id="image"
+                  class="h-24 w-24 flex justify-center items-center rounded-lg bg-gray-300 object-cover"
+                  ref="image_new"
+                  :src="image_new"
+                  alt="Cropped Image"
+              />
+<!--              <div class="flex items-center justify-center">-->
+<!--                <div @click="zoomIn" class="text-3xl font-semibold mr-6">-</div>-->
+<!--                <div @click="zoomOut" class="text-3xl font-semibold">+</div>-->
+<!--              </div>-->
+            </div>
+            <base-button
+                type="primary"
+                class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
+                @click="apply"
+            >
+              Сохранить
+            </base-button>
+            <base-button
+                type="secondary"
+                class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
+                @click="cancel"
+            >
+              Отменить
+            </base-button>
+          </div>
+          <div v-else class="col-span-full flex items-center gap-x-8">
+            <img
+                v-if="avatarReady"
+                class="h-24 w-24 flex justify-center items-center rounded-lg bg-gray-300 object-cover"
+                :src="src_preview"
+                alt="Cropped Image"
+            />
+            <div v-else class="h-24 w-24 flex justify-center items-center rounded-lg bg-gray-300 object-cover">
+              <span class="text-xl font-medium leading-none">TW</span>
+            </div>
+            <div>
+              <base-button
+                  type="primary"
+                  class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm bg-gray-400"
+                  @click="selectedImageHandler"
+              >
+                Загрузить аватар
+              </base-button>
               <p class="mt-2 text-xs leading-5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
             </div>
           </div>
+          <input ref="file_input" type="file" class="hidden" @change="fileSelected"/>
           <base-input
               class="col-span-full"
               disabled
@@ -166,6 +210,7 @@ import BaseButton from "@/components/UI/BaseButton.vue";
 import BaseInput from "@/components/UI/BaseInput.vue";
 import BaseSelect from "@/components/UI/BaseSelect.vue";
 import BaseDatepicker from "@/components/UI/BaseDatepicker.vue";
+import Cropper from 'cropperjs';
 
 export default {
   name: "Profile",
@@ -173,7 +218,8 @@ export default {
     BaseDatepicker,
     BaseSelect,
     BaseButton,
-    BaseInput
+    BaseInput,
+    Cropper
   },
   data() {
     return {
@@ -203,6 +249,12 @@ export default {
       isPassOldVisible: false,
       isPassVisible: false,
       isPassConfirmationVisible: false,
+      file: null,
+      cropper: null,
+      src_preview: null,
+      reload_avatar: null,
+      avatarReady: false,
+      image_new: null
     }
   },
   methods: {
@@ -233,6 +285,58 @@ export default {
           this.isPassConfirmationVisible ? "input" : "password"
       );
     },
+    selectedImageHandler() {
+      this.$refs.file_input.click()
+    },
+    isImageFile(file) {
+      if(file.type) {
+        return /^image\/\w+$/.test(file.type)
+      } else {
+        return /\.(jpg|jpeg|png|gif)$/.test(file)
+      }
+    },
+    zoomIn() {
+      this.cropper.zoom(0.1)
+    },
+    zoomOut() {
+      this.cropper.zoom(-0.1)
+    },
+    cancel() {
+      this.file = null
+      this.cropper.destroy()
+    },
+    fileSelected(e) {
+      if(this.isImageFile(e.target.files[0])) {
+        this.file = e.target.files[0]
+        this.image_new = URL.createObjectURL(e.target.files[0])
+        if(this.cropper !== null) {
+          this.cropper.destroy()
+        }
+        this.cropper = new Cropper(this.image_new, {
+          viewMode: 1,
+          dragMode: 'move',
+          aspectRatio: 1,
+          autoCropArea: 0.1,
+          minCropBoxWidth: 96,
+          minCropBoxHeight: 96,
+          restore: false,
+          guides: false,
+          center: false,
+          highlight: false,
+          cropBoxMovable: false,
+          cropBoxResizable: false,
+          toggleDragModeOnDblclick: false,
+          responsive: true
+        })
+        window.cropper = this.cropper
+      } else {
+        console.error('Sorry, FileReader API not supported');
+      }
+    },
+    apply() {
+      this.src_preview = URL.createObjectURL(this.file.target.files[0])
+      this.file = null
+    }
   },
   mounted() {
     this.formPerson.email = 'test@test.ru'
