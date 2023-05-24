@@ -47,21 +47,7 @@ $config = [
             'class' => \sizeg\jwt\Jwt::class,
             'key'   => env('JWT_SECRET'),
             'jwtValidationData' => \common\components\jwt\JwtValidationData::class,
-        ],
-        'response' => [
-            'class' => 'yii\web\Response',
-            'format' => yii\web\Response::FORMAT_JSON,
-            'on beforeSend' => function ($event) {
-                $response = $event->sender;
-                if ($response->statusCode >= 300 && $response->statusCode != 500) {
-                    $response->data = Array(
-                        'success' => $response->isSuccessful,
-                        'error' => $response->data['name'],
-                        'message' => $response->data['message']
-                    );
-                }
-            },
-        ],
+        ]
     ]
 ];
 
