@@ -9,6 +9,7 @@ return [
 //        // Api
         ['pattern' => 'v1/signup', 'route' => 'v1/sign-in/signup'],
         ['pattern' => 'v1/login', 'route' => 'v1/sign-in/login'],
+        ['pattern' => 'v1/test', 'route' => 'v1/default/index'],
 
         ['pattern' => 'v1/cabinet/get-info', 'route' => 'cabinet/user/get-info'],
         ['pattern' => 'v1/cabinet/profile', 'route' => 'cabinet/user/profile'],

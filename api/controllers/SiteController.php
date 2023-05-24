@@ -6,9 +6,16 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\helpers\Url;
+use yii\web\Response;
 
 class SiteController extends Controller
 {
+
+    public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return parent::beforeAction($action);
+    }
 
     public function behaviors()
     {
