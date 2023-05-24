@@ -39,6 +39,8 @@ class UserController extends BaseController
                 'email' => $user->email,
                 'role' => $user->userProfile->role,
                 'scores' => $user->userProfile->scores,
+                'firstname' => $user->userProfile->firstname,
+                'lastname' => $user->userProfile->lastname,
 //                'avatar' => $user->userProfile->avatar
             ]];
         else {
