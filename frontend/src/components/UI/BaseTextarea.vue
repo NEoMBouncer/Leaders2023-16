@@ -1,9 +1,10 @@
 <template>
   <div :class="rootClasses">
     <div class="w-full relative">
-      <label :for="name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+      <label :for="name" class="block font-medium text-sm pb-2 label"
           v-if="label">
         {{ label }}
+        <sup v-if="star" class="text-red-600">*</sup>
       </label>
       <textarea
           :name="name"
@@ -11,8 +12,8 @@
           :value.sync="model"
           @change="change"
           @input="change"
-		  @focus="$emit('onFocus')"
-          class="h-20 max-w-lg shadow-sm block w-full focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none sm:text-sm border border-gray-300 rounded-md px-3 py-2"
+		    @focus="$emit('onFocus')"
+          class="h-40 shadow-sm block w-full text-gray-700 focus:ring-1 focus:border-none sm:text-sm border border-gray-300 rounded-md px-3 py-2"
       />
     </div>
     <p v-if="message" class="mt-2 text-sm text-red-600">
@@ -63,6 +64,10 @@ export default {
       type: [Number, String],
       default: 0,
     },
+    star: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
@@ -85,5 +90,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.label {
+  @apply text-gray-700;
+}
 </style>
