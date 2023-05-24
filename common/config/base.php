@@ -138,6 +138,13 @@ $config = [
             ],
             require(Yii::getAlias('@storage/config/_urlManager.php'))
         ),
+        'urlManagerPublic' => \yii\helpers\ArrayHelper::merge(
+            [
+                'hostInfo' => env('PUBLIC_HOST_INFO'),
+                'baseUrl' => env('PUBLIC_BASE_URL'),
+            ],
+            require(Yii::getAlias('@public/config/_urlManager.php'))
+        ),
 
         'queue' => [
             'class' => \yii\queue\file\Queue::class,

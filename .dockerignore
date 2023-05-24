@@ -5,6 +5,11 @@
 backend/runtime
 common/runtime
 console/runtime
+public/runtime
+
+/public/web/api
+/public/web/backend
+/public/web/storage
 
 # Assets
 backend/web/assets

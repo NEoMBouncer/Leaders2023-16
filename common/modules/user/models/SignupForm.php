@@ -32,6 +32,14 @@ class SignupForm extends Model
     /**
      * @var
      */
+    public $firstname;
+    /**
+     * @var
+     */
+    public $lastname;
+    /**
+     * @var
+     */
     private $user = null;
 
     /**
@@ -45,10 +53,10 @@ class SignupForm extends Model
                 'targetClass' => '\common\models\User',
                 'message' => Yii::t('app', 'This username has already been taken.')
             ],
-            ['username', 'string'],
+            [['username', 'firstname', 'lastname'], 'string'],
 
             ['email', 'filter', 'filter' => 'trim'],
-            ['email', 'required'],
+            [['email', 'firstname', 'lastname'], 'required'],
             ['email', 'email'],
             ['email', 'unique',
                 'targetClass' => '\common\models\User',
@@ -67,10 +75,10 @@ class SignupForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => Yii::t('app', 'Username'),
-            'email' => Yii::t('app', 'E-mail'),
-            'password' => Yii::t('app', 'Password'),
-            'password_confirm' => Yii::t('app', 'Confirm Password'),
+            'username' => Yii::t('common', 'Username'),
+            'email' => Yii::t('common', 'E-mail'),
+            'password' => Yii::t('common', 'Password'),
+            'password_confirm' => Yii::t('common', 'Confirm Password'),
         ];
     }
 
@@ -93,7 +101,10 @@ class SignupForm extends Model
                 throw new Exception("User couldn't be  saved");
             };
 
-            $user->afterSignup();
+            $user->afterSignup([
+                'firstname' => $this->firstname,
+                'lastname' => $this->lastname,
+            ]);
 
             if ($shouldBeActivated) {
                 $activationForm = new ActivationForm($user);

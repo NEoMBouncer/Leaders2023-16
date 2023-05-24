@@ -22,6 +22,8 @@ class AppController extends Controller
         '@common/runtime',
         '@backend/runtime',
         '@backend/web/assets',
+        '@public/runtime',
+        '@public/web/assets',
         '@storage/cache',
         '@storage/web/source',
         '@api/runtime',
@@ -29,6 +31,7 @@ class AppController extends Controller
 
     /** @var array */
     public $executablePaths = [
+        '@public/yii',
         '@backend/yii',
         '@console/yii',
         '@api/yii',

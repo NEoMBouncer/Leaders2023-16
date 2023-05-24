@@ -26,7 +26,6 @@ class m230520_094900_add_table_candidate extends Migration
             'id' => $this->primaryKey(),
             'user_id' => $this->integer(),
             'direction_id' => $this->integer()->null(),
-            'universities' => $this->text()->notNull(),
             'education' => $this->text()->notNull(),
             'experience' => $this->text()->notNull(),
             'is_recommended' => $this->smallInteger(1)->defaultValue(0),

@@ -28,7 +28,6 @@ class Module extends \yii\base\Module
         $user_id = $event->sender->id;
         $candidate = new Candidate();
         $candidate->user_id = $user_id;
-        $candidate->universities = [];
         $candidate->education = [];
         $candidate->experience = [];
         $candidate->save();

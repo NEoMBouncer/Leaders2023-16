@@ -40,11 +40,6 @@ class UserProfile extends ActiveRecord
     const ROLE_ORGANIZATION_MEMBER = 4;
 
     /**
-     * @var
-     */
-    public $picture;
-
-    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -76,7 +71,6 @@ class UserProfile extends ActiveRecord
             [['firstname', 'middlename', 'lastname', 'avatar'], 'string', 'max' => 255],
             ['locale', 'default', 'value' => 'ru-RU'],
             ['locale', 'in', 'range' => array_keys(Yii::$app->params['availableLocales'])],
-            ['picture', 'safe'],
 
             ['role', function ($attribute, $params) {
                 if ($this->_oldAttributes['role'] != $this->$attribute &&
@@ -97,7 +91,7 @@ class UserProfile extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeLabels() // TODO
     {
         return [
             'user_id' => Yii::t('common', 'User ID'),
@@ -105,7 +99,6 @@ class UserProfile extends ActiveRecord
             'middlename' => Yii::t('common', 'Middlename'),
             'lastname' => Yii::t('common', 'Lastname'),
             'locale' => Yii::t('common', 'Locale'),
-            'picture' => Yii::t('common', 'Picture'),
             'gender' => Yii::t('common', 'Gender'),
         ];
     }

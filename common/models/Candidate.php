@@ -12,7 +12,6 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property int $user_id
  * @property int $direction_id
- * @property string $universities
  * @property string $education
  * @property string $experience
  * @property int $is_recommended
@@ -58,20 +57,18 @@ class Candidate extends ActiveRecord
     {
         return [
             [['user_id', 'direction_id', 'is_recommended', 'testing_status', 'is_deleted'], 'integer'],
-            [['universities' , 'education', 'experience'], 'string'],
+            [['education', 'experience'], 'string'],
             ['testing_status', 'default', 'value' => self::TESTING_STATUS_NONE]
         ];
     }
 
     public function beforeValidate() {
-        $this->universities = serialize($this->universities);
         $this->education = serialize($this->education);
         $this->experience = serialize($this->experience);
         return parent::beforeValidate();
     }
 
     public function afterFind() {
-        $this->universities = unserialize($this->universities);
         $this->education = unserialize($this->education);
         $this->experience = unserialize($this->experience);
         return parent::afterFind();
@@ -97,7 +94,6 @@ class Candidate extends ActiveRecord
         return [
             'user_id' => Yii::t('common', 'User ID'),
             'direction_id' => Yii::t('common', 'Direction ID'),
-            'universities' => Yii::t('common', 'Universities'),
             'education' => Yii::t('common', 'Education'),
             'experience' => Yii::t('common', 'Experience'),
             'is_recommended' => Yii::t('common', 'Recommended'),

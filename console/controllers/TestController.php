@@ -14,6 +14,7 @@ class TestController extends Controller
 
     public function actionCheckTest()
     {
-
+        $i = '123456789';
+        echo $i[-1]. "\n";
     }
 }
