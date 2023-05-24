@@ -94,6 +94,8 @@ import { mapActions } from 'vuex';
 import BaseButton from "@/components/UI/BaseButton.vue";
 import {Field, Form} from "vee-validate";
 import * as yup from "yup";
+import axiosConfig from "@/common/axiosConfig";
+import axios from "axios";
 
 export default {
   name: "Login",
@@ -120,10 +122,12 @@ export default {
     ...mapActions('auth', ['signIn']),
     submit() {
       this.errors = {}
+      // axios.get(`${import.meta.env.VITE_APP_API_URL}/v1/hello`)
       if (!Object.keys(this.errors).length) {
         this.signIn({
-          username: this.form.username,
-          password: this.form.password
+          identity: this.form.username,
+          password: this.form.password,
+          rememberMe: true
         })
             .then(() => {
               this.error = false

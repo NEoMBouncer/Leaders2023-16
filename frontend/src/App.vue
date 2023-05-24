@@ -5,12 +5,15 @@
 <script>
 import MainLayout from './layouts/MainLayout.vue';
 import SystemLayout from './layouts/SystemLayout.vue';
+import LandingLayout from "./layouts/LandingLayout.vue";
 
-const DEFAULT_LAYOUT = 'main';
+const DEFAULT_LAYOUT = 'default';
+const MAIN_LAYOUT = 'main';
 const SYSTEM_LAYOUT = 'system';
 
 const LAYOUT_CONFIG = {
-  [DEFAULT_LAYOUT]: MainLayout,
+  [DEFAULT_LAYOUT]: LandingLayout,
+  [MAIN_LAYOUT]: MainLayout,
   [SYSTEM_LAYOUT]: SystemLayout,
 }
 export default {
