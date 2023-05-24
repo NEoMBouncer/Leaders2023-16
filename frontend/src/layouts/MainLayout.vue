@@ -204,7 +204,7 @@
       </TransitionRoot>
 
       <!--Main content-->
-      <main class="py-5">
+      <main class="py-5 bg-gray-50 main-content">
         <div class="px-4 sm:px-6 lg:px-8">
           <router-view class="flex-1" v-slot="{Component}">
             <transition name="fade" mode="out-in">
@@ -244,7 +244,8 @@ import {
   ChartPieIcon,
   Cog6ToothIcon,
   DocumentDuplicateIcon,
-  ChevronDownIcon
+  ChevronDownIcon,
+  BriefcaseIcon
 } from '@heroicons/vue/24/outline'
 import {mapActions} from "vuex";
 
@@ -280,19 +281,20 @@ export default {
 			sidebarOpen: false,
       mobileLandingMenuOpen: false,
       navigation: [
-        { name: 'Стажировки', href: '/cabinet', icon: HomeIcon, current: true },
-        { name: 'Team', href: '#', icon: UsersIcon, current: false },
-        { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-        { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-        { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-        { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
+        { name: 'Кабинет', href: '/cabinet', icon: HomeIcon, current: true },
+        { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false },
+        { name: 'Вакансии', href: '#', icon: BriefcaseIcon, current: false },
+        // { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
+        // { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
+        // { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
       ],
       teams: [
         { id: 1, name: 'Профиль', href: '/cabinet/profile', initial: 'П', current: false },
         { id: 2, name: 'Анкета', href: '/cabinet/questionnaire', initial: 'А', current: false },
+        { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false },
       ],
       navigationLanding: [
-        { name: 'Стажировка', href: '/', icon: HomeIcon, current: false },
+        { name: 'Главная', href: '/', icon: HomeIcon, current: false },
         { name: 'Новости', href: '/', icon: FolderIcon, current: false },
         { name: 'FAQ', href: '/', icon: FolderIcon, current: false },
       ],
@@ -332,4 +334,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main-content {
+  min-height: calc(100vh - 64px);
+}
 </style>

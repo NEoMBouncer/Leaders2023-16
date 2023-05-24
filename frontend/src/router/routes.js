@@ -29,6 +29,33 @@ export const routes = [
             layout: 'main',
         }
     },
+    {
+        path: '/cabinet/questionnaire',
+        name: 'Questionnaire',
+        component: () => import('@/pages/cabinet/Questionnaire.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
+    {
+        path: '/cabinet/essay',
+        name: 'Essay',
+        component: () => import('@/pages/cabinet/Essay.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
+    {
+        path: '/cabinet/internships',
+        name: 'Internships',
+        component: () => import('@/pages/cabinet/Internships.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
 
 
     // SYSTEM

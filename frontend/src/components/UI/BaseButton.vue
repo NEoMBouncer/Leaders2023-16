@@ -76,11 +76,11 @@ export default {
   transition: 0.4s;
 
   &--primary {
-    @apply bg-blue-600 text-white;
+    @apply bg-indigo-600 text-white;
 
     &:hover:not(.button--disabled),
     &:active:not(.button--disabled) {
-      @apply bg-blue-700;
+      @apply bg-indigo-700;
     }
   }
 

@@ -11,12 +11,29 @@ instance.interceptors.request.use(async (config) => {
     // const { getAccessTokenSilently } = useAuth0();
     // const accessToken = await getAccessTokenSilently();
     // config.headers['Authorization'] = accessToken;
+    // config.headers['Origin'] = import.meta.env.VITE_APP_URL
+    // console.log(config.headers['Origin'])
+    // config.headers['Access-Control-Allow-Origin'] = '*'
+    // config.headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Authorization'
+    // config.headers['Access-Control-Allow-Credentials'] = true
     // config.headers = {
-    //         'Origin': 'http://localhost:8080/',
-    //         'Access-Control-Allow-Origin': 'http://localhost:8080/',
+    //         'Origin': import.meta.env.VITE_APP_URL,
+    //         'Access-Control-Allow-Origin': '*',
     //         'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization',
     //         'Access-Control-Allow-Credentials': true
     // }
+    return config;
+}, (error) => {
+    return Promise.reject(error)
+});
+
+instance.interceptors.response.use(async (config) => {
+    config.headers = {
+            'Origin': '*',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization',
+            'Access-Control-Allow-Credentials': true
+    }
     return config;
 }, (error) => {
     return Promise.reject(error)
