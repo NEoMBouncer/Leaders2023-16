@@ -39,6 +39,22 @@ export default {
                 })
         })
     },
+    changePassword({commit}, payload) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.post(`/v1/cabinet/change-password`, payload)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        toast.success('Пароль успешно изменен')
+                    }
+                    resolve(res?.data)
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка смены пароля! Повторите позже')
+                    reject()
+                })
+        })
+    },
     signOut({commit}) {
         localStorage.removeItem(STORAGE_KEYS.ACCESS);
         commit('logout');

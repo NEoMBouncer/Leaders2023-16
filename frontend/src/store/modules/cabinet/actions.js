@@ -38,7 +38,6 @@ export default {
     },
     setUpdateProfile({commit}, payload) {
         return new Promise((resolve, reject) => {
-            console.log(payload)
             axiosConfig.post(`/v1/cabinet/update-profile`, payload)
                 .then((res) => {
                     if(res?.data?.success) {

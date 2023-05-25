@@ -279,6 +279,7 @@ export default {
     ...mapState('cabinet', ['info']),
   },
   methods: {
+    ...mapActions('auth', ['changePassword']),
     ...mapActions('cabinet', ['getProfile', 'setUpdateProfile']),
     async savePersonal() {
       const payload = {
@@ -291,8 +292,20 @@ export default {
       }
       await this.setUpdateProfile(payload)
     },
-    editPassword() {
-      toast.error('Функционал временно не работает')
+    async editPassword() {
+      const payload = {
+        password: this.formPassword.password,
+        password_confirm: this.formPassword.password_confirm,
+      }
+      if(this.formPassword?.old?.length) {
+        await this.changePassword(payload).then(() => {
+          this.formPassword.password = ''
+          this.formPassword.password_confirm = ''
+          this.formPassword.old = ''
+        })
+      } else {
+        toast.error('Поле Текущий пароль не может быть пустым')
+      }
     },
 
     visiblePassOld () {

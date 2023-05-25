@@ -43,8 +43,6 @@ Automated tests are still in development
 - [Vue3](https://vuejs.org/) - The web framework used
 - [Vite](https://vitejs.dev/) - Next Generation Frontend Tooling
 - [Tailwindcss](https://tailwindcss.com/) - TailwindCSS is a framework like no other. Rather than constraining you to a set design, it gives you the tools and the standardization to build exactly what you
-- [Apollo](https://www.apollographql.com/) - Unify APIs, microservices, & databases into a graph that you can query with GraphQL
-- [Import-meta-env](https://iendeavor.github.io/import-meta-env/) - This plugin exposes environment variables on a special import.meta.env
 
 
 ## Authors
