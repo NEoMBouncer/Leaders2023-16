@@ -94,8 +94,6 @@ import { mapActions } from 'vuex';
 import BaseButton from "@/components/UI/BaseButton.vue";
 import {Field, Form} from "vee-validate";
 import * as yup from "yup";
-import axiosConfig from "@/common/axiosConfig";
-import axios from "axios";
 
 export default {
   name: "Login",

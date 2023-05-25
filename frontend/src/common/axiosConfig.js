@@ -1,5 +1,6 @@
 //Import Axios Library and Auth0
 import axios from 'axios';
+import {STORAGE_KEYS} from "@/common/const/config";
 
 //Create instance of axios
 const instance = axios.create({
@@ -8,20 +9,7 @@ const instance = axios.create({
 
 // Create a request interceptor for my instance and get accessToken on the fly
 instance.interceptors.request.use(async (config) => {
-    // const { getAccessTokenSilently } = useAuth0();
-    // const accessToken = await getAccessTokenSilently();
-    // config.headers['Authorization'] = accessToken;
-    // config.headers['Origin'] = import.meta.env.VITE_APP_URL
-    // console.log(config.headers['Origin'])
-    // config.headers['Access-Control-Allow-Origin'] = '*'
-    // config.headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Authorization'
-    // config.headers['Access-Control-Allow-Credentials'] = true
-    // config.headers = {
-    //         'Origin': import.meta.env.VITE_APP_URL,
-    //         'Access-Control-Allow-Origin': '*',
-    //         'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization',
-    //         'Access-Control-Allow-Credentials': true
-    // }
+    config.headers['Authorization'] = `Bearer ${localStorage.getItem(STORAGE_KEYS.ACCESS)}`;
     return config;
 }, (error) => {
     return Promise.reject(error)

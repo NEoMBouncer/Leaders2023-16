@@ -6,6 +6,7 @@
 import MainLayout from './layouts/MainLayout.vue';
 import SystemLayout from './layouts/SystemLayout.vue';
 import LandingLayout from "./layouts/LandingLayout.vue";
+import {mapActions, mapGetters} from "vuex";
 
 const DEFAULT_LAYOUT = 'default';
 const MAIN_LAYOUT = 'main';
@@ -19,10 +20,19 @@ const LAYOUT_CONFIG = {
 export default {
   name: 'App',
   computed: {
+    ...mapGetters('auth', ['isAuthenticated']),
     layout() {
       return LAYOUT_CONFIG[this.$route?.meta?.layout || DEFAULT_LAYOUT];
     },
   },
+  methods: {
+    ...mapActions('cabinet', ['getInfo']),
+  },
+  async mounted() {
+    if(this.isAuthenticated) {
+      await this.getInfo()
+    }
+  }
 }
 </script>
 

@@ -1,24 +1,68 @@
-# youth-career-projects
+![Alt text](public/logo.png?raw=true "talent-mos-logo")
+# Dev+
 
-## Project setup
-```
-npm install
-```
+### Git Flow
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+- Production (branch: master) [https://github.com/Jy4apa/Platform/blob/master/docs/cabinet.md](https://github.com/Jy4apa/Platform/blob/master/docs/cabinet.md)
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
+## Getting Started
+
+### Prerequisites
+
+1. Copy and configure environment variables
+
+```shell
+$ cp .env.develop .env
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Installing
+
+1. Install dependencies
+
+```shell
+$ npm install
+```
+
+2. Run dev server
+
+```shell
+$ npm run dev
+```
+
+## Running the tests
+
+Automated tests are still in development
+
+## Deployment
+
+---
+
+## Build with
+
+- [Vue3](https://vuejs.org/) - The web framework used
+- [Vite](https://vitejs.dev/) - Next Generation Frontend Tooling
+- [Tailwindcss](https://tailwindcss.com/) - TailwindCSS is a framework like no other. Rather than constraining you to a set design, it gives you the tools and the standardization to build exactly what you
+- [Apollo](https://www.apollographql.com/) - Unify APIs, microservices, & databases into a graph that you can query with GraphQL
+- [Import-meta-env](https://iendeavor.github.io/import-meta-env/) - This plugin exposes environment variables on a special import.meta.env
+
+
+## Authors
+
+- Igor Zhuravlev - [pcqb10bouncer@gmail.com](mailto:pcqb10bouncer@gmail.com) - [Telegram](https://t.me/NeOMBouncer)
+
+## Requirements
+
+- docker
+- docker-compose
+- nodejs (v16+) & npm
+- A domain name reachable over the internet
+
+## Configuration
+
+| env                    | default | description        |
+|------------------------|---------|--------------------|
+| VITE_APP_URL           | null    | Website URL        |
+| VITE_APP_API_URL       | null    | API URL            |
+| VITE_APP_FIAS_TOKEN    | null    | DaData service key |
+| VITE_APP_FIAS_URL      | null    | DaData API URL     |

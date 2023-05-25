@@ -32,7 +32,6 @@
           :group-label="groupLabel"
           :hide-selected="hideSelected"
           :preserveSearch="preserveSearch"
-          :max="max"
           :openDirection="openDirection"
           @tag="onTag"
           @select="onChange"
@@ -196,10 +195,6 @@ export default {
     iconLeft: {
       type: String,
       default: '',
-    },
-    max: {
-      type: Number,
-      default: 30,
     },
     openDirection: {
       type: String,

@@ -194,7 +194,15 @@
               class="col-span-full"
               label="label"
               star
-              select-label="Год окончания"
+              select-label="Начало учебы"
+              v-model="formPerson.gender"
+              :options="gender_options"
+          />
+          <base-select
+              class="col-span-full"
+              label="label"
+              star
+              select-label="Завершение учебы"
               v-model="formPerson.gender"
               :options="gender_options"
           />

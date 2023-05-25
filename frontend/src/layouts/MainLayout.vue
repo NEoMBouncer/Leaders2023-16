@@ -117,10 +117,11 @@
             <!-- Profile dropdown -->
             <Menu as="div" class="relative">
               <MenuButton class="-m-1.5 flex items-center p-1.5">
-                <span class="sr-only">Open user menu</span>
-                <img class="h-8 w-8 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-500">
+                    <span v-if="info.firstname && info.lastname" class="text-sm font-medium uppercase leading-none text-white">{{info.firstname[0]}}{{info.lastname[0]}}</span>
+                </span>
                 <span class="hidden lg:flex lg:items-center">
-                  <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">Tom Cook</span>
+                  <span v-if="info.firstname && info.lastname" class="ml-4 text-sm font-bold leading-6 text-gray-700" aria-hidden="true">{{info.firstname}} {{ info.lastname}}</span>
                   <ChevronDownIcon class="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                 </span>
               </MenuButton>
@@ -247,7 +248,7 @@ import {
   ChevronDownIcon,
   BriefcaseIcon
 } from '@heroicons/vue/24/outline'
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
 	name: 'MainLayout',
@@ -300,6 +301,9 @@ export default {
       ],
 		}
 	},
+  computed: {
+    ...mapState('cabinet', ['info']),
+  },
   methods: {
     ...mapActions('auth', ['signOut']),
     isSignOut () {
