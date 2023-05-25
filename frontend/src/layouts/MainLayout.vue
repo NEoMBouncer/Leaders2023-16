@@ -28,19 +28,19 @@
                     <li>
                       <ul role="list" class="-mx-2 space-y-1">
                         <li v-for="item in navigation" :key="item.name">
-                          <router-link :to="item.href" :class="[item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                            <component :is="item.icon" :class="[item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600', 'h-6 w-6 shrink-0']" aria-hidden="true" />
+                          <router-link :to="item.href" @click="sidebarOpen = false" :class="[item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                            <component :is="item.icon" :class="[item.current ? 'text-indigo-600' : 'text-gray-500 group-hover:text-indigo-600', 'h-6 w-6 shrink-0']" aria-hidden="true" />
                             {{ item.name }}
                           </router-link>
                         </li>
                       </ul>
                     </li>
                     <li>
-                      <div class="text-xs font-semibold leading-6 text-gray-400">Настройки профиля</div>
+                      <div class="text-xs font-semibold leading-6 text-gray-500">Настройки профиля</div>
                       <ul role="list" class="-mx-2 mt-2 space-y-1">
                         <li v-for="team in teams" :key="team.name">
-                          <router-link :to="team.href" :class="[team.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                            <span :class="[team.current ? 'text-indigo-600 border-indigo-600' : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600', 'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white']">{{ team.initial }}</span>
+                          <router-link :to="team.href" @click="sidebarOpen = false" :class="[team.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                            <span :class="[team.current ? 'text-indigo-600 border-indigo-600' : 'text-gray-500 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600', 'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white']">{{ team.initial }}</span>
                             <span class="truncate">{{ team.name }}</span>
                           </router-link>
                         </li>
@@ -67,20 +67,20 @@
           <ul role="list" class="flex flex-1 flex-col gap-y-7">
             <li>
               <ul role="list" class="-mx-2 space-y-1">
-                <li v-for="item in navigation" :key="item.name">
+                <li v-for="item in navigation" @click="sidebarOpen = false" :key="item.name">
                   <router-link :to="item.href" :class="[item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                    <component :is="item.icon" :class="[item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600', 'h-6 w-6 shrink-0']" aria-hidden="true" />
+                    <component :is="item.icon" :class="[item.current ? 'text-indigo-600' : 'text-gray-500 group-hover:text-indigo-600', 'h-6 w-6 shrink-0']" aria-hidden="true" />
                     {{ item.name }}
                   </router-link>
                 </li>
               </ul>
             </li>
             <li>
-              <div class="text-xs font-semibold leading-6 text-gray-400">Настройки профиля</div>
+              <div class="text-xs font-semibold leading-6 text-gray-500">Настройки профиля</div>
               <ul role="list" class="-mx-2 mt-2 space-y-1">
                 <li v-for="team in teams" :key="team.name">
-                  <router-link :to="team.href" :class="[team.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                    <span :class="[team.current ? 'text-indigo-600 border-indigo-600' : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600', 'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white']">{{ team.initial }}</span>
+                  <router-link :to="team.href" @click="sidebarOpen = false" :class="[team.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                    <span :class="[team.current ? 'text-indigo-600 border-indigo-600' : 'text-gray-500 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600', 'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white']">{{ team.initial }}</span>
                     <span class="truncate">{{ team.name }}</span>
                   </router-link>
                 </li>
@@ -103,11 +103,11 @@
         <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
           <!-- navigationLanding -->
           <nav class="hidden sm:flex sm:gap-x-11 sm:text-sm sm:font-semibold sm:leading-6 sm:text-gray-700 relative flex-1 items-center">
-            <router-link v-for="(item, itemIdx) in navigationLanding" :key="itemIdx" :to="item.href">{{ item.name }}</router-link>
+            <router-link v-for="(item, itemIdx) in navigationLanding" :key="itemIdx" :to="`/#${item.href}`">{{ item.name }}</router-link>
           </nav>
 
           <div class="flex items-center gap-x-4 lg:gap-x-6">
-            <button type="button" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
+            <button type="button" class="-m-2.5 p-2.5 text-gray-500 hover:text-gray-500">
               <BellIcon class="h-6 w-6" aria-hidden="true" />
             </button>
 
@@ -122,7 +122,7 @@
                 </span>
                 <span class="hidden lg:flex lg:items-center">
                   <span v-if="info.firstname && info.lastname" class="ml-4 text-sm font-bold leading-6 text-gray-700" aria-hidden="true">{{info.firstname}} {{ info.lastname}}</span>
-                  <ChevronDownIcon class="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
+                  <ChevronDownIcon class="ml-2 h-5 w-5 text-gray-500" aria-hidden="true" />
                 </span>
               </MenuButton>
               <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
@@ -189,7 +189,7 @@
                       <li>
                         <ul role="list" class="-mx-2 space-y-1">
                           <li v-for="item in navigationLanding" :key="item.name">
-                            <router-link :to="item.href" :class="[item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                            <router-link :to="`/#${item.href}`" :class="[item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                               {{ item.name }}
                             </router-link>
                           </li>
@@ -295,9 +295,9 @@ export default {
         { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false },
       ],
       navigationLanding: [
-        { name: 'Главная', href: '/', icon: HomeIcon, current: false },
-        { name: 'Новости', href: '/', icon: FolderIcon, current: false },
-        { name: 'FAQ', href: '/', icon: FolderIcon, current: false },
+        { name: 'Главная', href: 'home', icon: HomeIcon, current: false },
+        { name: 'Путь стажера', href: 'path', icon: FolderIcon, current: false },
+        { name: 'Новости', href: 'blog', icon: FolderIcon, current: false },
       ],
 		}
 	},
@@ -321,10 +321,6 @@ export default {
           current: item.href === route
         }))
         this.teams = this.teams.map((item) => ({
-          ...item,
-          current: item.href === route
-        }))
-        this.navigationLanding = this.navigationLanding.map((item) => ({
           ...item,
           current: item.href === route
         }))

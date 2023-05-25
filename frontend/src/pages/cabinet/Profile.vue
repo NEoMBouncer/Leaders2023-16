@@ -2,10 +2,10 @@
   <div class="divide-y profile" >
     <h1 class="text-2xl font-semibold pb-5">Профиль</h1>
     <template v-if="!loading">
-      <div class="grid gap-x-8 gap-y-10 px-4 py-10 sm:px-6 lg:px-8">
+      <form autocomplete="off" class="grid gap-x-8 gap-y-10 px-4 py-10 sm:px-6 lg:px-8">
         <div>
           <h2 class="text-xl font-semibold leading-7">Персональные данные</h2>
-          <p class="mt-1 text-sm leading-6 text-gray-400">Укажите Ваши персональные данные.</p>
+          <p class="mt-1 text-sm leading-6 text-gray-500">Укажите Ваши персональные данные.</p>
         </div>
 
         <div class="grid grid-cols-1 gap-x-6 gap-y-3 sm:max-w-xl sm:grid-cols-6">
@@ -56,7 +56,7 @@
               >
                 Загрузить аватар
               </base-button>
-              <p class="mt-2 text-xs leading-5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
+              <p class="mt-2 text-xs leading-5 text-gray-500">JPG, GIF or PNG. 1MB max.</p>
             </div>
           </div>
           <input ref="file_input" type="file" class="hidden" @change="fileSelected"/>
@@ -119,12 +119,12 @@
             </base-button>
           </div>
         </div>
-      </div>
+      </form>
 
       <div class="grid gap-x-8 gap-y-10 px-4 py-10 sm:px-6 lg:px-8">
         <div>
-          <h2 class="text-xl font-semibold leading-7 ">Изменить пароль</h2>
-          <p class="mt-1 text-sm leading-6 text-gray-400">Обновите пароль, связанный с вашей учетной записью.</p>
+          <h2 class="text-xl font-semibold leading-7">Изменить пароль</h2>
+          <p class="mt-1 text-sm leading-6 text-gray-500">Обновите пароль, связанный с вашей учетной записью.</p>
         </div>
 
         <div class="grid grid-cols-1 gap-x-6 gap-y-3 sm:max-w-xl sm:grid-cols-6">

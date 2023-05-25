@@ -5,7 +5,7 @@
     <div class="grid gap-x-8 gap-y-10 px-4 py-10 sm:px-6 lg:px-8">
       <div>
         <h2 class="text-xl font-semibold leading-7">Персональные данные</h2>
-        <p class="mt-1 text-sm leading-6 text-gray-400">Поля, отмеченные <sup class="text-red-600">*</sup>, обязательны для заполнения.</p>
+        <p class="mt-1 text-sm leading-6 text-gray-500">Поля, отмеченные <sup class="text-red-600">*</sup>, обязательны для заполнения.</p>
       </div>
 
       <div class="grid grid-cols-1 gap-x-6 gap-y-3 sm:max-w-xl sm:grid-cols-6">
@@ -56,7 +56,7 @@
             >
               Загрузить аватар
             </base-button>
-            <p class="mt-2 text-xs leading-5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
+            <p class="mt-2 text-xs leading-5 text-gray-500">JPG, GIF or PNG. 1MB max.</p>
           </div>
         </div>
         <input ref="file_input" type="file" class="hidden" @change="fileSelected"/>
@@ -117,7 +117,7 @@
     <div class="grid gap-x-8 gap-y-10 px-4 py-10 sm:px-6 lg:px-8">
       <div>
         <h2 class="text-xl font-semibold leading-7">Контактная информация</h2>
-        <p class="mt-1 text-sm leading-6 text-gray-400">
+        <p class="mt-1 text-sm leading-6 text-gray-500">
           Поля, отмеченные <sup class="text-red-600">*</sup>, обязательны для заполнения.
         </p>
       </div>
@@ -149,10 +149,10 @@
     <div class="grid gap-x-8 gap-y-10 px-4 py-10 sm:px-6 lg:px-8">
       <div>
         <h2 class="text-xl font-semibold leading-7">Уровень образования</h2>
-        <p class="mt-1 text-sm leading-6 text-gray-400">
+        <p class="mt-1 text-sm leading-6 text-gray-500">
           Поля, отмеченные <sup class="text-red-600">*</sup>, обязательны для заполнения.
         </p>
-        <p class="mt-1 text-sm leading-6 text-gray-400">
+        <p class="mt-1 text-sm leading-6 text-gray-500">
           Пожалуйста, укажите полное название вуза без использования аббревиатур.
         </p>
       </div>
@@ -213,10 +213,10 @@
       </div>
     </div>
 
-    <div class="mt-8 flex col-span-full">
+    <div class="mt-4 pt-4 px-4 sm:px-6 lg:px-8">
       <base-button
           @click="save"
-          class="w-full inline-flex justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md">
+          class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">
         Сохранить
       </base-button>
     </div>
@@ -284,6 +284,9 @@ export default {
       } else {
         return /\.(jpg|jpeg|png|gif)$/.test(file)
       }
+    },
+    selectedImageHandler() {
+      this.$refs.file_input.click()
     },
     zoomIn() {
       this.cropper.zoom(0.1)
@@ -379,6 +382,9 @@ export default {
         console.error(err)
       }
     },
+    save() {
+      console.log('save')
+    }
   },
   mounted() {
     this.formPerson.email = 'test@test.ru'
