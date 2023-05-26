@@ -2,7 +2,7 @@
   <div class="divide-y questionnaire">
     <h1 class="text-2xl font-semibold pb-5">Анкета</h1>
 <!--    Персональные данные-->
-    <div class="grid gap-x-8 gap-y-10 px-4 py-10 sm:px-6 lg:px-8">
+    <div class="grid gap-x-8 gap-y-10 py-10">
       <div>
         <h2 class="text-xl font-semibold leading-7">Персональные данные</h2>
         <p class="mt-1 text-sm leading-6 text-gray-500">Поля, отмеченные <sup class="text-red-600">*</sup>, обязательны для заполнения.</p>
@@ -114,7 +114,7 @@
     </div>
 
     <!--контактная информация-->
-    <div class="grid gap-x-8 gap-y-10 px-4 py-10 sm:px-6 lg:px-8">
+    <div class="grid gap-x-8 gap-y-10 py-10">
       <div>
         <h2 class="text-xl font-semibold leading-7">Контактная информация</h2>
         <p class="mt-1 text-sm leading-6 text-gray-500">
@@ -146,7 +146,7 @@
     </div>
 
     <!--уровень образования !!!!-->
-    <div class="grid gap-x-8 gap-y-10 px-4 py-10 sm:px-6 lg:px-8">
+    <div class="grid gap-x-8 gap-y-10 py-10">
       <div>
         <h2 class="text-xl font-semibold leading-7">Уровень образования</h2>
         <p class="mt-1 text-sm leading-6 text-gray-500">
@@ -213,7 +213,7 @@
       </div>
     </div>
 
-    <div class="mt-4 pt-4 px-4 sm:px-6 lg:px-8">
+    <div class="mt-4 pt-4">
       <base-button
           @click="save"
           class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">

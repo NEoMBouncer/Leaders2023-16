@@ -2,7 +2,7 @@
   <div class="divide-y profile" >
     <h1 class="text-2xl font-semibold pb-5">Профиль</h1>
     <template v-if="!loading">
-      <form autocomplete="off" class="grid gap-x-8 gap-y-10 px-4 py-10 sm:px-6 lg:px-8">
+      <form autocomplete="off" class="grid gap-x-8 gap-y-10 py-10">
         <div>
           <h2 class="text-xl font-semibold leading-7">Персональные данные</h2>
           <p class="mt-1 text-sm leading-6 text-gray-500">Укажите Ваши персональные данные.</p>
@@ -121,7 +121,7 @@
         </div>
       </form>
 
-      <div class="grid gap-x-8 gap-y-10 px-4 py-10 sm:px-6 lg:px-8">
+      <div class="grid gap-x-8 gap-y-10 py-10">
         <div>
           <h2 class="text-xl font-semibold leading-7">Изменить пароль</h2>
           <p class="mt-1 text-sm leading-6 text-gray-500">Обновите пароль, связанный с вашей учетной записью.</p>
@@ -248,16 +248,7 @@ export default {
           value: 2
         },
       ],
-      russianCitizenshipOptions: [
-        {
-          label: 'Другое',
-          value: 0
-        },
-        {
-          label: 'Российское',
-          value: 'Российское'
-        },
-      ],
+      russianCitizenshipOptions: [],
 
       formPassword: {
         old: '',
@@ -280,7 +271,7 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['changePassword']),
-    ...mapActions('cabinet', ['getProfile', 'setUpdateProfile']),
+    ...mapActions('cabinet', ['getProfile', 'setUpdateProfile', 'getCountries']),
     async savePersonal() {
       const payload = {
         firstname: this.formPerson.firstname,
@@ -384,6 +375,12 @@ export default {
   },
   async mounted() {
     this.loading = true
+    await this.getCountries().then((res) => {
+      this.russianCitizenshipOptions = res.map((item) => ({
+        label: item.name || '',
+        value: item?.id || ''
+      }))
+    })
     await this.getProfile()
         .then((e) => {
           this.formPerson = {
