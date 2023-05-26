@@ -20,7 +20,7 @@ class Module extends \yii\base\Module
     {
         parent::init();
 
-        Event::on(User::className(), User::EVENT_AFTER_SIGNUP, [$this, 'afterSignupCreateCandidate']);
+//        Event::on(User::className(), User::EVENT_AFTER_SIGNUP, [$this, 'afterSignupCreateCandidate']);
     }
 
 //    public function afterSignupCreateCandidate($event)
