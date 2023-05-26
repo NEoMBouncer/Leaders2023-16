@@ -129,7 +129,7 @@ export default {
         })
             .then(() => {
               this.error = false
-              this.$router.push('/');
+              this.$router.push('/cabinet');
             })
             .catch((e) => {
               this.error = true

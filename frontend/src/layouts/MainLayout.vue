@@ -248,7 +248,7 @@ import {
   ChevronDownIcon,
   BriefcaseIcon
 } from '@heroicons/vue/24/outline'
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
 	name: 'MainLayout',
@@ -303,9 +303,11 @@ export default {
 	},
   computed: {
     ...mapState('cabinet', ['info']),
+    ...mapGetters('auth', ['isAuthenticated']),
   },
   methods: {
     ...mapActions('auth', ['signOut']),
+    ...mapActions('cabinet', ['getInfo']),
     isSignOut () {
       this.signOut()
       this.$router.push('/login');
@@ -327,8 +329,10 @@ export default {
       },
     },
   },
-  mounted() {
-
+  async mounted() {
+    if(this.isAuthenticated) {
+      await this.getInfo()
+    }
   }
 };
 </script>
