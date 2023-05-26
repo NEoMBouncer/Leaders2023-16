@@ -36,7 +36,7 @@ class BaseController extends Controller
             'class' => \yii\filters\Cors::className(),
             'cors'  => [
                 'Access-Control-Allow-Origin' => ['*'],
-                'Access-Control-Request-Method' => ['GET', 'POST', 'HEAD', 'OPTIONS'],
+                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS'],
                 'Access-Control-Allow-Credentials' => true,
             ],
         ];
