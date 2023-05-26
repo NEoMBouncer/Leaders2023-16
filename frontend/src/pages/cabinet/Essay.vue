@@ -86,12 +86,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cabinet', ['getEssay', 'setUpdateEssay']),
+    ...mapActions('cabinet', ['getEssay', 'setUpdateEssay', 'setCreateEssay']),
     async saveEssay() {
       const payload = {
         ...this.formEssay,
       }
-      await this.setUpdateEssay(payload)
+      if(payload?.id) {
+        await this.setUpdateEssay(payload)
+      } else {
+        await this.setCreateEssay(payload)
+      }
     }
   },
   async mounted() {
