@@ -254,8 +254,8 @@ export default {
           value: 0
         },
         {
-          label: 'Гражданин РФ',
-          value: 1
+          label: 'Российское',
+          value: 'Российское'
         },
       ],
 
