@@ -1,16 +1,22 @@
 <template>
   <div v-if="value">
-    <div class="px-4 py-6 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:p-8">
+    <div class="px-4 py-6 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-6">
       <div class="sm:flex lg:col-span-7">
-        <div class="aspect-h-1 aspect-w-1 w-full flex-shrink-0 overflow-hidden rounded-lg sm:aspect-none sm:h-40 sm:w-40">
+        <router-link :to="value.href" class="aspect-h-1 aspect-w-1 w-full flex-shrink-0 overflow-hidden rounded-lg sm:aspect-none sm:h-40 sm:w-40">
           <img :src="value.imageSrc" :alt="value.imageAlt" class="h-full w-full object-cover object-center sm:h-full sm:w-full" />
-        </div>
+        </router-link>
 
         <div class="mt-6 sm:ml-6 sm:mt-0">
           <h3 class="text-base font-medium text-gray-900">
-            <a :href="value.href">{{ value.name }}</a>
+            <router-link :to="value.href">{{ value.name }}</router-link>
           </h3>
-          <p class="mt-2 text-sm font-medium text-gray-900">${{ value.price }}</p>
+          <div class="flex mt-2">
+            <div class="mr-2 flex items-center">
+              <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[4 > rating ? 'text-indigo-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" />
+            </div>
+            <p class="text-sm font-medium text-gray-900">Компания</p>
+          </div>
+          <p class="mt-2 text-sm font-medium text-gray-900">{{ value.direction }}</p>
           <p class="mt-3 text-sm text-gray-500">{{ value.description }}</p>
         </div>
       </div>
@@ -18,7 +24,7 @@
       <div class="mt-6 lg:col-span-5 lg:mt-0">
         <dl class="grid grid-cols-2 gap-x-6 text-sm">
           <div>
-            <dt class="font-medium text-gray-900">Delivery address</dt>
+            <dt class="font-medium text-gray-900">Адрес стажировки</dt>
             <dd class="mt-3 text-gray-500">
               <span class="block">{{ value.address[0] }}</span>
               <span class="block">{{ value.address[1] }}</span>
@@ -26,19 +32,27 @@
             </dd>
           </div>
           <div>
-            <dt class="font-medium text-gray-900">Shipping updates</dt>
-            <dd class="mt-3 space-y-3 text-gray-500">
-              <p>{{ value.email }}</p>
-              <p>{{ value.phone }}</p>
-              <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Edit</button>
+            <dt class="font-medium text-gray-900">Наставник</dt>
+            <dd class="mt-3 flex items-center flex-col w-fit xl:flex-row text-gray-500">
+              <img
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  alt="author"
+                  class="h-12 w-12 rounded-full"
+              />
+
+              <div class="ml-3">
+                <p class="text-sm font-medium text-gray-900 mt-2 xl:mt-0">Иван Иванович</p>
+                <div class="mt-2 flex items-center">
+                  <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[4 > rating ? 'text-indigo-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" />
+                </div>
+              </div>
             </dd>
           </div>
         </dl>
       </div>
     </div>
 
-    <div class="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
-      <h4 class="sr-only">Status</h4>
+    <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
       <p class="text-sm font-medium text-gray-900">
         {{ value.status }} on <time :datetime="value.datetime">{{ value.date }}</time>
       </p>
@@ -58,6 +72,7 @@
 </template>
 
 <script>
+import {StarIcon} from "@heroicons/vue/20/solid";
 
 export default {
   name: "InternshipsCard",
@@ -68,6 +83,7 @@ export default {
     },
   },
   components: {
+    StarIcon
   },
   data() {
     return {

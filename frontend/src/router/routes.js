@@ -56,6 +56,15 @@ export const routes = [
             layout: 'main',
         }
     },
+    {
+        path: '/cabinet/internships/:id',
+        name: 'InternshipItem',
+        component: () => import('@/pages/cabinet/InternshipItem.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
 
 
     // SYSTEM

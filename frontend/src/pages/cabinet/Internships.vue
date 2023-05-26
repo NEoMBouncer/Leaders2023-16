@@ -25,11 +25,11 @@ export default {
       internships: [
         {
           id: 1,
-          name: 'Nomad Tumbler',
+          name: 'Название',
           description:
               'This durable and portable insulated tumbler will keep your beverage at the perfect temperature during your next adventure.',
-          href: '#',
-          price: '35.00',
+          href: '/cabinet/internships/1',
+          direction: 'IT-город',
           status: 'Preparing to ship',
           step: 1,
           date: 'March 24, 2021',
@@ -42,10 +42,10 @@ export default {
         },
         {
           id: 2,
-          name: 'Minimalist Wristwatch',
+          name: 'Название 2',
           description: 'This contemporary wristwatch has a clean, minimalist look and high quality components.',
-          href: '#',
-          price: '149.00',
+          href: '/cabinet/internships/2',
+          direction: 'Медийный город',
           status: 'Shipped',
           step: 0,
           date: 'March 23, 2021',
