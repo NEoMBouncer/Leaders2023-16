@@ -208,4 +208,39 @@ class UserController extends BaseController
             return ['success' => false, 'error' => 'Server error'];
         }
     }
+
+    public function actionDeleteEssay($id): array
+    {
+        try {
+            if (Yii::$app->request->isDelete)
+            {
+                $user = Yii::$app->user->identity;
+                $essay = Essay::findOne($id);
+                if ($essay)
+                {
+                    if ($essay->user_id === $user->id)
+                    {
+                        $essay->delete();
+                        return ['success' => true];
+                    }
+                    else
+                    {
+                        Yii::$app->response->setStatusCode(403);
+                        return ['success' => false, 'У вас нет доступа к этому эссе'];
+                    }
+                }
+                else return ['success' => false, 'error' => 'Нет эссе с таким идентификатором'];
+            }
+            else
+            {
+                Yii::$app->response->setStatusCode(400);
+                return ['success' => false, 'error' => 'Неверный метод запроса'];
+            }
+        }
+        catch (\Exception $exception)
+        {
+            Yii::$app->response->setStatusCode(500);
+            return ['success' => false, 'error' => 'Server error'];
+        }
+    }
 }
