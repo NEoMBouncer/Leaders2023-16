@@ -6,5 +6,6 @@ export default {
         firstname: '',
         lastname: '',
     },
-    profile: null
+    profile: null,
+    essay: null
 }

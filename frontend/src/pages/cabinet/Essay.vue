@@ -7,48 +7,54 @@
     <span class="text-gray-500 text-sm">
       Обратите внимание, что Ваше эссе обязательно будет просматриваться кадровыми специалистами при участии Вашей кандидатуры в конкурсах и вакансиях Правительства Москвы.
     </span>
-    <div class="mt-6 max-w-xl">
-      <base-select
-          label="label"
-          star
-          select-label="Тема"
-          v-model="theme"
-          :options="themeOptions"
-      />
-      <base-input
-          class="mt-3"
-          star
-          v-model="name"
-          label="Название"
-      />
-      <base-textarea
-          class="mt-3"
-          star
-          v-model="essay"
-          label="Эссе"
-      />
-      <base-button
-          class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-6"
-      >
-        Сохранить
-      </base-button>
-    </div>
+    <template v-if="!loading">
+      <div class="mt-6 max-w-xl">
+        <!--      <base-select-->
+        <!--          label="label"-->
+        <!--          star-->
+        <!--          select-label="Тема"-->
+        <!--          v-model="theme"-->
+        <!--          :options="themeOptions"-->
+        <!--      />-->
+        <base-input
+            class="mt-3"
+            star
+            v-model="formEssay.topic"
+            label="Название"
+        />
+        <base-textarea
+            class="mt-3"
+            star
+            v-model="formEssay.text"
+            label="Эссе"
+        />
+        <base-button
+            @click="saveEssay"
+            class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-6"
+        >
+          Сохранить
+        </base-button>
+      </div>
+    </template>
+    <loading v-else/>
   </div>
 </template>
 
 <script>
 
 import BaseButton from "@/components/UI/BaseButton.vue";
-import BaseSelect from "@/components/UI/BaseSelect.vue";
+// import BaseSelect from "@/components/UI/BaseSelect.vue";
 import BaseInput from "@/components/UI/BaseInput.vue";
 import BaseTextarea from "@/components/UI/BaseTextarea.vue";
+import {mapActions} from "vuex";
+import Loading from "@/components/Loading.vue";
 
 export default {
   name: "Essay",
   components: {
+    Loading,
     BaseTextarea,
     BaseInput,
-    BaseSelect,
     BaseButton
   },
   data() {
@@ -72,10 +78,32 @@ export default {
           value: '0'
         },
       ],
-      name: '',
-      essay: ''
+      formEssay: {
+        topic: '',
+        text: ''
+      },
+      loading: false,
     }
   },
+  methods: {
+    ...mapActions('cabinet', ['getEssay', 'setUpdateEssay']),
+    async saveEssay() {
+      const payload = {
+        ...this.formEssay,
+      }
+      await this.setUpdateEssay(payload)
+    }
+  },
+  async mounted() {
+    this.loading = true
+    await this.getEssay()
+        .then((res) => {
+          this.formEssay = res
+        })
+        .finally(() => {
+          this.loading = false
+        })
+  }
 }
 </script>
 

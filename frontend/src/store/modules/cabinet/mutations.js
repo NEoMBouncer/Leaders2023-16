@@ -5,8 +5,9 @@ export default {
         }
     },
     setProfile(state, payload) {
-        state.profile = {
-            ...payload
-        }
+        state.profile = payload
+    },
+    setEssay(state, payload) {
+        state.essat = payload
     },
 }

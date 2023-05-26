@@ -180,6 +180,7 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['signOut']),
+    ...mapActions('cabinet', ['getInfo']),
     isSignOut () {
       this.signOut()
     },
@@ -191,6 +192,11 @@ export default {
       }
     }
   },
+  async mounted() {
+    if(this.isAuthenticated) {
+      await this.getInfo()
+    }
+  }
 };
 </script>
 
