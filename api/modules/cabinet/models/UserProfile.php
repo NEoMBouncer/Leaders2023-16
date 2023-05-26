@@ -15,7 +15,8 @@ class UserProfile extends \common\models\UserProfile
             'phone',
             'age',
             'city',
-            'is_russian_citizenship',
+            'education',
+            'experience',
             'scores'
         ];
     }
