@@ -15,6 +15,7 @@ class UserProfile extends \common\models\UserProfile
             'phone',
             'age',
             'city',
+            'country_id',
             'education',
             'experience',
             'scores'
