@@ -19,7 +19,7 @@ class m230520_094900_add_table_candidate extends Migration
             'slogan' => $this->string(),
             'description' => $this->text(),
             'internship_places' => $this->text()->notNull(),
-            'is_deleted' => $this->smallInteger(1)->defaultValue(0)
+            'is_deleted' => $this->tinyInteger()->notNull()->defaultValue(0)
         ]);
 
         $this->createTable('{{%candidate}}', [
@@ -29,15 +29,24 @@ class m230520_094900_add_table_candidate extends Migration
             'education' => $this->text()->notNull(),
             'experience' => $this->text()->notNull(),
             'is_recommended' => $this->smallInteger(1)->defaultValue(0),
+            'order_status' => $this->integer(),
             'testing_status' => $this->integer()->defaultValue(0),
-            'is_deleted' => $this->smallInteger(1)->defaultValue(0)
+            'is_deleted' => $this->tinyInteger()->notNull()->defaultValue(0)
+        ]);
+
+        $this->createTable('{{%essay}}', [
+            'id' => $this->primaryKey(),
+            'user_id' => $this->integer(),
+            'topic' => $this->string(),
+            'text' => $this->text(),
+            'is_deleted' => $this->tinyInteger()->notNull()->defaultValue(0)
         ]);
 
         $this->createTable('{{%candidate_order}}', [
             'id' => $this->primaryKey(),
             'candidate_id' => $this->integer(),
             'status' => $this->integer(),
-            'approved_by' => $this->integer()->defaultValue(null),
+            'approved_by' => $this->integer()->null(),
             'created_at' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP')
         ]);

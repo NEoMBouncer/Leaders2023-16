@@ -7,15 +7,17 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
- * User model
+ * Candidate model
  *
  * @property integer $id
  * @property int $user_id
  * @property int $direction_id
  * @property string $education
  * @property string $experience
- * @property int $is_recommended
+ * @property int $order_status
  * @property int $testing_status
+ * @property int $is_recommended
+ * @property int $is_russian_citizenship
  * @property int $is_deleted
  *
  * @property User $user
@@ -31,6 +33,13 @@ class Candidate extends ActiveRecord
     const TESTING_STATUS_FAILED = 2;
     const TESTING_STATUS_IN_PROGRESS = 3;
     const TESTING_STATUS_PENDING = 4;
+
+
+    const ORDER_STATUS_START = 0;
+    const ORDER_STATUS_CAREER_SCHOOL = 1;
+    const ORDER_STATUS_TESTING = 2;
+    const ORDER_STATUS_CHAMPIONSHIP = 3;
+    const ORDER_STATUS_INTERNSHIP = 4;
     /**
      * @inheritdoc
      */
@@ -50,13 +59,24 @@ class Candidate extends ActiveRecord
         ];
     }
 
+    public static function orderStatuses(): array
+    {
+        return [
+            self::ORDER_STATUS_START => 'Подача заявки',
+            self::ORDER_STATUS_CAREER_SCHOOL => 'Карьерная школа',
+            self::ORDER_STATUS_TESTING => 'Тестирование',
+            self::ORDER_STATUS_CHAMPIONSHIP => 'Кейс-чемпионат',
+            self::ORDER_STATUS_INTERNSHIP => 'Стажировка',
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['user_id', 'direction_id', 'is_recommended', 'testing_status', 'is_deleted'], 'integer'],
+            [['user_id', 'direction_id', 'is_recommended', 'testing_status', 'order_status', 'is_deleted'], 'integer'],
             [['education', 'experience'], 'string'],
             ['testing_status', 'default', 'value' => self::TESTING_STATUS_NONE]
         ];

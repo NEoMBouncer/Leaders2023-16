@@ -37,10 +37,12 @@ class m140703_123000_user extends Migration
             'lastname' => $this->string(),
             'age' => $this->integer(),
             'city' => $this->string(),
-            'avatar' => $this->string()->defaultValue('/source/user/default_avatar.png'),
+            'full_address' => $this->string()->null(),
+            'avatar' => $this->string()->defaultValue('/storage/source/user/default_avatar.png'),
             'locale' => $this->string(32)->notNull()->defaultValue('ru-RU'),
             'gender' => $this->smallInteger(1),
             'phone' => $this->string(),
+            'country_id' => $this->integer()->null(),
             'role' => $this->integer()->defaultValue(0),
             'is_russian_citizenship' => $this->smallInteger(1)->defaultValue(0),
             'scores' => $this->integer()->defaultValue(0)

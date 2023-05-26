@@ -13,31 +13,31 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "article".
  *
- * @property integer             $id
- * @property string              $slug
- * @property string              $title
- * @property string              $body
- * @property string              $view
- * @property string              $thumbnail_base_url
- * @property string              $thumbnail_path
- * @property array               $attachments
- * @property integer             $category_id
- * @property integer             $status
- * @property integer             $published_at
- * @property integer             $created_by
- * @property integer             $updated_by
- * @property integer             $created_at
- * @property integer             $updated_at
+ * @property integer $id
+ * @property string $slug
+ * @property string $title
+ * @property string $body
+ * @property string $view
+ * @property string $thumbnail_base_url
+ * @property string $thumbnail_path
+ * @property array $attachments
+ * @property integer $category_id
+ * @property integer $status
+ * @property integer $published_at
+ * @property integer $created_by
+ * @property integer $updated_by
+ * @property integer $created_at
+ * @property integer $updated_at
  *
- * @property User                $author
- * @property User                $updater
- * @property ArticleCategory     $category
+ * @property User $author
+ * @property User $updater
+ * @property ArticleCategory $category
  * @property ArticleAttachment[] $articleAttachments
  */
 class Article extends ActiveRecord
 {
     const STATUS_PUBLISHED = 1;
-    const STATUS_DRAFT     = 0;
+    const STATUS_DRAFT = 0;
 
     /**
      * @var array

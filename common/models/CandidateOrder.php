@@ -8,7 +8,7 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
- * User model
+ * CandidateOrder model
  *
  * @property integer $id
  *
