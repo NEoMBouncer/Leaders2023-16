@@ -284,10 +284,10 @@ export default {
       navigation: [
         { name: 'Кабинет', href: '/cabinet', icon: HomeIcon, current: true },
         { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false },
-        { name: 'Вакансии', href: '#', icon: BriefcaseIcon, current: false },
-        // { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-        // { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-        // { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
+        // { name: 'Вакансии', href: '#', icon: BriefcaseIcon, current: false },
+        // { name: 'Обратная связь', href: '#', icon: CalendarIcon, current: false },
+        // { name: 'Расписание', href: '#', icon: DocumentDuplicateIcon, current: false },
+        // { name: 'Уведомления', href: '#', icon: ChartPieIcon, current: false },
       ],
       teams: [
         { id: 1, name: 'Профиль', href: '/cabinet/profile', initial: 'П', current: false },

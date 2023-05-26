@@ -18,14 +18,38 @@
       </ol>
     </nav>
 
-    <!-- Product info -->
     <div class="mx-auto pt-6 pb-6 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
       <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
         <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{{ internship.name }}</h1>
       </div>
 
+
+      <div class="py-6 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pr-8 lg:pt-6">
+        <!-- Description and details -->
+        <div>
+          <div class="space-y-6">
+            <p class="text-base text-gray-900">{{ internship.description }}</p>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <h3 class="font-medium text-gray-900">Направление</h3>
+
+          <div class="mt-4">
+            <span class="text-sm text-gray-600">{{ internship.direction }}</span>
+          </div>
+        </div>
+
+        <section aria-labelledby="shipping-heading" class="mt-6">
+          <h2 id="shipping-heading" class="font-medium text-gray-900">График работы</h2>
+
+          <div class="mt-4 space-y-6">
+            <p class="text-sm text-gray-600">20 часов в неделю</p>
+          </div>
+        </section>
+      </div>
       <!-- Options -->
-      <div class="mt-4 lg:row-span-3 lg:mt-0">
+      <div class="mt-4 lg:row-span-3 lg:mt-0 mb-6">
         <yandex-map
             :coords="mapCenter"
             :zoom="map.zoom"
@@ -38,53 +62,43 @@
               :coords="mapCenter"
           />
         </yandex-map>
-        <p class="text-3xl tracking-tight text-gray-900">{{ internship.direction }}</p>
-
+        <p class="tracking-tight text-gray-900 mt-1">Адрес</p>
+        <p class="text-xl tracking-tight text-gray-900 mt-4">Название компании</p>
         <!-- Reviews -->
-        <div class="mt-6">
+        <div class="mt-1">
           <div class="flex items-center">
             <div class="flex items-center">
-              <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[4 > rating ? 'text-gray-900' : 'text-gray-200', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" />
+              <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[4 > rating ? 'text-indigo-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" />
             </div>
             <span class="ml-3 text-sm font-medium text-gray-600">2 оценили</span>
           </div>
         </div>
 
-        <div class="mt-10">
-          1111
+        <div class="mt-6">
+          <dt class="font-medium text-gray-900">Наставник</dt>
+          <dd class="mt-3 flex items-center flex-col w-fit xl:flex-row text-gray-500">
+            <img
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt="author"
+                class="h-12 w-12 rounded-full"
+            />
+
+            <div class="ml-3">
+              <p class="text-sm font-medium text-gray-900 mt-2 xl:mt-0">Иван Иванович</p>
+              <div class="mt-2 flex items-center">
+                <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[4 > rating ? 'text-indigo-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" />
+              </div>
+            </div>
+          </dd>
         </div>
-      </div>
-
-      <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
-        <!-- Description and details -->
-        <div>
-                    <div class="space-y-6">
-            <p class="text-base text-gray-900">{{ internship.description }}</p>
-          </div>
-        </div>
-
-        <div class="mt-10">
-          <h3 class="text-sm font-medium text-gray-900">Highlights</h3>
-
-          <div class="mt-4">
-            <span class="text-gray-600">{{ internship.direction }}</span>
-          </div>
-        </div>
-
-        <section aria-labelledby="shipping-heading" class="mt-10">
-          <h2 id="shipping-heading" class="text-sm font-medium text-gray-900">Details</h2>
-
-          <div class="mt-4 space-y-6">
-            <p class="text-sm text-gray-600">{{ internship.direction }}</p>
-          </div>
-        </section>
       </div>
       <!-- Reviews -->
       <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-        <section aria-labelledby="reviews-heading" class="border-t border-gray-200 pt-10 lg:pt-16">
+        <section aria-labelledby="reviews-heading" class="border-t border-gray-200 pt-6">
+          <h2 class="text-xl font-medium text-gray-900 mb-10">Отзывы стажеров</h2>
           <div class="space-y-10">
-            <div v-for="review in reviews.featured" :key="review.id" class="flex flex-col sm:flex-row">
-              <div class="order-2 mt-6 sm:ml-16 sm:mt-0">
+            <div v-for="review in reviews.featured" :key="review.id" class="flex flex-col">
+              <div class="order-2 mt-6">
                 <h3 class="text-sm font-medium text-gray-900">{{ review.title }}</h3>
 
                 <div class="mt-3 space-y-6 text-sm text-gray-600">
@@ -92,13 +106,13 @@
                 </div>
               </div>
 
-              <div class="order-1 flex items-center sm:flex-col sm:items-start">
+              <div class="order-1 flex items-center">
                 <img :src="review.avatarSrc" :alt="`${review.author}.`" class="h-12 w-12 rounded-full" />
 
-                <div class="ml-4 sm:ml-0 sm:mt-4">
+                <div class="ml-4">
                   <p class="text-sm font-medium text-gray-900">{{ review.author }}</p>
                   <div class="mt-2 flex items-center">
-                    <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[review.rating > rating ? 'text-gray-900' : 'text-gray-200', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" />
+                    <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[review.rating > rating ? 'text-indigo-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" />
                   </div>
                 </div>
               </div>
