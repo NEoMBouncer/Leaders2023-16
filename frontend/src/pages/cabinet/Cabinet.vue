@@ -180,6 +180,12 @@
           <div class="px-4 py-5 sm:p-6">
             <div class="flex items-center">
               <h3 class="text-base font-semibold leading-6 text-gray-900">Пройдите карьерную школу</h3>
+              <span class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
+                  <svg class="h-1.5 w-1.5 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
+                    <circle cx="3" cy="3" r="3" />
+                  </svg>
+                  Badge
+              </span>
               <span class="flex-shrink-0 ml-3">
                   <span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600">
                     <CheckIcon class="h-5 w-5 text-white" aria-hidden="true" />
@@ -236,6 +242,12 @@
           <div class="px-4 py-5 sm:p-6">
             <div class="flex items-center">
               <h3 class="text-base font-semibold leading-6 text-gray-900">Пройдите тестирование</h3>
+              <span class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
+                  <svg class="h-1.5 w-1.5 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
+                    <circle cx="3" cy="3" r="3" />
+                  </svg>
+                  Badge
+              </span>
               <span class="flex-shrink-0 ml-3">
                   <span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600">
                     <CheckIcon class="h-5 w-5 text-white" aria-hidden="true" />
@@ -292,6 +304,12 @@
           <div class="px-4 py-5 sm:p-6">
             <div class="flex items-center">
               <h3 class="text-base font-semibold leading-6 text-gray-900">Защити кейс-чемпионат</h3>
+              <span class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
+                  <svg class="h-1.5 w-1.5 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
+                    <circle cx="3" cy="3" r="3" />
+                  </svg>
+                  Badge
+              </span>
               <span class="flex-shrink-0 ml-3">
                   <span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600">
                     <CheckIcon class="h-5 w-5 text-white" aria-hidden="true" />
@@ -326,60 +344,31 @@
         </base-button>
       </template>
       <template v-if="activeStep === 5">
-        <div class="border-l-4 border-yellow-400 bg-yellow-50 p-4">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <ExclamationTriangleIcon class="h-5 w-5 text-yellow-400" aria-hidden="true" />
-            </div>
-            <div class="ml-3">
-              <p class="text-sm text-yellow-700">
-                Демострация состояния
-                {{ ' ' }}
-                <span @click="changeFlow" class="cursor-pointer ml-2 font-medium text-yellow-700 underline hover:text-yellow-600">
-                Поменять сотояние
-              </span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <h2 class="text-xl font-semibold pt-3 pb-5">Ваши заявки на стажировки</h2>
-        <!--        Кейс-чемпионат-->
+        <h2 class="text-xl font-semibold pt-3 pb-5">Стажировка</h2>
+<!--        Стажировка-->
         <div class="bg-white shadow sm:rounded-lg">
           <div class="px-4 py-5 sm:p-6">
             <div class="flex items-center">
-              <h3 class="text-base font-semibold leading-6 text-gray-900">Защити кейс-чемпионат</h3>
-              <span class="flex-shrink-0 ml-3">
-                  <span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600">
-                    <CheckIcon class="h-5 w-5 text-white" aria-hidden="true" />
-                  </span>
-              </span>
+              <h3 class="text-base font-semibold leading-6 text-gray-900">Выберите интересные стажировки</h3>
             </div>
             <div class="mt-2 sm:flex sm:items-start sm:justify-between">
               <div class="max-w-xl text-sm text-gray-500">
                 <p>
-                  Защити свой проект на кейс-чемпионате. Решайте реальные задачи от организаций Правительства Москвы, презентуя решения перед членами жюри.
+                  Для Вас открылся раздел "Стажировки", где Вы можете откликнуться на интересующие стажировки, пройти собеседование и начать карьеру в Правительстве Москвы.
                 </p>
               </div>
               <div class="mt-5 sm:ml-6 sm:mt-0 sm:flex sm:flex-shrink-0 sm:items-center">
                 <base-button
                     type="primary"
                     class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
-                    @click="openCase"
+                    @click="openInternships"
                 >
-                  Начать
+                  Перейти
                 </base-button>
               </div>
             </div>
           </div>
         </div>
-        <!--        Отправить заявку-->
-        <base-button
-            type="primary"
-            class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-6"
-            @click="sendCase"
-        >
-          Перейти к стажировкам
-        </base-button>
       </template>
     </div>
   </div>
@@ -513,6 +502,9 @@ export default {
         }
       })
     },
+    openInternships() {
+      this.$router.push(`/cabinet/internships`)
+    }
   },
   mounted() {
     // complete/current/upcoming
