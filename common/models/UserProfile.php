@@ -22,7 +22,8 @@ use yii\db\ActiveRecord;
  * @property string $phone
  * @property integer $country_id
  * @property int $role
- * @property int $is_russian_citizenship
+ * @property string $education
+ * @property string $experience
  * @property int $scores
  *
  * @property User $user
@@ -66,11 +67,11 @@ class UserProfile extends ActiveRecord
     {
         return [
             [['user_id'], 'required'],
-            [['user_id', 'gender', 'role', 'is_russian_citizenship', 'country_id'], 'integer'],
+            [['user_id', 'gender', 'role', 'country_id'], 'integer'],
             ['scores', 'integer', 'min' => 0],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
             [['gender'], 'in', 'range' => [NULL, self::GENDER_FEMALE, self::GENDER_MALE]],
-            [['firstname', 'middlename', 'lastname', 'avatar'], 'string', 'max' => 255],
+            [['firstname', 'middlename', 'lastname', 'avatar', 'education', 'experience'], 'string', 'max' => 255],
             ['locale', 'default', 'value' => 'ru-RU'],
             ['locale', 'in', 'range' => array_keys(Yii::$app->params['availableLocales'])],
 
@@ -88,6 +89,14 @@ class UserProfile extends ActiveRecord
     public function afterFind()
     {
         $this->_oldAttributes = $this->attributes;
+        $this->education = unserialize($this->education);
+        $this->experience = unserialize($this->experience);
+    }
+
+    public function beforeValidate() {
+        $this->education = serialize($this->education);
+        $this->experience = serialize($this->experience);
+        return parent::beforeValidate();
     }
 
     /**

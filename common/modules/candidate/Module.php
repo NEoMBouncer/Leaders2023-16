@@ -23,13 +23,13 @@ class Module extends \yii\base\Module
         Event::on(User::className(), User::EVENT_AFTER_SIGNUP, [$this, 'afterSignupCreateCandidate']);
     }
 
-    public function afterSignupCreateCandidate($event)
-    {
-        $user_id = $event->sender->id;
-        $candidate = new Candidate();
-        $candidate->user_id = $user_id;
-        $candidate->education = [];
-        $candidate->experience = [];
-        $candidate->save();
-    }
+//    public function afterSignupCreateCandidate($event)
+//    {
+//        $user_id = $event->sender->id;
+//        $candidate = new Candidate();
+//        $candidate->user_id = $user_id;
+//        $candidate->education = [];
+//        $candidate->experience = [];
+//        $candidate->save();
+//    }
 }

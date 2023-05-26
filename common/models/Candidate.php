@@ -12,12 +12,9 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property int $user_id
  * @property int $direction_id
- * @property string $education
- * @property string $experience
  * @property int $order_status
  * @property int $testing_status
  * @property int $is_recommended
- * @property int $is_russian_citizenship
  * @property int $is_deleted
  *
  * @property User $user
@@ -76,30 +73,16 @@ class Candidate extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'direction_id', 'is_recommended', 'testing_status', 'order_status', 'is_deleted'], 'integer'],
-            [['education', 'experience'], 'string'],
+            [['user_id', 'direction_id', 'is_recommended', 'testing_status', 'order_status', 'is_russian_citizenship', 'is_deleted'], 'integer'],
             ['testing_status', 'default', 'value' => self::TESTING_STATUS_NONE]
         ];
-    }
-
-    public function beforeValidate() {
-        $this->education = serialize($this->education);
-        $this->experience = serialize($this->experience);
-        return parent::beforeValidate();
-    }
-
-    public function afterFind() {
-        $this->education = unserialize($this->education);
-        $this->experience = unserialize($this->experience);
-        return parent::afterFind();
     }
 
     public function beforeSave($insert)
     {
         if (!$this->isNewRecord)
         {
-            $user = User::findOne($this->user_id);
-            if ($user->userProfile->is_russian_citizenship) // TODO добавить проверку на курс и опыт работы
+            if ($this->is_russian_citizenship) // TODO добавить проверку на курс и опыт работы
                 $this->is_recommended = self::RECOMMENDED;
             else $this->is_recommended = self::NOT_RECOMMENDED;
         }

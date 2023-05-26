@@ -3,6 +3,7 @@
 namespace api\modules\v1\controllers;
 
 use api\controllers\SiteController;
+use common\models\Country;
 
 /**
  * @author Eugene Terentev <eugene@terentev.net>
@@ -10,11 +11,5 @@ use api\controllers\SiteController;
 class DefaultController extends SiteController
 {
 
-    /**
-     * @return array
-     */
-    public function actionIndex(): array
-    {
-        return ['succerss' => true, 'data' => 'test'];
-    }
+
 }

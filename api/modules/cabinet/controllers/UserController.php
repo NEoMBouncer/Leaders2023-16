@@ -3,7 +3,10 @@
 namespace api\modules\cabinet\controllers;
 
 use api\controllers\BaseController;
+use api\modules\cabinet\models\Essay;
+use api\modules\cabinet\models\Specialization;
 use api\modules\cabinet\models\UserProfile;
+use common\models\Country;
 use common\modules\user\models\ChangePasswordForm;
 use Yii;
 use yii\rest\OptionsAction;
@@ -47,6 +50,27 @@ class UserController extends BaseController
             Yii::$app->response->setStatusCode(421);
             return ['success' => false, 'error' => 'Не удалось идентифицировать пользователя'];
         }
+    }
+
+    public function actionCountries(): array
+    {
+        $countriesArray = Country::find()->select(['title', 'id'])->indexBy('id')->column();
+        $countries = [];
+
+        $locale = Yii::$app->user->identity ? Yii::$app->user->identity->userProfile->locale : 'ru-RU';
+        foreach ($countriesArray as $key => $value)
+            $countries[] = [
+                'id' => $key,
+                'name' => \Yii::t('countries', $value, null, $locale)
+            ];
+
+        return ['success' => true, 'data' => $countries];
+    }
+
+    public function actionSpecializations(): array
+    {
+        $specializations = Specialization::find()->all();
+        return ['success' => true, 'data' => $specializations];
     }
 
     public function actionProfile(): array
@@ -112,6 +136,76 @@ class UserController extends BaseController
         {
             Yii::$app->response->setStatusCode(500);
             return ['success' => false, 'error' => $exception->getMessage()];
+        }
+    }
+
+    public function actionEssay(): array
+    {
+        try {
+            $user = Yii::$app->user->identity;
+            $essays = $user->getEssay($user->id);
+            if (Yii::$app->request->isPost)
+            {
+                if (count($essays) < 3)
+                {
+                    $essay = new Essay();
+                    if ($essay->load(Yii::$app->request->post(), '') && $essay->validate())
+                    {
+                        $essay->user_id = $user->id;
+                        $essay->save();
+                        return ['success' => true];
+                    }
+                    else return ['success' => false, 'error' => 'Не удалось сохранить эссе'];
+                }
+                else return ['success' => false, 'error' => 'Может быть максимум 3 эссе'];
+            }
+            elseif (Yii::$app->request->isPut)
+            {
+                $essay = Essay::findOne(Yii::$app->request->post('id'));
+                if ($essay)
+                {
+                    if ($essay->user_id === $user->id)
+                    {
+                        if ($essay->load(Yii::$app->request->post(), '') && $essay->validate())
+                        {
+                            $essay->save();
+                            return ['success' => true];
+                        }
+                        else return ['success' => false, 'error' => 'Не удалось сохранить эссе'];
+                    }
+                    else
+                    {
+                        Yii::$app->response->setStatusCode(403);
+                        return ['success' => false, 'У вас нет доступа к этому эссе'];
+                    }
+                }
+                else return ['success' => false, 'error' => 'Нет эссе с таким идентификатором'];
+            }
+            else
+            {
+                if (isset(Yii::$app->request->queryParams['id']))
+                {
+                    $essay_id = Yii::$app->request->queryParams['id'];
+                    $essay = Essay::findOne($essay_id);
+                    if ($essay)
+                    {
+                        if ($essay->user_id === $user->id)
+                            return ['success' => true, 'data' => $essay];
+                        else
+                        {
+                            Yii::$app->response->setStatusCode(403);
+                            return ['success' => false, 'У вас нет доступа к этому эссе'];
+                        }
+                    }
+                     else return ['success' => false, 'error' => 'Нет эссе с таким идентификатором'];
+                }
+                else return ['success' => true, 'data' => $essays];
+            }
+        }
+        catch (\Exception $exception)
+        {
+            Yii::$app->response->setStatusCode(500);
+            return ['success' => false, 'error' => 'Server error'];
         }
     }
 }

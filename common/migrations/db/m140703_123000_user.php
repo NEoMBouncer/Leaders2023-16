@@ -44,7 +44,8 @@ class m140703_123000_user extends Migration
             'phone' => $this->string(),
             'country_id' => $this->integer()->null(),
             'role' => $this->integer()->defaultValue(0),
-            'is_russian_citizenship' => $this->smallInteger(1)->defaultValue(0),
+            'education' => $this->text()->null(),
+            'experience' => $this->text()->null(),
             'scores' => $this->integer()->defaultValue(0)
         ]);
 

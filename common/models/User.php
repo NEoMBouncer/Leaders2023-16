@@ -10,6 +10,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
+use api\modules\cabinet\models\Essay;
 
 /**
  * User model
@@ -290,5 +291,12 @@ class User extends ActiveRecord implements IdentityInterface
     public function getId()
     {
         return $this->getPrimaryKey();
+    }
+
+    public function getEssay($user_id, $id = null)
+    {
+        if ($id)
+            return Essay::findOne($id);
+        else return Essay::find()->where(['user_id' => $user_id])->all();
     }
 }

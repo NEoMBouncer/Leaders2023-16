@@ -14,7 +14,8 @@ class m230526_144407_create_table_specialization extends Migration
     {
         $this->createTable('{{%specialization}}', [
             'id' => $this->primaryKey(),
-            'title' => $this->string()
+            'title' => $this->string()->notNull(),
+            'direction_id' => $this->integer()->notNull()
         ]);
     }
 

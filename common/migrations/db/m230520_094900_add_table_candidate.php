@@ -26,11 +26,10 @@ class m230520_094900_add_table_candidate extends Migration
             'id' => $this->primaryKey(),
             'user_id' => $this->integer(),
             'direction_id' => $this->integer()->null(),
-            'education' => $this->text()->notNull(),
-            'experience' => $this->text()->notNull(),
             'is_recommended' => $this->smallInteger(1)->defaultValue(0),
             'order_status' => $this->integer(),
             'testing_status' => $this->integer()->defaultValue(0),
+            'is_russian_citizenship' => $this->smallInteger(1)->defaultValue(0),
             'is_deleted' => $this->tinyInteger()->notNull()->defaultValue(0)
         ]);
 
