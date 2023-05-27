@@ -403,39 +403,39 @@ export default {
       levelEducationOptions: [
         {
           label: 'Высшее',
-          value: 'Высшее'
+          value: 0
         },
         {
           label: 'Высшее - бакалавриат',
-          value: 'Высшее - бакалавриат'
+          value: 1
         },
         {
           label: 'Высшее - магистратура',
-          value: 'Высшее - магистратура'
+          value: 2
         },
         {
           label: 'Доктор наук',
-          value: 'Доктор наук'
+          value: 3
         },
         {
           label: 'Кандидат наук',
-          value: 'Кандидат наук'
+          value: 4
         },
         {
           label: 'Мва',
-          value: 'Мва'
+          value: 5
         },
         {
           label: 'Среднее общее',
-          value: 'Среднее общее'
+          value: 6
         },
         {
           label: 'Среднее профессиональное',
-          value: 'Среднее профессиональное'
+          value: 7
         },
         {
           label: 'Прочее',
-          value: 'Прочее'
+          value: 8
         },
       ],
       startSchoolOptions: [],
