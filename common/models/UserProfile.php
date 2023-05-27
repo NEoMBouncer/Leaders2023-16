@@ -93,7 +93,7 @@ class UserProfile extends ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
-        $candidate = Candidate::findOne($this->user_id);
+        $candidate = Candidate::find()->where(['user_id' => $this->user_id])->limit(1)->one();
         if ($candidate)
             self::checkCandidateRecommended($this->user_id);
         parent::afterSave($insert, $changedAttributes);
@@ -142,62 +142,53 @@ class UserProfile extends ActiveRecord
         return $default;
     }
 
-    public static function checkCandidateRecommended($user_id)
+    protected static function checkCandidateRecommended($user_id)
     {
-//        $user = User::findOne($user_id);
-//        $candidate = Candidate::find()->where(['user_id' => $user_id])->limit(1)->one();
-//        $candidateOrder = CandidateOrder::find()->where(['candidate_id' => $candidate->id])
-//            ->orderBy('id DESC')->limit(1)->one();
-//
-//        // Проверка возраста
-//        $age = intdiv(time() - ($user->userProfile->age / 1000), 31536000);
-//        $checkAge = $age <= 35 && $age >= 18;
-//
-//        //Проверка гражданства
-//        $checkCitizenship = $user->userProfile->country_id === 192;
-//
-//        //Проверка образования
-//        $education = $user->userProfile->education;
-//        $checkEducation = false;
-//        if (gettype($education) == 'array')
-//        {
-//            foreach ($education as $value)
-//            {
-//                if (array_key_exists('endSchool', $value))
-//                    $checkEducation = $value['endSchool'] - date('Y') <= 1;
-//                if ($checkEducation === true)
-//                    break;
-//            }
-//        }
-//
-//        //Проверка опыта работы
-//        $experience = $user->userProfile->experience;
-//        $checkExperience = false;
-//        if (gettype($experience) == 'array' && $candidateOrder)
-//        {
-//            foreach ($experience as $value)
-//            {
-//                if (array_key_exists('keySkills', $value))
-//                {
-//                    $specializationsArray = InternshipDirection::getSkills($candidateOrder->direction_id);
-//                    foreach ($value['keySkills'] as $keySkill)
-//                        if (in_array($keySkill, $specializationsArray))
-//                        {
-//                            $checkExperience = true;
-//                            break;
-//                        }
-//                }
-//                if ($checkExperience === true)
-//                    break;
-//            }
-//        }
-//
-//        // Проверка на рекомендованность
-//        $recommended = $checkAge && $checkCitizenship && $checkExperience && $checkEducation;
-//        if ($recommended === true)
-//            $candidate->is_recommended = 1;
-//        else $candidate->is_recommended = 0;
-//        $candidate->save();
+        $user = User::findOne($user_id);
 
+        $candidate = Candidate::find()->where(['user_id' => $user_id])->limit(1)->one();
+        if ($candidate)
+        {
+            $candidateOrder = CandidateOrder::find()->where(['candidate_id' => $candidate->id])
+                ->orderBy('id DESC')->limit(1)->one();
+            // Проверка возраста
+            $age = intdiv(time() - ($user->userProfile->age / 1000), 31536000);
+            $checkAge = $age <= 35 && $age >= 18;
+
+            //Проверка гражданства
+            $checkCitizenship = $user->userProfile->country_id === 192;
+
+            //Проверка образования
+            $educations = Education::find()->where(['user_id' => $user->id])->all();
+            $checkEducation = false;
+            foreach ($educations as $education)
+            {
+                $checkEducation = $education->date_end - date('Y') <= 1;
+                if ($checkEducation === true)
+                    break;
+            }
+
+            //Проверка опыта работы
+            $experiences = Experience::find()->where(['user_id' => $user->id])->all();
+            $checkExperience = false;
+            foreach ($experiences as $experience)
+            {
+                $specializationsArray = InternshipDirection::getSkills($candidateOrder->direction_id);
+                $keys = unserialize($experience->key_skills);
+                foreach ($keys as $key)
+                    if (in_array($key, $specializationsArray))
+                    {
+                        $checkExperience = true;
+                        break;
+                    }
+                if ($checkExperience === true)
+                    break;
+            }
+            $recommended = $checkAge && $checkCitizenship && $checkExperience && $checkEducation;
+            if ($recommended === true)
+                $candidate->is_recommended = 1;
+            else $candidate->is_recommended = 0;
+            $candidate->save();
+        }
     }
 }
