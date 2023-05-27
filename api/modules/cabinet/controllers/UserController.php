@@ -111,7 +111,10 @@ class UserController extends BaseController
         unset($params['experiences']);
         try {
             if ($profile->load($params, '') && $profile->validate())
+            {
                 $profile->save();
+                return ['success' => true];
+            }
             else
             {
                 $response = ['success' => false];
