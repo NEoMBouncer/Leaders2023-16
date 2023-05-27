@@ -35,7 +35,7 @@ class m140703_123000_user extends Migration
             'middlename' => $this->string(),
             'position' => $this->string()->null(),
             'lastname' => $this->string(),
-            'age' => $this->integer(),
+            'age' => $this->string(),
             'city' => $this->string(),
             'full_address' => $this->string()->null(),
             'avatar' => $this->string()->defaultValue('/storage/source/user/default_avatar.png'),
@@ -44,8 +44,6 @@ class m140703_123000_user extends Migration
             'phone' => $this->string(),
             'country_id' => $this->integer()->null(),
             'role' => $this->integer()->defaultValue(0),
-            'education' => $this->text()->null(),
-            'experience' => $this->text()->null(),
             'scores' => $this->integer()->defaultValue(0)
         ]);
 

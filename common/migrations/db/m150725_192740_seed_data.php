@@ -98,7 +98,7 @@ class m150725_192740_seed_data extends Migration
         $this->insert('{{%widget_text}}', [
             'key' => 'backend_welcome',
             'title' => 'Welcome to backend',
-            'body' => '<p>Welcome to Yii2 Starter Kit Dashboard</p>',
+            'body' => '<p>Welcome to Dev+ Dashboard</p>',
             'status' => 1,
             'created_at' => time(),
             'updated_at' => time(),

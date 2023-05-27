@@ -61,4 +61,9 @@ class InternshipDirection extends ActiveRecord
             'is_deleted' => Yii::t('common', 'Deleted')
         ];
     }
+
+    public static function getSkills($id)
+    {
+        return Specialization::find()->select('id')->where(['direction_id' => $id])->asArray()->column();
+    }
 }

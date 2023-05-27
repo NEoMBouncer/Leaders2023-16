@@ -27,8 +27,12 @@ class UserProfile extends \common\models\UserProfile
                     ];
                 return ['value' => $this->country_id, 'list' => $list];
             },
-            'education',
-            'experience',
+            'education' => function() {
+                return Education::find()->where(['user_id' => $this->user_id])->all();
+            },
+            'experience' => function() {
+                return Experience::find()->where(['user_id' => $this->user_id])->all();
+            },
             'scores'
         ];
     }

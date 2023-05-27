@@ -8,6 +8,8 @@ use api\modules\cabinet\models\InternshipDirection;
 use api\modules\cabinet\models\Specialization;
 use api\modules\cabinet\models\UserProfile;
 use common\models\Country;
+use common\models\Education;
+use common\models\Experience;
 use common\modules\user\models\ChangePasswordForm;
 use Yii;
 use yii\rest\OptionsAction;
@@ -248,6 +250,37 @@ class UserController extends BaseController
         {
             Yii::$app->response->setStatusCode(500);
             return ['success' => false, 'error' => 'Server error'];
+        }
+    }
+
+    public function actionAddEducation(): array
+    {
+        $user = Yii::$app->user->identity;
+        $education = new Education();
+        $education->user_id = $user->id;
+        $education->load(Yii::$app->request->post(), '');
+        if ($education->validate() && $education->save())
+            return ['success' => true];
+        else
+        {
+            Yii::$app->response->setStatusCode(422);
+            return ['success' => false, 'error' => $education->getErrors()[0]];
+        }
+    }
+
+    public function actionAddExperience(): array
+    {
+        $user = Yii::$app->user->identity;
+        $experience = new Experience();
+        $experience->user_id = $user->id;
+        $experience->key_skills = [];
+        $experience->load(Yii::$app->request->post(), '');
+        if ($experience->validate() && $experience->save())
+            return ['success' => true];
+        else
+        {
+            Yii::$app->response->setStatusCode(422);
+            return ['success' => false, 'error' => $experience->getErrors()];
         }
     }
 }

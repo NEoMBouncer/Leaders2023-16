@@ -14,7 +14,6 @@ use yii\db\ActiveRecord;
  * @property int $order_status
  * @property int $testing_status
  * @property int $is_recommended
- * @property int $is_russian_citizenship
  * @property int $is_deleted
  *
  * @property User $user
@@ -74,20 +73,9 @@ class Candidate extends ActiveRecord
     {
         return [
             [['user_id'], 'required'],
-            [['user_id', 'is_recommended', 'testing_status', 'order_status', 'is_russian_citizenship', 'is_deleted'], 'integer'],
+            [['user_id', 'is_recommended', 'testing_status', 'order_status', 'is_deleted'], 'integer'],
             ['testing_status', 'default', 'value' => self::TESTING_STATUS_NONE]
         ];
-    }
-
-    public function beforeSave($insert)
-    {
-        if (!$this->isNewRecord)
-        {
-            if ($this->is_russian_citizenship) // TODO добавить проверку на курс и опыт работы
-                $this->is_recommended = self::RECOMMENDED;
-            else $this->is_recommended = self::NOT_RECOMMENDED;
-        }
-        return parent::beforeSave($insert);
     }
 
     /**
