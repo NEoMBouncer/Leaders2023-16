@@ -222,4 +222,22 @@ export default {
                 })
         })
     },
+    setAddExperience({commit}, payload) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.post(`/v1/cabinet/add-experience`, payload)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        toast.success('Успешно сохранено')
+                        resolve(res?.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
 }

@@ -75,7 +75,7 @@
                   Демострация пустого состояния (Прием завершен)
                   {{ ' ' }}
                   <span @click="changeFlow" class="cursor-pointer ml-2 font-medium text-yellow-700 underline hover:text-yellow-600">
-                Поменять сотояние
+                Поменять состояние
               </span>
                 </p>
               </div>
@@ -192,7 +192,7 @@
                   Демострация состояния
                   {{ ' ' }}
                   <span @click="changeFlow" class="cursor-pointer ml-2 font-medium text-yellow-700 underline hover:text-yellow-600">
-                Поменять сотояние
+                Поменять состояние
               </span>
                 </p>
               </div>
@@ -254,7 +254,7 @@
                   Демострация состояния
                   {{ ' ' }}
                   <span @click="changeFlow" class="cursor-pointer ml-2 font-medium text-yellow-700 underline hover:text-yellow-600">
-                Поменять сотояние
+                Поменять состояние
               </span>
                 </p>
               </div>
@@ -316,7 +316,7 @@
                   Демострация состояния
                   {{ ' ' }}
                   <span @click="changeFlow" class="cursor-pointer ml-2 font-medium text-yellow-700 underline hover:text-yellow-600">
-                Поменять сотояние
+                Поменять состояние
               </span>
                 </p>
               </div>
@@ -559,15 +559,29 @@ export default {
   },
   async mounted() {
     this.loading = true
-    // complete/current/upcoming
-    this.steps = this.steps.map((item) => ({
-      ...item,
-      status: item.id === 1 ? 'current' : 'upcoming'
-    }))
-    this.activeStep = 1
     this.flow = true
     await this.getCandidate().then((res) => {
-      if(res?.order_status === 2) {
+      this.activeStep = (res?.order_status || 0) + 1
+      // complete/current/upcoming
+      this.steps = this.steps.map((item) => {
+        if(item.id === this.activeStep) {
+          return {
+            ...item,
+            status: 'current'
+          }
+        } else if (item.id < this.activeStep) {
+          return {
+            ...item,
+            status: 'complete'
+          }
+        } else {
+          return {
+            ...item,
+            status: 'upcoming'
+          }
+        }
+      })
+      if(res?.order?.status === 2) {
         this.failed = true
       }
     })
