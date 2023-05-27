@@ -9,13 +9,15 @@ export default {
         return new Promise((resolve, reject) => {
             axiosConfig.post(`/v1/login`, payload)
                 .then((res) => {
-                    if(res?.data) {
+                    if(res?.data?.success) {
                         if (res.data.token) {
                             localStorage.setItem(STORAGE_KEYS.ACCESS, res.data.token);
                             commit('setAuthData', res.data.token);
+                            resolve()
                         }
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка авторизации! Повторите позже')
                     }
-                    resolve()
                 })
                 .catch((err) => {
                     console.error(err)
@@ -30,6 +32,8 @@ export default {
                 .then((res) => {
                     if(res?.data?.success) {
                         resolve()
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка регистрации! Повторите позже')
                     }
                 })
                 .catch((err) => {
@@ -45,8 +49,10 @@ export default {
                 .then((res) => {
                     if(res?.data?.success) {
                         toast.success('Пароль успешно изменен')
+                        resolve(res?.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка смены пароля! Повторите позже')
                     }
-                    resolve(res?.data)
                 })
                 .catch((err) => {
                     console.error(err)

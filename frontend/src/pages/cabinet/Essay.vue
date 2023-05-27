@@ -102,7 +102,14 @@ export default {
     this.loading = true
     await this.getEssay()
         .then((res) => {
-          this.formEssay = res
+          if(res) {
+            this.formEssay = res
+          } else {
+            this.formEssay = {
+              topic: '',
+              text: ''
+            }
+          }
         })
         .finally(() => {
           this.loading = false

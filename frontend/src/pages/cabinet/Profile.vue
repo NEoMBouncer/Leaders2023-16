@@ -271,14 +271,14 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['changePassword']),
-    ...mapActions('cabinet', ['getProfile', 'setUpdateProfile', 'getCountries']),
+    ...mapActions('cabinet', ['getProfile', 'setUpdateProfile']),
     async savePersonal() {
       const payload = {
         firstname: this.formPerson.firstname,
         middlename: this.formPerson.middlename,
         lastname: this.formPerson.lastname,
         gender: this.formPerson.gender.value,
-        is_russian_citizenship: this.formPerson.is_russian_citizenship.value,
+        country_id: this.formPerson.is_russian_citizenship.value,
         age: new Date(this.formPerson.age).getTime(),
       }
       await this.setUpdateProfile(payload)
@@ -375,19 +375,19 @@ export default {
   },
   async mounted() {
     this.loading = true
-    await this.getCountries().then((res) => {
-      this.russianCitizenshipOptions = res.map((item) => ({
-        label: item.name || '',
-        value: item?.id || ''
-      }))
-    })
     await this.getProfile()
         .then((e) => {
+          this.russianCitizenshipOptions = e?.country_id?.list?.map((item) => ({
+            label: item.name || '',
+            value: item?.id || ''
+          })) || []
           this.formPerson = {
-            ...e,
+            firstname: e?.firstname || '',
+            lastname: e?.lastname || '',
+            middlename: e?.middlename || '',
             age: e?.age ? new Date(e?.age) : null,
             gender: this.genderOptions?.find(item => item.value === e.gender) || null,
-            is_russian_citizenship: this.russianCitizenshipOptions?.find(item => item.value === e.is_russian_citizenship) || null,
+            is_russian_citizenship: this.russianCitizenshipOptions?.find(item => item.value === e.country_id.value) || null,
           }
           this.formPerson.email = this.info?.email || ''
         })
