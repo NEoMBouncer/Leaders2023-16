@@ -12,12 +12,16 @@ return [
 
         ['pattern' => 'v1/cabinet/countries', 'route' => 'cabinet/user/countries'],
         ['pattern' => 'v1/cabinet/specializations', 'route' => 'cabinet/user/specializations'],
+        ['pattern' => 'v1/cabinet/directions', 'route' => 'cabinet/user/directions'],
         ['pattern' => 'v1/cabinet/essay', 'route' => 'cabinet/user/essay'],
         ['pattern' => 'v1/cabinet/delete-essay/<id>', 'route' => 'cabinet/user/delete-essay'],
-
         ['pattern' => 'v1/cabinet/get-info', 'route' => 'cabinet/user/get-info'],
         ['pattern' => 'v1/cabinet/profile', 'route' => 'cabinet/user/profile'],
         ['pattern' => 'v1/cabinet/update-profile', 'route' => 'cabinet/user/update-profile'],
         ['pattern' => 'v1/cabinet/change-password', 'route' => 'cabinet/user/change-password'],
+
+        ['pattern' => 'v1/cabinet/create-candidate-order', 'route' => 'cabinet/candidate/create-order'],
+        ['pattern' => 'v1/cabinet/candidate-order', 'route' => 'cabinet/candidate/get-candidate-order'],
+        ['pattern' => 'v1/cabinet/update-direction/<id>', 'route' => 'cabinet/candidate/update-direction'],
     ]
 ];

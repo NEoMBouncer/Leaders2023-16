@@ -85,7 +85,26 @@ GET запрос
     "phone": null,
     "age": null,
     "city": null,
-    "is_russian_citizenship": 0,
+    "country_id": {
+      "value": null,
+      "list": [
+        {
+          "id": 1,
+          "name": "Andorra"
+        },
+        {
+          "id": 2,
+          "name": "United Arab Emirates"
+        },
+        {
+          "id": 3,
+          "name": "Afghanistan"
+        },
+        ...
+      ]
+    },
+    "education": [],
+    "experience": [],
     "scores": 0
   }
 }

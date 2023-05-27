@@ -11,13 +11,16 @@ use yii\db\ActiveRecord;
  * CandidateOrder model
  *
  * @property integer $id
- *
- * @property User $user
  * @property int $candidate_id
+ * @property int $course_id
+ * @property int $direction_id
  * @property int $status
  * @property int $approved_by
  * @property string $created_at
  * @property string $updated_at
+ *
+ * @property Candidate $candidate
+ * @property InternshipDirection $direction
  */
 class CandidateOrder extends ActiveRecord
 {
@@ -64,7 +67,7 @@ class CandidateOrder extends ActiveRecord
     public function rules()
     {
         return [
-            [['candidate_id', 'approved_by', 'status'], 'integer'],
+            [['candidate_id', 'course_id', 'approved_by', 'status'], 'integer'],
             [['created_at', 'updated_at'], 'safe']
         ];
     }
@@ -76,6 +79,7 @@ class CandidateOrder extends ActiveRecord
     {
         return [
             'candidate_id' => Yii::t('common', 'Candidate ID'),
+            'direction_id' => Yii::t('common', 'Direction ID'),
             'approved_by' => Yii::t('common', 'Approved by'),
             'status' => Yii::t('common', 'Status'),
             'created_at' => Yii::t('common', 'Created At'),
@@ -86,8 +90,16 @@ class CandidateOrder extends ActiveRecord
     /**
      * @return ActiveQuery
      */
-    public function getUser(): ActiveQuery
+    public function getCandidate(): ActiveQuery
     {
-        return $this->hasOne(User::class, ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'candidate_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getDirection(): ActiveQuery
+    {
+        return $this->hasOne(InternshipDirection::class, ['id' => 'direction_id']);
     }
 }

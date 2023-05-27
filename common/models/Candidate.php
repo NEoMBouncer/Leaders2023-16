@@ -11,10 +11,10 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property int $user_id
- * @property int $direction_id
  * @property int $order_status
  * @property int $testing_status
  * @property int $is_recommended
+ * @property int $is_russian_citizenship
  * @property int $is_deleted
  *
  * @property User $user
@@ -73,7 +73,8 @@ class Candidate extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'direction_id', 'is_recommended', 'testing_status', 'order_status', 'is_russian_citizenship', 'is_deleted'], 'integer'],
+            [['user_id'], 'required'],
+            [['user_id', 'is_recommended', 'testing_status', 'order_status', 'is_russian_citizenship', 'is_deleted'], 'integer'],
             ['testing_status', 'default', 'value' => self::TESTING_STATUS_NONE]
         ];
     }
@@ -96,7 +97,6 @@ class Candidate extends ActiveRecord
     {
         return [
             'user_id' => Yii::t('common', 'User ID'),
-            'direction_id' => Yii::t('common', 'Direction ID'),
             'education' => Yii::t('common', 'Education'),
             'experience' => Yii::t('common', 'Experience'),
             'is_recommended' => Yii::t('common', 'Recommended'),

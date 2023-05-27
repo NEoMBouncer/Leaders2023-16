@@ -4,13 +4,10 @@ $config = [
     'homeUrl' => Yii::getAlias('@apiUrl'),
     'controllerNamespace' => 'api\controllers',
     'defaultRoute' => 'site/index',
-    'bootstrap' => ['maintenance', 'candidate'],
+    'bootstrap' => ['maintenance'],
     'modules' => [
         'v1' => api\modules\v1\Module::class,
         'cabinet' => api\modules\cabinet\Module::class,
-        'candidate' => [
-            'class' => common\modules\candidate\Module::class
-        ],
         'user' => [
             'class' => common\modules\user\Module::class,
             'shouldBeActivated' => false,

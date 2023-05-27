@@ -211,6 +211,12 @@ $logEntries[] = [
                             'badgeBgClass' => 'badge-success',
                         ],
                         [
+                            'label' => Yii::t('backend', 'Internship course'),
+                            'icon' => FAS::icon('stream', ['class' => ['nav-icon']]),
+                            'url' => ['/course/index'],
+                            'visible' => Yii::$app->user->can('administrator'),
+                        ],
+                        [
                             'label' => Yii::t('backend', 'Users'),
                             'icon' => FAS::icon('users', ['class' => ['nav-icon']]),
                             'url' => ['/user/index'],

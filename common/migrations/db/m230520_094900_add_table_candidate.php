@@ -25,9 +25,8 @@ class m230520_094900_add_table_candidate extends Migration
         $this->createTable('{{%candidate}}', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer(),
-            'direction_id' => $this->integer()->null(),
             'is_recommended' => $this->smallInteger(1)->defaultValue(0),
-            'order_status' => $this->integer(),
+            'order_status' => $this->integer()->notNull()->defaultValue(0),
             'testing_status' => $this->integer()->defaultValue(0),
             'is_russian_citizenship' => $this->smallInteger(1)->defaultValue(0),
             'is_deleted' => $this->tinyInteger()->notNull()->defaultValue(0)
@@ -44,7 +43,9 @@ class m230520_094900_add_table_candidate extends Migration
         $this->createTable('{{%candidate_order}}', [
             'id' => $this->primaryKey(),
             'candidate_id' => $this->integer(),
-            'status' => $this->integer(),
+            'course_id' => $this->integer(),
+            'direction_id' => $this->integer()->null(),
+            'status' => $this->integer()->notNull()->defaultValue(0),
             'approved_by' => $this->integer()->null(),
             'created_at' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP')

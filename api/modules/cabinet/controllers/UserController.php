@@ -4,6 +4,7 @@ namespace api\modules\cabinet\controllers;
 
 use api\controllers\BaseController;
 use api\modules\cabinet\models\Essay;
+use api\modules\cabinet\models\InternshipDirection;
 use api\modules\cabinet\models\Specialization;
 use api\modules\cabinet\models\UserProfile;
 use common\models\Country;
@@ -71,6 +72,12 @@ class UserController extends BaseController
     {
         $specializations = Specialization::find()->all();
         return ['success' => true, 'data' => $specializations];
+    }
+
+    public function actionDirections(): array
+    {
+        $directions = InternshipDirection::find()->all();
+        return ['success' => true, 'data' => $directions];
     }
 
     public function actionProfile(): array

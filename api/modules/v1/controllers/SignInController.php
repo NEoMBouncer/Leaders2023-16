@@ -64,39 +64,6 @@ class SignInController extends SiteController
     /**
      * @return array
      */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'actions' => [
-                            'signup', 'login', 'logout', 'login-by-pass', 'request-password-reset', 'reset-password', 'oauth', 'activation', 'request-activation'
-                        ],
-                        'allow' => true,
-                        'roles' => ['?']
-                    ],
-                    [
-                        'actions' => [
-                            'signup', 'login-by-pass', 'request-password-reset', 'reset-password', 'oauth', 'activation', 'request-activation'
-                        ],
-                        'allow' => false,
-                        'roles' => ['@']
-                    ],
-                    [
-                        'actions' => ['logout', 'login', 'signup'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ]
-                ]
-            ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
     public function actionLogin(): array
     {
         $model = new LoginForm();
