@@ -151,4 +151,75 @@ export default {
                 })
         })
     },
+    // направления
+    getDirections({commit}) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.get(`/v1/cabinet/directions`)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        resolve(res?.data?.data || [])
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
+    getCandidate({commit}) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.get(`/v1/cabinet/get-candidate`)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        resolve(res.data.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
+    setCreateOrder({commit}, payload) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.post(`/v1/cabinet/create-candidate-order`, payload)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        toast.success('Заявка успешно принята')
+                        resolve(res?.data)
+                    } else {
+                        toast.error('Заявка отклонена')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
+    setAddEducation({commit}, payload) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.post(`/v1/cabinet/add-education`, payload)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        toast.success('Успешно сохранено')
+                        resolve(res?.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
 }

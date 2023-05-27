@@ -335,7 +335,7 @@ export default {
         if(res?.role === 0) {
           this.navigation = this.navigation.concat([
               { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false },
-              { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: true },
+              { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: false },
           ])
           this.teams = this.teams.concat([
               { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false }
@@ -350,7 +350,7 @@ export default {
             { name: 'Заявления стажеров', href: '/cabinet/statements', icon: DocumentDuplicateIcon, current: false },
             { name: 'Табель стажеров', href: '/cabinet/table', icon: DocumentTextIcon, current: false },
             { name: 'Статистика', href: '/cabinet/statistics', icon: ChartPieIcon, current: false },
-            { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: true },
+            { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: false },
           ])
         }
       })
