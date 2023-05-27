@@ -12,7 +12,7 @@ class CandidateOrder extends \common\models\CandidateOrder
                 return self::statuses()[$this->status];
             },
             'direction' => function() {
-                return $this->direction ? $this->direction->title : null;
+                return $this->direction ? $this->direction->id : null;
             }
         ];
     }
