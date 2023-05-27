@@ -107,9 +107,9 @@
           </nav>
 
           <div class="flex items-center gap-x-4 lg:gap-x-6">
-            <button type="button" class="-m-2.5 p-2.5 text-gray-500 hover:text-gray-500">
+            <router-link to="/cabinet/notifications" class="-m-2.5 p-2.5 text-gray-500 hover:text-gray-700">
               <BellIcon class="h-6 w-6" aria-hidden="true" />
-            </button>
+            </router-link>
 
             <!-- Separator -->
             <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true" />
@@ -246,7 +246,9 @@ import {
   Cog6ToothIcon,
   DocumentDuplicateIcon,
   ChevronDownIcon,
-  BriefcaseIcon
+  BriefcaseIcon,
+  DocumentTextIcon,
+  BuildingOfficeIcon
 } from '@heroicons/vue/24/outline'
 import {mapActions, mapGetters, mapState} from "vuex";
 
@@ -283,16 +285,10 @@ export default {
       mobileLandingMenuOpen: false,
       navigation: [
         { name: 'Кабинет', href: '/cabinet', icon: HomeIcon, current: true },
-        // { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false },
-        // { name: 'Вакансии', href: '#', icon: BriefcaseIcon, current: false },
-        // { name: 'Обратная связь', href: '#', icon: CalendarIcon, current: false },
-        // { name: 'Расписание', href: '#', icon: DocumentDuplicateIcon, current: false },
-        // { name: 'Уведомления', href: '#', icon: ChartPieIcon, current: false },
       ],
       teams: [
         { id: 1, name: 'Профиль', href: '/cabinet/profile', initial: 'П', current: false },
         { id: 2, name: 'Анкета', href: '/cabinet/questionnaire', initial: 'А', current: false },
-        // { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false },
       ],
       navigationLanding: [
         { name: 'Главная', href: 'home', icon: HomeIcon, current: false },
@@ -335,7 +331,8 @@ export default {
         // ROLE_CANDIDATE
         if(res?.role === 0) {
           this.navigation = this.navigation.concat([
-              { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false }
+              { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false },
+              { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: true },
           ])
           this.teams = this.teams.concat([
               { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false }
@@ -343,12 +340,15 @@ export default {
         }
         // ROLE_SUPERVISOR
         if(res?.role === 2) {
-          // this.navigation = this.navigation.concat([
-          //   { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false }
-          // ])
-          // this.teams = this.teams.concat([
-          //   { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false }
-          // ])
+          this.navigation = this.navigation.concat([
+            { name: 'Заявки на стажировку', href: '/cabinet/applications', icon: UsersIcon, current: false },
+            { name: 'Стажировки', href: '/cabinet/internships', icon: BuildingOfficeIcon, current: false },
+            { name: 'Школа наставников', href: '/cabinet/school-of-mentors', icon: BriefcaseIcon, current: false },
+            { name: 'Заявления стажеров', href: '/cabinet/statements', icon: DocumentDuplicateIcon, current: false },
+            { name: 'Табель стажеров', href: '/cabinet/table', icon: DocumentTextIcon, current: false },
+            { name: 'Статистика', href: '/cabinet/statistics', icon: ChartPieIcon, current: false },
+            { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: true },
+          ])
         }
       })
     }
