@@ -17,12 +17,6 @@ class UserProfile extends \common\models\UserProfile
             'phone',
             'age',
             'city',
-            'essay' => function(){
-                $essay = Essay::find()->where(['user_id' => $this->user_id])->one();
-                if ($essay)
-                    return true;
-                else return false;
-            },
             'questionnaire' => function(){
                 $checkPhone = $this->phone != null;
                 $education = Education::find()->where(['user_id' => $this->user_id])->one();

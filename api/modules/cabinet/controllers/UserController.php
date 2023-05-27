@@ -41,6 +41,18 @@ class UserController extends BaseController
     public function actionGetInfo(): array
     {
         $user = Yii::$app->user->identity;
+        $essay = Essay::find()->where(['user_id' => $user->id])->one();
+        if ($essay)
+            $checkEssay = true;
+        else $checkEssay = false;
+
+        $checkPhone = $user->userProfile->phone != null;
+        $education = Education::find()->where(['user_id' => $user->id])->one();
+        $experience = Experience::find()->where(['user_id' => $user->id])->one();
+        if ($checkPhone && $education && $experience)
+            $checkQuestionnaire = true;
+        else $checkQuestionnaire = false;
+
         if ($user)
             return ['success' => true, 'data' => [
                 'email' => $user->email,
@@ -48,7 +60,8 @@ class UserController extends BaseController
                 'scores' => $user->userProfile->scores,
                 'firstname' => $user->userProfile->firstname,
                 'lastname' => $user->userProfile->lastname,
-//                'avatar' => $user->userProfile->avatar
+                'essay' => $checkEssay,
+                'questionnaire' => $checkQuestionnaire
             ]];
         else {
             Yii::$app->response->setStatusCode(421);
