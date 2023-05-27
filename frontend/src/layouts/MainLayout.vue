@@ -283,7 +283,7 @@ export default {
       mobileLandingMenuOpen: false,
       navigation: [
         { name: 'Кабинет', href: '/cabinet', icon: HomeIcon, current: true },
-        { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false },
+        // { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false },
         // { name: 'Вакансии', href: '#', icon: BriefcaseIcon, current: false },
         // { name: 'Обратная связь', href: '#', icon: CalendarIcon, current: false },
         // { name: 'Расписание', href: '#', icon: DocumentDuplicateIcon, current: false },
@@ -292,7 +292,7 @@ export default {
       teams: [
         { id: 1, name: 'Профиль', href: '/cabinet/profile', initial: 'П', current: false },
         { id: 2, name: 'Анкета', href: '/cabinet/questionnaire', initial: 'А', current: false },
-        { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false },
+        // { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false },
       ],
       navigationLanding: [
         { name: 'Главная', href: 'home', icon: HomeIcon, current: false },
@@ -331,7 +331,26 @@ export default {
   },
   async mounted() {
     if(this.isAuthenticated) {
-      await this.getInfo()
+      await this.getInfo().then((res) => {
+        // ROLE_CANDIDATE
+        if(res?.role === 0) {
+          this.navigation = this.navigation.concat([
+              { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false }
+          ])
+          this.teams = this.teams.concat([
+              { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false }
+          ])
+        }
+        // ROLE_SUPERVISOR
+        if(res?.role === 2) {
+          // this.navigation = this.navigation.concat([
+          //   { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false }
+          // ])
+          // this.teams = this.teams.concat([
+          //   { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false }
+          // ])
+        }
+      })
     }
   }
 };

@@ -12,7 +12,7 @@ export default {
                         if(res?.data?.data) {
                             commit('setInfo', res.data.data);
                         }
-                        resolve()
+                        resolve(res.data.data)
                     } else {
                         toast.error(res?.data?.error || 'Ошибка получения данных! Повторите позже')
                     }
