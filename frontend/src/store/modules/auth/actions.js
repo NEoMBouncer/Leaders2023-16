@@ -61,8 +61,16 @@ export default {
                 })
         })
     },
-    signOut({commit}) {
+    signOut(context) {
         localStorage.removeItem(STORAGE_KEYS.ACCESS);
-        commit('logout');
+        context.commit('logout');
+        const payload = {
+            email: '',
+            role: '',
+            scores: '',
+            firstname: '',
+            lastname: '',
+        }
+        context.commit('cabinet/setInfo', payload, { root: true })
     },
 }

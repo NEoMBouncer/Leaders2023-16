@@ -639,8 +639,8 @@ export default {
       const experiences = this.experiences?.map((item) => ({
         ...item,
         experiences: item?.experiences?.value || 0,
-        startDate: new Date(item?.startDate)?.getTime() || '',
-        endDate: new Date(item?.endDate)?.getTime() || '',
+        startDate: new Date(item?.startDate)?.getTime().toString() || '',
+        endDate: new Date(item?.endDate)?.getTime().toString() || '',
         keySkills: item?.keySkills?.map((e) => e.value)
       })) || []
       const payload = {
@@ -649,7 +649,7 @@ export default {
         lastname: this.formPerson?.lastname || '',
         middlename: this.formPerson?.middlename || '',
         gender: this.formPerson?.gender?.value || '',
-        age: new Date(this.formPerson?.age)?.getTime() || '',
+        age: new Date(this.formPerson?.age)?.getTime().toString() || '',
         is_russian_citizenship: this.formPerson?.is_russian_citizenship?.value || '',
         // formContacts
         city: this.formContacts?.address?.city || '',

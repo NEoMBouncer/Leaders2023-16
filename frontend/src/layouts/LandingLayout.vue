@@ -11,9 +11,9 @@
           <div v-for="(item, itemIdx) in navigation" :key="itemIdx" @click="openBlock(item.href)" class="cursor-pointer">{{ item.name }}</div>
         </nav>
         <div v-if="isAuthenticated" class="flex flex-1 items-center justify-end gap-x-8">
-          <button type="button" class="-m-2.5 p-2.5 text-gray-500 hover:text-gray-500">
+          <router-link to="/cabinet/notifications" class="-m-2.5 p-2.5 text-gray-500 hover:text-gray-700">
             <BellIcon class="h-6 w-6" aria-hidden="true" />
-          </button>
+          </router-link>
           <!-- Profile dropdown -->
           <Menu as="div" class="relative">
             <MenuButton class="-m-1.5 flex items-center p-1.5">

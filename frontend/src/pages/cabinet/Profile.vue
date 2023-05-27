@@ -279,7 +279,7 @@ export default {
         lastname: this.formPerson.lastname,
         gender: this.formPerson.gender.value,
         country_id: this.formPerson.is_russian_citizenship.value,
-        age: new Date(this.formPerson.age).getTime(),
+        age: new Date(this.formPerson.age).getTime().toString(),
       }
       await this.setUpdateProfile(payload)
     },
@@ -385,7 +385,7 @@ export default {
             firstname: e?.firstname || '',
             lastname: e?.lastname || '',
             middlename: e?.middlename || '',
-            age: e?.age ? new Date(e?.age) : null,
+            age: e?.age ? new Date(Number(e?.age || 0)) : null,
             gender: this.genderOptions?.find(item => item.value === e.gender) || null,
             is_russian_citizenship: this.russianCitizenshipOptions?.find(item => item.value === e.country_id.value) || null,
           }

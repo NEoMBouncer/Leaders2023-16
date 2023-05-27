@@ -7,11 +7,11 @@ export const STORAGE_KEYS = {
 };
 
 export const USER_ROLES = {
-  ROLE_CANDIDATE: 0,
-  ROLE_INTERN: 1,
-  ROLE_SUPERVISOR: 2,
-  ROLE_MENTOR: 3,
-  ROLE_ORGANIZATION_MEMBER: 4
+  ROLE_CANDIDATE: 0, //кандидат
+  ROLE_INTERN: 1, //стажер
+  ROLE_SUPERVISOR: 2, //куратор
+  ROLE_MENTOR: 3, //наставник
+  ROLE_ORGANIZATION_MEMBER: 4 //кадровый специалист
 }
 
 export const CANDIDATE_STATUSES = {

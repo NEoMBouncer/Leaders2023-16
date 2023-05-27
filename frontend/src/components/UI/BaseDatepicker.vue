@@ -11,6 +11,7 @@
             locale="ru"
             :auto-apply="autoApply"
             :enable-time-picker="enableTimePicker"
+            format="dd.MM.yyyy"
         ></VueDatePicker>
       </div>
     </div>
