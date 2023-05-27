@@ -78,34 +78,62 @@ GET запрос
 {
   "success": true,
   "data": {
-    "firstname": "Никита",
+    "firstname": "niCk",
     "middlename": null,
     "lastname": "Ярков",
     "gender": null,
     "phone": null,
-    "age": null,
+    "age": "863786700000",
     "city": null,
+    "essay": false,
+    "questionnaire": false,
     "country_id": {
-      "value": null,
+      "value": 192,
       "list": [
         {
           "id": 1,
-          "name": "Andorra"
+          "name": "Андорра"
         },
         {
           "id": 2,
-          "name": "United Arab Emirates"
+          "name": "Объединенные Арабские Эмираты"
         },
         {
           "id": 3,
-          "name": "Afghanistan"
+          "name": "Афганистан"
         },
         ...
       ]
     },
-    "education": [],
-    "experience": [],
-    "scores": 0
+    "education": [
+      {
+        "level": 1,
+        "name": "ВятГУ",
+        "address": "г. Киров, ул. Володарского 154",
+        "city": "Киров",
+        "speciality": "Программист",
+        "date_start": 2020,
+        "date_end": 2024
+      }
+    ],
+    "experience": [
+      {
+        "income": 100000,
+        "name": "Россельхоз",
+        "post": "Курьер",
+        "date_start": 2020,
+        "date_end": 2025,
+        "responsibilities": "Доставка еды",
+        "key_skills": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      ...
+    ],
+    "scores": 82
   }
 }
 ```
