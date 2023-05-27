@@ -107,8 +107,11 @@
           </nav>
 
           <div class="flex items-center gap-x-4 lg:gap-x-6">
-            <router-link to="/cabinet/notifications" class="-m-2.5 p-2.5 text-gray-500 hover:text-gray-700">
+            <router-link to="/cabinet/notifications" class="-m-2.5 p-2.5 text-gray-500 hover:text-gray-700 relative">
               <BellIcon class="h-6 w-6" aria-hidden="true" />
+              <span class="absolute top-1 right-1 text-xs flex items-center justify-center w-4 h-4 rounded-2xl text-white font-bold bg-red-600">
+                1
+              </span>
             </router-link>
 
             <!-- Separator -->

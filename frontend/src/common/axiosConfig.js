@@ -15,6 +15,13 @@ instance.interceptors.request.use(async (config) => {
     return Promise.reject(error)
 });
 
+instance.interceptors.request.use(async (config) => {
+    config.headers['Authorization'] = `Bearer ${localStorage.getItem(STORAGE_KEYS.ACCESS)}`;
+    return config;
+}, (error) => {
+    return Promise.reject(error)
+});
+
 instance.interceptors.response.use(async (config) => {
     config.headers = {
             'Origin': '*',
@@ -24,6 +31,10 @@ instance.interceptors.response.use(async (config) => {
     }
     return config;
 }, (error) => {
+    if (error.response.status === 401) {
+        this.store.dispatch('auth/signOut')
+        return Promise.reject(error);
+    }
     return Promise.reject(error)
 });
 
