@@ -20,8 +20,8 @@ return [
         ['pattern' => 'v1/cabinet/update-profile', 'route' => 'cabinet/user/update-profile'],
         ['pattern' => 'v1/cabinet/change-password', 'route' => 'cabinet/user/change-password'],
 
+        ['pattern' => 'v1/cabinet/get-candidate', 'route' => 'cabinet/candidate/get-candidate'],
         ['pattern' => 'v1/cabinet/create-candidate-order', 'route' => 'cabinet/candidate/create-order'],
-        ['pattern' => 'v1/cabinet/candidate-order', 'route' => 'cabinet/candidate/get-candidate-order'],
         ['pattern' => 'v1/cabinet/update-direction/<id>', 'route' => 'cabinet/candidate/update-direction'],
     ]
 ];

@@ -3,8 +3,8 @@
 namespace api\modules\cabinet\controllers;
 
 use api\controllers\BaseController;
+use api\modules\cabinet\models\Candidate;
 use api\modules\cabinet\models\CandidateOrder;
-use common\models\Candidate;
 use common\models\Course;
 use Yii;
 use yii\rest\OptionsAction;
@@ -30,6 +30,20 @@ class CandidateController extends BaseController
                 'resourceOptions' => ['GET', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
             ]
         ];
+    }
+
+    public function actionGetCandidate(): array
+    {
+        try {
+            $user = Yii::$app->user->identity;
+            $candidate = Candidate::find()->where(['user_id' => $user->id])->limit(1)->one();
+            return ['success' => true, 'data' => $candidate];
+        }
+        catch (\Exception $exception)
+        {
+            Yii::$app->response->setStatusCode(500);
+            return ['success' => false, 'error' => 'Произошла ошибка при обработке данных, попробуйте ещё раз'];
+        }
     }
 
     public function actionCreateOrder(): array
@@ -99,10 +113,19 @@ class CandidateController extends BaseController
         try {
             $direction = Yii::$app->request->post('direction');
             $candidateOrder = CandidateOrder::findOne($id);
-            $candidateOrder->direction_id = $direction;
-            if ($candidateOrder->validate() && $candidateOrder->save())
-                return ['success' => true];
-            else return ['success' => false, 'error' => $candidateOrder->getErrors()[0]];
+            $user = Yii::$app->user->identity;
+            if ($user->id === $candidateOrder->candidate->user->id)
+            {
+                $candidateOrder->direction_id = $direction;
+                if ($candidateOrder->validate() && $candidateOrder->save())
+                    return ['success' => true];
+                else return ['success' => false, 'error' => $candidateOrder->getErrors()[0]];
+            }
+            else
+            {
+                Yii::$app->response->setStatusCode(403);
+                return ['success' => false, 'error' => 'В доступе отказано'];
+            }
         }
         catch (\Exception $exception)
         {
