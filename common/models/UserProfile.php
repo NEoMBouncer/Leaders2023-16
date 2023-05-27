@@ -19,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property integer $gender
  * @property string $age
  * @property string $city
+ * @property string $full_address
  * @property string $phone
  * @property integer $country_id
  * @property int $role
@@ -69,7 +70,7 @@ class UserProfile extends ActiveRecord
             ['scores', 'integer', 'min' => 0],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
             [['gender'], 'in', 'range' => [NULL, self::GENDER_FEMALE, self::GENDER_MALE]],
-            [['firstname', 'middlename', 'lastname', 'city', 'phone', 'avatar', 'age'], 'string', 'max' => 255],
+            [['firstname', 'middlename', 'lastname', 'city', 'phone', 'avatar', 'age', 'full_address'], 'string', 'max' => 255],
             ['locale', 'default', 'value' => 'ru-RU'],
             ['locale', 'in', 'range' => array_keys(Yii::$app->params['availableLocales'])],
             ['phone', 'match', 'pattern' => '/^[+][0-9]{5,15}$/', 'skipOnEmpty' => true, 'message' => 'Формат номера телефона должен начинаться с + и содержать от 5 до 15 символов'],

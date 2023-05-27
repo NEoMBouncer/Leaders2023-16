@@ -21,9 +21,15 @@ use yii\db\ActiveRecord;
 class Education extends ActiveRecord
 {
 
-    const LEVEL_AVERAGE = 0;
+    const LEVEL_HIGH = 0;
     const LEVEL_BACHELOR = 1;
     const LEVEL_MAGISTRACY = 2;
+    const LEVEL_DOCTOR = 3;
+    const LEVEL_CANDIDATE = 4;
+    const LEVEL_MVA = 5;
+    const LEVEL_AVERAGE_GENERAL = 6;
+    const LEVEL_AVERAGE_PROFESSIONAL = 7;
+    const LEVEL_OTHER = 8;
     /**
      * @inheritdoc
      */
@@ -46,9 +52,15 @@ class Education extends ActiveRecord
     public static function levels()
     {
         return [
-            self::LEVEL_AVERAGE => 'Среднее',
+            self::LEVEL_HIGH => 'Среднее',
             self::LEVEL_BACHELOR => 'Высшее - бакалавриат',
             self::LEVEL_MAGISTRACY => 'Высшее - магистратура',
+            self::LEVEL_DOCTOR => 'Доктор наук',
+            self::LEVEL_CANDIDATE => 'Кандидат наук',
+            self::LEVEL_MVA => 'Мва',
+            self::LEVEL_AVERAGE_GENERAL => 'Среднее общее',
+            self::LEVEL_AVERAGE_PROFESSIONAL => 'Среднее профессиональное',
+            self::LEVEL_OTHER => 'Прочее',
         ];
     }
 

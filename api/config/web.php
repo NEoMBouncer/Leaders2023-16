@@ -8,6 +8,7 @@ $config = [
     'modules' => [
         'v1' => api\modules\v1\Module::class,
         'cabinet' => api\modules\cabinet\Module::class,
+        'supervisor' => api\modules\supervisor\Module::class,
         'user' => [
             'class' => common\modules\user\Module::class,
             'shouldBeActivated' => false,

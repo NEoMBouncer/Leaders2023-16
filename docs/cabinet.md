@@ -85,6 +85,7 @@ GET запрос
     "phone": null,
     "age": "863786700000",
     "city": null,
+    "full_address": null,
     "country_id": {
       "value": 192,
       "list": [

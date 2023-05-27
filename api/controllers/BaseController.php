@@ -15,7 +15,6 @@ class BaseController extends Controller
 
     public function init()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
         parent::init();
     }
 
@@ -23,6 +22,7 @@ class BaseController extends Controller
      * @remove csrf for contact action
      */
     public function beforeAction($action) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
     }

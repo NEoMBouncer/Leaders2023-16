@@ -26,5 +26,8 @@ return [
         ['pattern' => 'v1/cabinet/get-candidate', 'route' => 'cabinet/candidate/get-candidate'],
         ['pattern' => 'v1/cabinet/create-candidate-order', 'route' => 'cabinet/candidate/create-order'],
         ['pattern' => 'v1/cabinet/update-direction/<id>', 'route' => 'cabinet/candidate/update-direction'],
+
+        // Supervisor
+        ['pattern' => 'v1/cabinet/list-candidate', 'route' => 'supervisor/user/list-candidate'],
     ]
 ];
