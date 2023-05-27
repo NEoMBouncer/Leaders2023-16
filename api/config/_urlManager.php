@@ -21,6 +21,7 @@ return [
         ['pattern' => 'v1/cabinet/change-password', 'route' => 'cabinet/user/change-password'],
         ['pattern' => 'v1/cabinet/add-education', 'route' => 'cabinet/user/add-education'],
         ['pattern' => 'v1/cabinet/add-experience', 'route' => 'cabinet/user/add-experience'],
+        ['pattern' => 'v1/cabinet/next-stage', 'route' => 'cabinet/user/next-stage'],
 
         ['pattern' => 'v1/cabinet/get-candidate', 'route' => 'cabinet/candidate/get-candidate'],
         ['pattern' => 'v1/cabinet/create-candidate-order', 'route' => 'cabinet/candidate/create-order'],

@@ -23,7 +23,7 @@ class UserProfile extends \common\models\UserProfile
                 foreach ($countriesArray as $id => $name)
                     $list[] = [
                         'id' => $id,
-                        'name' => $name
+                        'name' => \Yii::t('countries', $name, null, 'ru-RU')
                     ];
                 return ['value' => $this->country_id, 'list' => $list];
             },

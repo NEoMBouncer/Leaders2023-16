@@ -7,6 +7,7 @@ use api\modules\cabinet\models\Essay;
 use api\modules\cabinet\models\InternshipDirection;
 use api\modules\cabinet\models\Specialization;
 use api\modules\cabinet\models\UserProfile;
+use common\models\Candidate;
 use common\models\Country;
 use common\models\Education;
 use common\models\Experience;
@@ -282,5 +283,22 @@ class UserController extends BaseController
             Yii::$app->response->setStatusCode(422);
             return ['success' => false, 'error' => $experience->getErrors()];
         }
+    }
+
+    public function actionNextStage(): array // TODO Тестовый кейс
+    {
+        $candidate = Candidate::find()->where(['user_id' => Yii::$app->user->identity->id])->one();
+        if ($candidate)
+        {
+            $candidate->order_status += 1;
+            $candidate->save();
+
+            $profile = Yii::$app->user->identity->userProfile;
+            $profile->scores += rand(1, 100);
+            $profile->save();
+
+            return ['success' => true];
+        }
+        return ['success' => false, 'error' => 'Что-то не получилось'];
     }
 }
