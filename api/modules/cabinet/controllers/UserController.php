@@ -251,7 +251,7 @@ class UserController extends BaseController
                             return ['success' => false, 'У вас нет доступа к этому эссе'];
                         }
                     }
-                     else return ['success' => false, 'error' => 'Нет эссе с таким идентификатором'];
+                    else return ['success' => false, 'error' => 'Нет эссе с таким идентификатором'];
                 }
                 else return ['success' => true, 'data' => $essays];
             }
@@ -300,32 +300,60 @@ class UserController extends BaseController
 
     public function actionAddEducation(): array
     {
-        $user = Yii::$app->user->identity;
-        $education = new Education();
-        $education->user_id = $user->id;
-        $education->load(Yii::$app->request->post(), '');
-        if ($education->validate() && $education->save())
-            return ['success' => true];
-        else
+        try {
+            $user = Yii::$app->user->identity;
+            $education = new Education();
+            $education->user_id = $user->id;
+            $education->load(Yii::$app->request->post(), '');
+            if ($education->validate() && $education->save())
+                return ['success' => true];
+            else
+            {
+                $response = ['success' => false];
+                Yii::$app->response->setStatusCode(422);
+                $modelErrors = $education->getErrors();
+                foreach ($modelErrors as $fieldError => $errors)
+                {
+                    $response['error'] = $errors[0];
+                    break;
+                }
+                return $response;
+            }
+        }
+        catch (\Exception $exception)
         {
-            Yii::$app->response->setStatusCode(422);
-            return ['success' => false, 'error' => $education->getErrors()[0]];
+            Yii::$app->response->setStatusCode(500);
+            return ['success' => false, 'error' => 'Возникла внутрення ошибка сервера'];
         }
     }
 
     public function actionAddExperience(): array
     {
-        $user = Yii::$app->user->identity;
-        $experience = new Experience();
-        $experience->user_id = $user->id;
-        $experience->key_skills = [];
-        $experience->load(Yii::$app->request->post(), '');
-        if ($experience->validate() && $experience->save())
-            return ['success' => true];
-        else
+        try {
+            $user = Yii::$app->user->identity;
+            $experience = new Experience();
+            $experience->user_id = $user->id;
+            $experience->key_skills = [];
+            $experience->load(Yii::$app->request->post(), '');
+            if ($experience->validate() && $experience->save())
+                return ['success' => true];
+            else
+            {
+                $response = ['success' => false];
+                Yii::$app->response->setStatusCode(422);
+                $modelErrors = $experience->getErrors();
+                foreach ($modelErrors as $fieldError => $errors)
+                {
+                    $response['error'] = $errors[0];
+                    break;
+                }
+                return $response;
+            }
+        }
+        catch (\Exception $exception)
         {
-            Yii::$app->response->setStatusCode(422);
-            return ['success' => false, 'error' => $experience->getErrors()];
+            Yii::$app->response->setStatusCode(500);
+            return ['success' => false, 'error' => 'Возникла внутрення ошибка сервера'];
         }
     }
 
