@@ -628,7 +628,29 @@ export default {
     async sendCase() {
       await this.setNextStage().then((item) => {
         if(item?.success) {
-          this.$router.replace('/cabinet')
+          this.getInfo().then(() => {
+            this.activeStep = 5
+            this.flow = true
+            this.steps = this.steps.map((item) => {
+              if(item.id === this.activeStep) {
+                return {
+                  ...item,
+                  status: 'current'
+                }
+              } else if (item.id < this.activeStep) {
+                return {
+                  ...item,
+                  status: 'complete'
+                }
+              } else {
+                return {
+                  ...item,
+                  status: 'upcoming'
+                }
+              }
+            })
+            this.$router.push('/cabinet')
+          })
         } else {
           this.failed = true
         }
