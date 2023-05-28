@@ -297,6 +297,26 @@ export default {
                 })
         })
     },
+    setUpdateVacancy({commit}, payload) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.post(`/v1/cabinet/update-vacancy/${payload.id}`, payload.date)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        toast.success('Успешно сохранено')
+                        resolve(res?.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
+
+    // вакансии открытые
     getCabinetVacancy({commit}, id) {
         return new Promise((resolve, reject) => {
             axiosConfig.get(`/v1/cabinet/get-vacancy/${id}`)
@@ -314,20 +334,19 @@ export default {
                 })
         })
     },
-    setUpdateVacancy({commit}, payload) {
+    getListVacancy({commit}) {
         return new Promise((resolve, reject) => {
-            axiosConfig.post(`/v1/cabinet/update-vacancy/${payload.id}`, payload.date)
+            axiosConfig.get(`/v1/cabinet/list-vacancy`)
                 .then((res) => {
                     if(res?.data?.success) {
-                        toast.success('Успешно сохранено')
-                        resolve(res?.data)
+                        resolve(res.data.data)
                     } else {
-                        toast.error(res?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                        toast.error(res?.data?.error || 'Ошибка получения данных! Повторите позже')
                     }
                 })
                 .catch((err) => {
                     console.error(err)
-                    toast.error(err?.response?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    toast.error(err?.response?.data?.error || 'Ошибка получения данных! Повторите позже')
                     reject()
                 })
         })
