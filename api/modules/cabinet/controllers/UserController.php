@@ -108,6 +108,7 @@ class UserController extends BaseController
         $user = Yii::$app->user->identity;
         $profile = UserProfile::findOne(['user_id' => $user->id]);
         $params = Yii::$app->request->post();
+        $params['age'] = date('Y-m-d H:i:s', $params['age']);
         $experiences = null;
         $educations = null;
         if (Yii::$app->request->post('educations'))
