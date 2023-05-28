@@ -7,6 +7,7 @@ use api\modules\cabinet\models\Candidate;
 use api\modules\cabinet\models\CandidateOrder;
 use common\models\Course;
 use common\models\StageCourse;
+use common\models\UserProfile;
 use Yii;
 use yii\rest\OptionsAction;
 use yii\web\Response;
@@ -81,7 +82,10 @@ class CandidateController extends BaseController
                 $candidateOrder->candidate_id = $candidate->id;
                 $candidateOrder->course_id = $course->id;
                 if ($candidateOrder->validate() && $candidateOrder->save())
+                {
+                    UserProfile::checkCandidateRecommended($user->id);
                     return ['success' => true];
+                }
                 else
                 {
                     Yii::$app->response->setStatusCode(422);

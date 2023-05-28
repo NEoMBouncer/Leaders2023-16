@@ -151,7 +151,7 @@ class UserProfile extends ActiveRecord
         return $default;
     }
 
-    protected static function checkCandidateRecommended($user_id)
+    public static function checkCandidateRecommended($user_id)
     {
         $user = User::findOne($user_id);
 
