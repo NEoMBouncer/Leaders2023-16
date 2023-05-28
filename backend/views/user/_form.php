@@ -19,6 +19,7 @@ use yii\bootstrap4\ActiveForm;
                 <?php echo $form->field($model, 'email') ?>
                 <?php echo $form->field($model, 'password')->passwordInput() ?>
                 <?php echo $form->field($model, 'status')->dropDownList(User::statuses()) ?>
+                <?php echo $form->field($model, 'role')->dropDownList(\common\models\UserProfile::roles()) ?>
                 <?php echo $form->field($model, 'roles')->checkboxList($roles) ?>
             </div>
             <div class="card-footer">

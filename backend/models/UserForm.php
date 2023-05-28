@@ -18,6 +18,7 @@ class UserForm extends Model
     public $password;
     public $status;
     public $roles;
+    public $role;
 
     private $model;
 
@@ -27,6 +28,7 @@ class UserForm extends Model
     public function rules()
     {
         return [
+            ['role', 'integer'],
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => User::class, 'filter' => function ($query) {
@@ -79,6 +81,7 @@ class UserForm extends Model
         $this->email = $model->email;
         $this->status = $model->status;
         $this->model = $model;
+        $this->role = $model->userProfile->role;
         $this->roles = ArrayHelper::getColumn(
             Yii::$app->authManager->getRolesByUser($model->getId()),
             'name'
@@ -96,7 +99,8 @@ class UserForm extends Model
             'email' => Yii::t('common', 'Email'),
             'status' => Yii::t('common', 'Status'),
             'password' => Yii::t('common', 'Password'),
-            'roles' => Yii::t('common', 'Roles')
+            'roles' => Yii::t('common', 'Roles'),
+            'role' => Yii::t('common', 'Role'),
         ];
     }
 
@@ -113,6 +117,11 @@ class UserForm extends Model
             $model->username = $this->username;
             $model->email = $this->email;
             $model->status = $this->status;
+
+            $profile = $model->userProfile;
+            $profile->role = $this->role;
+            $profile->save();
+
             if ($this->password) {
                 $model->setPassword($this->password);
             }
