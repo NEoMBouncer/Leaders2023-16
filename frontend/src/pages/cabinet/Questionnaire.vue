@@ -670,13 +670,14 @@ export default {
         date_start: new Date(item?.date_start)?.getTime().toString() || '',
         date_end: new Date(item?.date_end)?.getTime().toString() || '',
       })) || []
+      const date = (new Date(this.formPerson.age).getTime())/1000
       const payload = {
         firstname: this.formPerson?.firstname || '',
         middlename: this.formPerson?.middlename || '',
         lastname: this.formPerson.lastname,
         gender: this.formPerson.gender.value,
         country_id: this.formPerson.is_russian_citizenship.value,
-        age: new Date(this.formPerson.age).getTime().toString(),
+        age: date.toString(),
         city: this.formContacts.address.city,
         full_address: this.formContacts.address.label,
         phone: this.formContacts.phone.replace(/\s/g, '').replace(/[()-]/g, ''),
@@ -717,7 +718,7 @@ export default {
             firstname: e?.firstname || '',
             lastname: e?.lastname || '',
             middlename: e?.middlename || '',
-            age: e?.age ? new Date(Number(e?.age || 0)) : null,
+            age: e?.age ? new Date(Number((e?.age || 0) * 1000)) : null,
             gender: this.genderOptions?.find(item => item.value === e.gender) || null,
             is_russian_citizenship: this.russianCitizenshipOptions?.find(item => item.value === e.country_id.value) || null,
           }

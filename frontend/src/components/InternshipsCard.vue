@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div v-if="!isOrganization" class="border-t border-gray-200 px-4 py-6 sm:px-6">
+    <div v-if="!isOrganization && !isSupervisor" class="border-t border-gray-200 px-4 py-6 sm:px-6">
       <template v-if="!isActive">
         <base-button
             type="primary"
@@ -83,15 +83,39 @@
         </div>
       </template>
     </div>
-    <div v-if="isOrganization" class="border-t border-gray-200 px-4 py-6 sm:px-6">
-      <div class="flex justify-between">
-         <span v-if="value.status === 2" class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700">
+    <div v-if="isSupervisor" class="border-t border-gray-200 px-4 py-6 sm:px-6">
+      <template v-if="value.status === 0">
+        <span @click="appVacancy" class="cursor-pointer w-fit inline-flex items-center gap-x-1.5 rounded-md bg-green-100 px-2 py-1 font-medium text-green-700 hover:text-green-900">
+            Опубликовать
+        </span>
+        <span @click="cancelVacancy" class="ml-3 cursor-pointer w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700 hover:text-red-900">
+            Отклонить
+         </span>
+      </template>
+      <template v-else>
+        <span v-if="value.status === 2" class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 text-sm px-2 py-1 font-medium text-red-700">
             <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
               <circle cx="3" cy="3" r="3" />
             </svg>
             Отклонена
          </span>
-        <span v-if="value.status === 1" class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-green-100 px-2 py-1 font-medium text-green-700">
+        <span v-if="value.status === 1" class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-green-100 text-sm px-2 py-1 font-medium text-green-700">
+            <svg class="h-2 w-2 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
+              <circle cx="3" cy="3" r="3" />
+            </svg>
+            Опубликована
+         </span>
+      </template>
+    </div>
+    <div v-if="isOrganization" class="border-t border-gray-200 px-4 py-6 sm:px-6">
+      <div class="flex justify-between">
+         <span v-if="value.status === 2" class="w-fit inline-flex items-center gap-x-1.5 rounded-md text-sm bg-red-100 px-2 py-1 font-medium text-red-700">
+            <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
+              <circle cx="3" cy="3" r="3" />
+            </svg>
+            Отклонена
+         </span>
+        <span v-if="value.status === 1" class="w-fit inline-flex items-center gap-x-1.5 rounded-md text-sm bg-green-100 px-2 py-1 font-medium text-green-700">
             <svg class="h-2 w-2 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
               <circle cx="3" cy="3" r="3" />
             </svg>
@@ -121,6 +145,7 @@
 <script>
 import {StarIcon, PencilIcon, TrashIcon} from "@heroicons/vue/20/solid";
 import BaseButton from "@/components/UI/BaseButton.vue";
+import {mapActions} from "vuex";
 
 export default {
   name: "InternshipsCard",
@@ -130,6 +155,10 @@ export default {
       default: null,
     },
     isOrganization: {
+      type:    Boolean,
+      default: false,
+    },
+    isSupervisor: {
       type:    Boolean,
       default: false,
     },
@@ -152,11 +181,22 @@ export default {
     }
   },
   methods: {
+    ...mapActions('cabinet', ['setAddVacancy', 'setCancelVacancy']),
     edit(id) {
       this.$router.push(`/cabinet/applications-organization/${id}`)
     },
     clickActive() {
       this.isActive = !this.isActive
+    },
+    async appVacancy() {
+      await this.setAddVacancy(this.value.id).then((res) => {
+        this.$router.push(`/cabinet/internships-supervisor`)
+      })
+    },
+    async cancelVacancy() {
+      await this.setCancelVacancy(this.value.id).then((res) => {
+        this.$router.push(`/cabinet/internships-supervisor`)
+      })
     }
   },
 }

@@ -353,7 +353,7 @@ export default {
         if(res?.role === 2) {
           this.navigation = this.navigation.concat([
             { name: 'Заявки на стажировку', href: '/cabinet/applications', icon: UsersIcon, current: false },
-            { name: 'Стажировки', href: '/cabinet/internships', icon: BuildingOfficeIcon, current: false },
+            { name: 'Стажировки', href: '/cabinet/internships-supervisor', icon: BuildingOfficeIcon, current: false },
             { name: 'Школа наставников', href: '/cabinet/school-of-mentors', icon: BriefcaseIcon, current: false },
             { name: 'Заявления стажеров', href: '/cabinet/statements', icon: DocumentDuplicateIcon, current: false },
             { name: 'Табель стажеров', href: '/cabinet/table', icon: DocumentTextIcon, current: false },
