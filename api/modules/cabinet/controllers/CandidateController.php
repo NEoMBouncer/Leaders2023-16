@@ -83,8 +83,13 @@ class CandidateController extends BaseController
                 $candidateOrder->course_id = $course->id;
                 if ($candidateOrder->validate() && $candidateOrder->save())
                 {
-                    UserProfile::checkCandidateRecommended($user->id);
-                    return ['success' => true];
+                    if (UserProfile::checkCandidateRecommended($user->id))
+                        return ['success' => true];
+                    else {
+                        $candidateOrder->status = CandidateOrder::STATUS_CANCEL;
+                        $candidateOrder->save();
+                        return ['success' => false, 'error' => 'Ваша заявка не прошла по критериям отбора'];
+                    }
                 }
                 else
                 {

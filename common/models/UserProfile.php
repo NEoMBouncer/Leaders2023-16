@@ -196,9 +196,14 @@ class UserProfile extends ActiveRecord
             }
             $recommended = $checkAge && $checkCitizenship && $checkExperience && $checkEducation;
             if ($recommended === true)
+            {
                 $candidate->is_recommended = 1;
+                $candidate->save();
+                return true;
+            }
             else $candidate->is_recommended = 0;
             $candidate->save();
+            return false;
         }
     }
 }
