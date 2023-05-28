@@ -258,7 +258,7 @@
           </div>
           <!--        Отправить заявку-->
           <base-button
-              v-if="!failed || flow"
+              v-if="!failed && flow"
               type="primary"
               class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-6"
               @click="sendSchool"
