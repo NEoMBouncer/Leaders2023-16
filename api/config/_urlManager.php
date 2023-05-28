@@ -29,5 +29,11 @@ return [
 
         // Supervisor
         ['pattern' => 'v1/cabinet/list-candidate', 'route' => 'supervisor/user/list-candidate'],
+
+        // Organization member
+        ['pattern' => 'v1/cabinet/get-vacancy/<id>', 'route' => 'member/user/get-vacancy'],
+        ['pattern' => 'v1/cabinet/create-vacancy', 'route' => 'member/user/create-vacancy'],
+        ['pattern' => 'v1/cabinet/update-vacancy/<id>', 'route' => 'member/user/update-vacancy'],
+        ['pattern' => 'v1/cabinet/organization/list-vacancy', 'route' => 'member/user/list-vacancy-organization'],
     ]
 ];

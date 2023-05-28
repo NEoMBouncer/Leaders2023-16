@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -12,15 +13,31 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $organization_id
  * @property string $title
+ * @property string $address
+ * @property double $geo_lan
+ * @property double $geo_lon
  * @property integer $status
  * @property integer $created_by
- * @property integer $created_at
- * @property integer $updated_at
+ * @property string $created_at
+ * @property string $updated_at
+ * @property int $direction_id
+ * @property int $intern_id
+ * @property int $mentor_id
+ * @property int $income
+ * @property string $description
+ * @property string $schedule
+ * @property int $is_publish
+ * @property int $is_deleted
  *
  * @property Organization $organization
  */
 class Vacancy extends ActiveRecord
 {
+    const STATUS_PENDING = 0;
+    const STATUS_SUCCESS = 1;
+    const STATUS_CANCEL = 2;
+    const STATUS_CLOSED = 3;
+
     /**
      * @inheritdoc
      */
@@ -29,14 +46,33 @@ class Vacancy extends ActiveRecord
         return '{{%vacancy}}';
     }
 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                'value' => date('Y-m-d H:i:s'),
+            ]
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['organization_id', 'status', 'created_by', 'created_at', 'updated_at'], 'integer'],
-            ['title', 'string', 'max' => 255]
+            [['organization_id', 'status'], 'required'],
+            [['organization_id', 'status', 'created_by', 'direction_id',
+                'mentor_id', 'intern_id', 'income', 'is_publish', 'is_deleted'], 'integer'],
+            [['title', 'description', 'address'], 'string', 'max' => 255],
+            [['created_at', 'updated_at'], 'safe'],
+            ['schedule', 'string'],
+            [['geo_lan', 'geo_lon'], 'number']
         ];
     }
 
@@ -48,8 +84,6 @@ class Vacancy extends ActiveRecord
         return [
             'user_id' => Yii::t('common', 'User ID'),
             'organization_id' => Yii::t('common', 'Organization ID'),
-            'organization_member_id' => Yii::t('common', 'Organization member ID'),
-            'rating' => Yii::t('common', 'Rating'),
             'is_deleted' => Yii::t('common', 'Deleted'),
         ];
     }

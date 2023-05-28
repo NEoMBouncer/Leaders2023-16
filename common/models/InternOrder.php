@@ -11,7 +11,6 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $intern_id
- * @property integer $mentor_id
  * @property integer $vacancy_id
  * @property integer $status
  * @property integer $evaluate
@@ -34,7 +33,7 @@ class InternOrder extends ActiveRecord
     public function rules()
     {
         return [
-            [['intern_id', 'mentor_id', 'vacancy_id', 'status', 'evaluate', 'is_deleted'], 'integer'],
+            [['intern_id', 'vacancy_id', 'status', 'evaluate', 'is_deleted'], 'integer'],
         ];
     }
 
@@ -45,7 +44,6 @@ class InternOrder extends ActiveRecord
     {
         return [
             'intern_id' => Yii::t('common', 'Intern ID'),
-            'mentor_id' => Yii::t('common', 'Mentor ID'),
             'vacancy_id' => Yii::t('common', 'Vacancy ID'),
             'status' => Yii::t('common', 'Status'),
             'evaluate' => Yii::t('common', 'Evaluate'),

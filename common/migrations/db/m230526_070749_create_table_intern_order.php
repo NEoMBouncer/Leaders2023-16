@@ -15,7 +15,6 @@ class m230526_070749_create_table_intern_order extends Migration
         $this->createTable('{{%intern_order}}', [
             'id' => $this->primaryKey(),
             'intern_id' => $this->integer()->notNull(),
-            'mentor_id' => $this->integer(),
             'vacancy_id' => $this->integer(),
             'status' => $this->tinyInteger()->notNull()->defaultValue(0),
             'evaluate' => $this->integer()->null(),

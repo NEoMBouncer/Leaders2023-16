@@ -51,7 +51,8 @@ class UserProfile extends ActiveRecord
 
     public function beforeSave($insert)
     {
-        $this->age = date('Y-m-d H:i:s', $this->age / 1000);
+        if ($this->age)
+            $this->age = date('Y-m-d H:i:s', $this->age / 1000);
         return parent::beforeSave($insert);
     }
 

@@ -1,7 +1,7 @@
 Все запросы требуют токен авторизации в Headers
 
 ## Кабинет
-Адрес **v1/cabinet/get-info**
+Адрес **/v1/cabinet/get-info**
 
 GET запрос
 
@@ -137,7 +137,7 @@ GET запрос
 }
 ```
 ## Редактирование профиля
-Адрес **v1/cabinet/update-profile**
+Адрес **/v1/cabinet/update-profile**
 
 POST запрос
 
@@ -163,7 +163,7 @@ POST запрос
 }
 ```
 ## Обновление пароля
-Адрес **v1/cabinet/change-password**
+Адрес **/v1/cabinet/change-password**
 
 POST запрос
 
