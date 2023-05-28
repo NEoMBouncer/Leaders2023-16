@@ -39,17 +39,9 @@ class UserController extends BaseController
     public function actionGetVacancy($id): array
     {
         try {
-            $user = Yii::$app->user->identity;
-            $organizationMember = OrganizationMember::find()->where(['user_id' => $user->id])->one();
             $vacancy = Vacancy::findOne($id);
             if ($vacancy)
-            {
-                if ($organizationMember->organization_id != $vacancy->organization_id) {
-                    Yii::$app->response->setStatusCode(403);
-                    return ['success' => false, 'error' => 'Вам не разрешено выполнять данное действие'];
-                }
                 return ['success' => true, 'data' => $vacancy];
-            }
             else {
                 Yii::$app->response->setStatusCode(400);
                 return ['success' => false, 'error' => 'Неверный идентификатор вакансии'];

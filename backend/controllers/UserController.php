@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\search\UserSearch;
 use backend\models\UserForm;
 use common\models\User;
+use common\models\UserProfile;
 use common\models\UserToken;
 use Yii;
 use yii\filters\VerbFilter;
@@ -86,6 +87,10 @@ class UserController extends Controller
         $model = new UserForm();
         $model->setScenario('create');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $user = User::findByEmail($model->email);
+            $profile = $user->userProfile;
+            $profile->role = $model->role;
+            $profile->save();
             return $this->redirect(['index']);
         }
 
@@ -105,6 +110,11 @@ class UserController extends Controller
         $model = new UserForm();
         $model->setModel($this->findModel($id));
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $user = User::findByEmail($model->email);
+            $profile = $user->userProfile;
+            $profile->role = $model->role;
+            $profile->save();
+
             return $this->redirect(['index']);
         }
 

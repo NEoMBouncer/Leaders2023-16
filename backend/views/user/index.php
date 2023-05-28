@@ -18,9 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="card">
     <div class="card-header">
-        <?php echo Html::a(FAS::icon('user-plus').' '.Yii::t('backend', 'Add New {modelClass}', [
-            'modelClass' => 'User',
-        ]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php echo Html::a(FAS::icon('user-plus') . ' ' . Yii::t('backend', 'Add New {modelClass}', [
+                'modelClass' => 'User',
+            ]), ['create'], ['class' => 'btn btn-success']) ?>
     </div>
 
     <div class="card-body p-0">
@@ -48,36 +48,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'filter' => User::statuses()
                 ],
                 [
-                    'attribute' => 'created_at',
-                    'format' => 'datetime',
-                    'filter' => DatePicker::widget([
-                        'model' => $searchModel,
-                        'attribute' => 'created_at',
-                        'type' => DatePicker::TYPE_COMPONENT_APPEND,
-                        'pluginOptions' => [
-                            'format' => 'dd-mm-yyyy',
-                            'showMeridian' => true,
-                            'todayBtn' => true,
-                            'endDate' => '0d',
-                        ]
-                    ]),
+                    'attribute' => 'role',
+                    'value' => function ($model){
+                        return \common\models\UserProfile::roles()[$model->userProfile->role];
+                    }
                 ],
-                [
-                    'attribute' => 'logged_at',
-                    'format' => 'datetime',
-                    'filter' => DatePicker::widget([
-                        'model' => $searchModel,
-                        'attribute' => 'logged_at',
-                        'type' => DatePicker::TYPE_COMPONENT_APPEND,
-                        'pluginOptions' => [
-                            'format' => 'dd-mm-yyyy',
-                            'showMeridian' => true,
-                            'todayBtn' => true,
-                            'endDate' => '0d',
-                        ]
-                    ]),
-                ],
-                // 'updated_at',
 
                 [
                     'class' => \common\widgets\ActionColumn::class,
