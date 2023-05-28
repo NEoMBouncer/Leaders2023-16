@@ -15,13 +15,6 @@ instance.interceptors.request.use(async (config) => {
     return Promise.reject(error)
 });
 
-instance.interceptors.request.use(async (config) => {
-    config.headers['Authorization'] = `Bearer ${localStorage.getItem(STORAGE_KEYS.ACCESS)}`;
-    return config;
-}, (error) => {
-    return Promise.reject(error)
-});
-
 instance.interceptors.response.use(async (config) => {
     config.headers = {
             'Origin': '*',
