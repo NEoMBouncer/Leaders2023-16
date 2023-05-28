@@ -127,6 +127,7 @@ class UserController extends BaseController
                 return $response;
             }
 
+            // Education
             $countEducations = count($educations);
             $userEducations = Education::find()->where(['user_id' => $user->id])->all();
             $countUserEducations = $userEducations ? count($userEducations): 0;
@@ -150,6 +151,39 @@ class UserController extends BaseController
                     $response = ['success' => false];
                     Yii::$app->response->setStatusCode(422);
                     $modelErrors = $education->getErrors();
+                    foreach ($modelErrors as $fieldError => $errors)
+                    {
+                        $response['error'] = $errors[0];
+                        break;
+                    }
+                    return $response;
+                }
+            }
+
+            // Experience
+            $countExperiences = count($experiences);
+            $userExperiences = Education::find()->where(['user_id' => $user->id])->all();
+            $countUserExperiences = $userExperiences ? count($userExperiences): 0;
+            $i = 0;
+//            if ($countUserExperiences > $countExperiences)
+//            {
+//                $count = $countUserExperiences - $countExperiences;
+//                for ($j = 0; $j < $count; $j++)
+//                    $userExperience[-1]->delete();
+//            }
+            for (; $i < $countExperiences; $i++)
+            {
+                $experience = $i >= $countUserExperiences ? new Education() : $userExperiences[$i];
+                if ($experience->load($experiences[$i], '') && $experience->validate())
+                {
+                    $experience->user_id = $user->id;
+                    $experience->save();
+                }
+                else
+                {
+                    $response = ['success' => false];
+                    Yii::$app->response->setStatusCode(422);
+                    $modelErrors = $experience->getErrors();
                     foreach ($modelErrors as $fieldError => $errors)
                     {
                         $response['error'] = $errors[0];
