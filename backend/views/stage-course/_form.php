@@ -16,8 +16,6 @@ use yii\bootstrap4\ActiveForm;
     <?php $form = ActiveForm::begin() ?>
         <div class="card">
             <div class="card-body">
-                <?php echo $form->field($model, 'course_id')->dropDownList(\common\models\Course::getList()) ?>
-                <?php echo $form->field($model, 'title')->dropDownList(\common\models\StageCourse::stages()) ?>
                 <div class="border border-secondary rounded p-1" style="width:320px">
                     <?php echo $form->field($model, 'date_end')->widget(
                         DateTimePicker::class,
