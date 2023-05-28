@@ -162,7 +162,7 @@ class UserController extends BaseController
 
             // Experience
             $countExperiences = count($experiences);
-            $userExperiences = Education::find()->where(['user_id' => $user->id])->all();
+            $userExperiences = Experience::find()->where(['user_id' => $user->id])->all();
             $countUserExperiences = $userExperiences ? count($userExperiences): 0;
             $i = 0;
 //            if ($countUserExperiences > $countExperiences)
