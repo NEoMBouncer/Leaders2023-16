@@ -52,20 +52,36 @@
     </div>
 
     <div v-if="!isOrganization" class="border-t border-gray-200 px-4 py-6 sm:px-6">
-      <p class="text-sm font-medium text-gray-900">
-        {{ value.status }} on <time :datetime="value.datetime">{{ value.date }}</time>
-      </p>
-      <div class="mt-6" aria-hidden="true">
-        <div class="overflow-hidden rounded-full bg-gray-200">
-          <div class="h-2 rounded-full bg-indigo-600" :style="{ width: `calc((${value.step} * 2 + 1) / 8 * 100%)` }" />
+      <template v-if="!isActive">
+        <base-button
+            type="primary"
+            class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
+            @click="clickActive()"
+        >
+          Откликнуться
+        </base-button>
+      </template>
+      <template v-else>
+        <p class="text-sm font-medium text-gray-900">
+          <base-button
+              type="primary"
+              class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
+          >
+            Отправить задание
+          </base-button>
+        </p>
+        <div class="mt-6" aria-hidden="true">
+          <div class="overflow-hidden rounded-full bg-gray-200">
+            <div class="h-2 rounded-full bg-indigo-600" :style="{ width: `calc((${1} * 2 + 1) / 8 * 100%)` }" />
+          </div>
+          <div class="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
+            <div class="text-indigo-600">Заявка отправлена</div>
+            <div :class="[1 > 0 ? 'text-indigo-600' : '', 'text-center']">Решение задания</div>
+            <div :class="[1 > 1 ? 'text-indigo-600' : '', 'text-center']">Одобрение наставника</div>
+            <div :class="[1 > 2 ? 'text-indigo-600' : '', 'text-right']">Потверждение кадрового специалиста</div>
+          </div>
         </div>
-        <div class="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid">
-          <div class="text-indigo-600">Заявка отправлена</div>
-          <div :class="[value.step > 0 ? 'text-indigo-600' : '', 'text-center']">Решение задания</div>
-          <div :class="[value.step > 1 ? 'text-indigo-600' : '', 'text-center']">Одобрение наставника</div>
-          <div :class="[value.step > 2 ? 'text-indigo-600' : '', 'text-right']">Потверждение кадрового специалиста</div>
-        </div>
-      </div>
+      </template>
     </div>
     <div v-if="isOrganization" class="border-t border-gray-200 px-4 py-6 sm:px-6">
       <div class="flex justify-between">
@@ -104,6 +120,7 @@
 
 <script>
 import {StarIcon, PencilIcon, TrashIcon} from "@heroicons/vue/20/solid";
+import BaseButton from "@/components/UI/BaseButton.vue";
 
 export default {
   name: "InternshipsCard",
@@ -117,7 +134,13 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      isActive: false
+    }
+  },
   components: {
+    BaseButton,
     StarIcon, PencilIcon, TrashIcon
   },
   computed: {
@@ -131,10 +154,9 @@ export default {
   methods: {
     edit(id) {
       this.$router.push(`/cabinet/applications-organization/${id}`)
-    }
-  },
-  data() {
-    return {
+    },
+    clickActive() {
+      this.isActive = !this.isActive
     }
   },
 }

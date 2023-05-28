@@ -33,7 +33,7 @@
       </div>
       <YandexMapPage
           v-if="isMap"
-          :coordsMarket="[]"
+          :coordsMarket="internships.length ? [internships[0].geo_lon, internships[0].geo_lat] : []"
           class="mb-5"
           @closeMap="closeMap"
       />
@@ -74,43 +74,7 @@ export default {
       search: '',
       direction: null,
       directoriesOptions: [],
-      internships: [
-        {
-          id: 1,
-          name: 'Название',
-          description:
-              'This durable and portable insulated tumbler will keep your beverage at the perfect temperature during your next adventure.',
-          href: '/cabinet/internships/1',
-          direction: 'IT-город',
-          status: 'Preparing to ship',
-          step: 1,
-          date: 'March 24, 2021',
-          datetime: '2021-03-24',
-          address: ['Floyd Miles', '7363 Cynthia Pass', 'Toronto, ON N3Y 4H8'],
-          email: 'f•••@example.com',
-          phone: '1•••••••••40',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/confirmation-page-03-product-01.jpg',
-          imageAlt: 'Insulated bottle with white base and black snap lid.',
-        },
-        {
-          id: 2,
-          name: 'Название 2',
-          description: 'This contemporary wristwatch has a clean, minimalist look and high quality components.',
-          href: '/cabinet/internships/2',
-          direction: 'Медийный город',
-          status: 'Shipped',
-          step: 0,
-          date: 'March 23, 2021',
-          datetime: '2021-03-23',
-          address: ['Floyd Miles', '7363 Cynthia Pass', 'Toronto, ON N3Y 4H8'],
-          email: 'f•••@example.com',
-          phone: '1•••••••••40',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/confirmation-page-03-product-02.jpg',
-          imageAlt:
-              'Arm modeling wristwatch with black leather band, white watch face, thin watch hands, and fine time markings.',
-        },
-        // More products...
-      ],
+      internships: [],
       isMap: false,
     }
   },
@@ -120,7 +84,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cabinet', ['getDirections']),
+    ...mapActions('cabinet', ['getDirections', 'getListVacancy']),
     clearFilters() {
       this.search = ''
       this.direction = null
@@ -139,6 +103,9 @@ export default {
         label: item?.title || '',
         value: item?.id || ''
       })) || []
+    })
+    await this.getListVacancy().then((res) => {
+      this.internships = res || []
     })
     this.loading = false
   }
