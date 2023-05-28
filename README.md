@@ -1,3 +1,12 @@
+![Alt text](public/logo.png?raw=true "talent-mos-logo")
+# Dev+
+[https://github.com/Jy4apa/Platform](https://github.com/Jy4apa/Platform)
+
+### Backend
+
+- Production (branch: master) [https://api-devplus.ru/backend](https://api-devplus.ru/backend)
+
+
 ## Локальное развертывание через Docker
 
 1. В корне проекта создать файл .env и скопировать в него содержимое из файла .env.example
