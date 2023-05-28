@@ -6,6 +6,7 @@ use backend\models\search\CourseSearch;
 use backend\models\search\TimelineEventSearch;
 use backend\models\UserForm;
 use common\models\Course;
+use common\models\StageCourse;
 use common\models\User;
 use common\models\UserToken;
 use Yii;
@@ -59,6 +60,15 @@ class CourseController extends Controller
     {
         $model = new Course();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $stages = StageCourse::stages();
+            foreach ($stages as $item)
+            {
+                $stage = new StageCourse();
+                $stage->course_id = $model->id;
+                $stage->title = $item;
+                $stage->date_end = $model->date_end;
+                $stage->save();
+            }
             return $this->redirect(['index']);
         }
 

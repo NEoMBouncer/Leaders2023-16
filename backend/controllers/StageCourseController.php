@@ -77,6 +77,8 @@ class StageCourseController extends Controller
         $model = $this->findModel($id);
 
         $data = Yii::$app->request->post();
+        unset($data['course_id']);
+        unset($data['title']);
         if ($model->load($data) && $model->save()) {
             return $this->redirect(['index']);
         }

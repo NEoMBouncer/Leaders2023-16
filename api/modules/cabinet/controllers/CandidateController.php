@@ -6,6 +6,7 @@ use api\controllers\BaseController;
 use api\modules\cabinet\models\Candidate;
 use api\modules\cabinet\models\CandidateOrder;
 use common\models\Course;
+use common\models\StageCourse;
 use Yii;
 use yii\rest\OptionsAction;
 use yii\web\Response;
@@ -62,6 +63,9 @@ class CandidateController extends BaseController
             $course = Course::getActiveCourse();
             if (!$course)
                 return ['success' => false, 'error' => 'Прием заявок завершен'];
+            $courseStage = StageCourse::find()->where(['course_id' => $course->id, 'title' => StageCourse::STAGE_START])->one();
+            if (time() > strtotime($courseStage->date_end))
+                return ['success' => false, 'error' => 'Этап приема заявок завершен'];
 
             $candidateOrder = CandidateOrder::find()->where([
                 'candidate_id' => $candidate->id,
