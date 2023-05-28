@@ -173,7 +173,7 @@ class UserController extends BaseController
 //            }
             for (; $i < $countExperiences; $i++)
             {
-                $experience = $i >= $countUserExperiences ? new Education() : $userExperiences[$i];
+                $experience = $i >= $countUserExperiences ? new Experience() : $userExperiences[$i];
                 if ($experience->load($experiences[$i], '') && $experience->validate())
                 {
                     $experience->user_id = $user->id;
