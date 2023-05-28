@@ -16,14 +16,14 @@
           </div>
         </li>
         <li class="text-sm">
-          <span class="font-medium text-gray-900">{{ internship.name }}</span>
+          <span class="font-medium text-gray-900">{{ internship.title }}</span>
         </li>
       </ol>
     </nav>
 
     <div class="mx-auto pt-6 pb-6 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
       <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-        <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{{ internship.name }}</h1>
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{{ internship.title }}</h1>
       </div>
 
 
@@ -39,7 +39,7 @@
           <h3 class="font-medium text-gray-900">Зарплата</h3>
 
           <div class="mt-4">
-            <span class="text-sm text-gray-600">От 20000 руб</span>
+            <span class="text-sm text-gray-600">От {{ internship.income }} руб</span>
           </div>
         </div>
 
@@ -47,7 +47,7 @@
           <h3 class="font-medium text-gray-900">Направление</h3>
 
           <div class="mt-4">
-            <span class="text-sm text-gray-600">{{ internship.direction }}</span>
+            <span class="text-sm text-gray-600">{{ direction }}</span>
           </div>
         </div>
 
@@ -55,7 +55,7 @@
           <h2 id="shipping-heading" class="font-medium text-gray-900">График работы</h2>
 
           <div class="mt-4 space-y-6">
-            <p class="text-sm text-gray-600">20 часов в неделю</p>
+            <p class="text-sm text-gray-600">{{internship.schedule}}</p>
           </div>
         </section>
       </div>
@@ -73,8 +73,8 @@
               :coords="mapCenter"
           />
         </yandex-map>
-        <p class="tracking-tight text-gray-900 mt-1">Адрес</p>
-        <p class="text-xl tracking-tight text-gray-900 mt-4">Название компании</p>
+        <p class="tracking-tight text-gray-900 mt-1">{{internship.address}}</p>
+        <p class="text-xl tracking-tight text-gray-900 mt-4">{{internship.organization}}</p>
         <!-- Reviews -->
         <div class="mt-1">
           <div class="flex items-center">
@@ -95,7 +95,7 @@
             />
 
             <div class="ml-3">
-              <p class="text-sm font-medium text-gray-900 mt-2 xl:mt-0">Иван Иванович</p>
+              <p class="text-sm font-medium text-gray-900 mt-2 xl:mt-0">Иван Смирнов</p>
               <div class="mt-2 flex items-center">
                 <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[4 > rating ? 'text-indigo-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" />
               </div>
@@ -142,7 +142,9 @@ import {
   RadioGroupOption,
 } from '@headlessui/vue'
 import { StarIcon } from '@heroicons/vue/20/solid'
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
+import {debounce} from "lodash";
+import axios from "axios";
 
 export default {
   name: "InternshipsItem",
@@ -154,51 +156,35 @@ export default {
   },
   data() {
     return {
-      internship: {
-        id: 1,
-        name: 'Название',
-        description:
-            'This durable and portable insulated tumbler will keep your beverage at the perfect temperature during your next adventure.',
-        href: '/cabinet/internships/1',
-        direction: 'IT-город',
-        status: 'Preparing to ship',
-        step: 1,
-        date: 'March 24, 2021',
-        datetime: '2021-03-24',
-        address: ['Floyd Miles', '7363 Cynthia Pass', 'Toronto, ON N3Y 4H8'],
-        email: 'f•••@example.com',
-        phone: '1•••••••••40',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/confirmation-page-03-product-01.jpg',
-        imageAlt: 'Insulated bottle with white base and black snap lid.',
-      },
+      internship: {},
       reviews: {
         average: 4,
         totalCount: 117,
         featured: [
           {
             id: 1,
-            title: 'This is the best white t-shirt out there',
+            title: 'Было очень интересно',
             rating: 5,
-            content: 'This is the best white t-shirt out there',
-            author: 'Mark Edwards',
+            content: 'Много чего узнал, но бывало и скучно',
+            author: 'Максим Угрюмов',
             avatarSrc:
                 'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixqx=oilqXxSqey&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
           },
           {
             id: 2,
-            title: 'Adds the perfect variety to my wardrobe',
+            title: 'Это лучшая стажировка в моей жизни',
             rating: 4,
-            content: 'This is the best white t-shirt out there',
-            author: 'Blake Reid',
+            content: 'Очень крутые специалисты, мне очень понравилось',
+            author: 'Алексей Кирпов',
             avatarSrc:
                 'https://images.unsplash.com/photo-1520785643438-5bf77931f493?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80',
           },
           {
             id: 3,
-            title: 'All good things come in 6-Packs',
+            title: 'Всем советую',
             rating: 5,
-            content: 'This is the best white t-shirt out there',
-            author: 'Ben Russel',
+            content: 'Замечательная компания, был стажером, теперь занимаю хорошую должность в этой компании',
+            author: 'Антон Резюмов',
             avatarSrc:
                 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
           },
@@ -211,13 +197,34 @@ export default {
   },
   computed: {
     ...mapState('cabinet', ['info']),
+    pageId() {
+      return this.$route?.params?.id
+    },
     mapCenter() {
-      // if (this.address) {
-      //   const { lat, lng } = this.address
-      //   return lat && lng ? [lng, lat] : [37.61556, 55.75222]
-      // }
+      if (this.internship) {
+        const { geo_lat, geo_lon } = this.internship
+        return geo_lat && geo_lon ? [geo_lon, geo_lat] : [37.61556, 55.75222]
+      }
       return [37.61556, 55.75222]
     },
+    direction() {
+      if(this.internship && this.internship?.direction?.list && this.internship?.direction.direction_id) {
+        return this.internship?.direction?.list[+this.internship?.direction?.direction_id || '1']
+      }
+      return ''
+    }
+  },
+  methods: {
+    ...mapActions('cabinet', ['getCabinetVacancy']),
+  },
+  async mounted() {
+    this.loading = true
+    if(this.pageId && this.pageId !== 'create') {
+      this.getCabinetVacancy(this.pageId).then((res) => {
+        this.internship = res
+      })
+    }
+    this.loading = false
   }
 }
 </script>
