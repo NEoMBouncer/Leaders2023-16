@@ -1,3 +1,14 @@
+Вход в административную панель по ссылке: https://api-devplus.ru/backend
+Учетные записи для входа:
+
+Суперадмин
+login: webmaster
+password: webmaster
+
+Менеджер
+login: manager
+password: manager
+
 Все backend запросы. По полочкам разложены в папке корневой директории docs/
 ## Регистрация
 Адрес **/v1/signup**
