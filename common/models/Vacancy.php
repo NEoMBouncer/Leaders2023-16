@@ -72,7 +72,7 @@ class Vacancy extends ActiveRecord
             [['title', 'description', 'address'], 'string', 'max' => 255],
             [['created_at', 'updated_at'], 'safe'],
             ['schedule', 'string'],
-            [['geo_lan', 'geo_lon'], 'number']
+            [['geo_lat', 'geo_lon'], 'number']
         ];
     }
 
