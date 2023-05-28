@@ -117,7 +117,7 @@
               v-model="formContacts.address"
               :options="optionsAddress"
               label="label"
-              select-label="Город"
+              select-label="Адрес"
               :internal-search="false"
               :clearOnSelect="false"
               :preserveSearch="true"
@@ -243,25 +243,25 @@
         </div>
 
         <div class="gap-x-6 gap-y-3 sm:max-w-xl">
+          <base-select
+              class="col-span-full mt-6"
+              label="label"
+              star
+              select-label="Опыт работы"
+              v-model="isExperiences"
+              :options="experiencesOptions"
+          />
           <div class="divide-y">
             <div
                 v-for="(item, index) in experiences"
                 :key="index"
-                class="grid gap-x-6 gap-y-3 pt-8 pb-6 sm:max-w-xl relative">
+                class="grid gap-x-6 gap-y-3 pt-3 pb-6 sm:max-w-xl relative">
               <component
                   @click="removeExperiences(index)"
                   is="TrashIcon"
                   v-if="index !== 0"
                   :class="['h-6 w-6 text-red-500 hover:text-red-600 absolute right-2 top-2 cursor-pointer']"
                   aria-hidden="true" />
-              <base-select
-                  class="col-span-full"
-                  label="label"
-                  star
-                  select-label="Опыт работы"
-                  v-model="isExperiences"
-                  :options="experiencesOptions"
-              />
               <base-input
                   v-if="isExperiences.value"
                   class="col-span-full"
@@ -681,7 +681,7 @@ export default {
         full_address: this.formContacts.address.label,
         phone: this.formContacts.phone.replace(/\s/g, '').replace(/[()-]/g, ''),
         educations: educations || [],
-        experiences: experiences || [],
+        experiences: this.isExperiences.value ? experiences : [],
       }
       await this.setUpdateProfile(payload)
     },
@@ -746,15 +746,17 @@ export default {
               date_start: null,
               date_end: null,
             }
-          ],
-          this.experiences = e?.experiences?.map((item) => ({
+          ]
+          const isExperiences = !!e?.experience?.length
+          this.isExperiences = this.experiencesOptions.find(item => item.value === isExperiences)
+          this.experiences = isExperiences ? e?.experience?.map((item) => ({
             ...item,
             key_skills: item?.key_skills?.map((s) => {
-              this.specializationsOptions.find(r => r.value === s)
+              return this.specializationsOptions.find(r => r.value === s)
             }),
             date_start: item?.date_start ? new Date(Number(item?.date_start || 0)) : null,
             date_end: item?.date_end ? new Date(Number(item?.date_end || 0)) : null,
-          })) || [
+          })) : [
             {
               income: '',
               name: '',

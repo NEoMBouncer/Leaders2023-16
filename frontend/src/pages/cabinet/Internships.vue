@@ -4,7 +4,7 @@
     <template v-if="!loading">
       <div class="flex flex-col mb-6">
         <div class="flex justify-between">
-          <div class="flex">
+          <div class="flex w-full">
             <base-input
                 label="Поиск"
                 v-model="search"
@@ -17,14 +17,18 @@
                 label="label"
             />
           </div>
-          <div class="flex text-sm items-center w-fit text-indigo-600 hover:text-indigo-900 cursor-pointer" @click="onMap">
-            <MapIcon class="h-5 w-5 mr-2"/>
-            Посмотреть на карте
-          </div>
         </div>
-        <div @click="clearFilters" class="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer text-sm mt-2">
+        <div
+            @click="clearFilters"
+            class="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer text-sm mt-2"
+            :class="!clear && 'text-gray-50 hover:text-gray-50 cursor-default'"
+        >
           <x-mark-icon class="w-4 h-4 mr-1.5" />
           Сбросить фильтры
+        </div>
+        <div class="flex text-sm w-fit mt-3 items-center text-indigo-600 hover:text-indigo-900 cursor-pointer" @click="onMap">
+          <MapIcon class="h-5 w-5 mr-2"/>
+          Посмотреть на карте
         </div>
       </div>
       <YandexMapPage
@@ -107,7 +111,12 @@ export default {
         },
         // More products...
       ],
-      isMap: false
+      isMap: false,
+    }
+  },
+  computed: {
+    clear() {
+      return this.search.length || this.direction
     }
   },
   methods: {

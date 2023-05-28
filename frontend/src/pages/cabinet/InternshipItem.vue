@@ -33,6 +33,14 @@
         </div>
 
         <div class="mt-6">
+          <h3 class="font-medium text-gray-900">Зарплата</h3>
+
+          <div class="mt-4">
+            <span class="text-sm text-gray-600">От 20000 руб</span>
+          </div>
+        </div>
+
+        <div class="mt-6">
           <h3 class="font-medium text-gray-900">Направление</h3>
 
           <div class="mt-4">
