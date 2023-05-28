@@ -30,6 +30,7 @@ import {ExclamationTriangleIcon} from "@heroicons/vue/20/solid";
 import InternshipsCard from "@/components/InternshipsCard.vue";
 import Loading from "@/components/Loading.vue";
 import BaseButton from "@/components/UI/BaseButton.vue";
+import {mapActions} from "vuex";
 
 export default {
   name: "ApplicationsOrganization",
@@ -42,54 +43,22 @@ export default {
   data() {
     return {
       loading: false,
-      internships: [
-        {
-          id: 1,
-          name: 'Название',
-          description:
-              'This durable and portable insulated tumbler will keep your beverage at the perfect temperature during your next adventure.',
-          href: '/cabinet/internships/1',
-          direction: 'IT-город',
-          status: 'Preparing to ship',
-          step: 1,
-          date: 'March 24, 2021',
-          datetime: '2021-03-24',
-          address: ['Floyd Miles', '7363 Cynthia Pass', 'Toronto, ON N3Y 4H8'],
-          email: 'f•••@example.com',
-          phone: '1•••••••••40',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/confirmation-page-03-product-01.jpg',
-          imageAlt: 'Insulated bottle with white base and black snap lid.',
-        },
-        {
-          id: 2,
-          name: 'Название 2',
-          description: 'This contemporary wristwatch has a clean, minimalist look and high quality components.',
-          href: '/cabinet/internships/2',
-          direction: 'Медийный город',
-          status: 'Shipped',
-          step: 0,
-          date: 'March 23, 2021',
-          datetime: '2021-03-23',
-          address: ['Floyd Miles', '7363 Cynthia Pass', 'Toronto, ON N3Y 4H8'],
-          email: 'f•••@example.com',
-          phone: '1•••••••••40',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/confirmation-page-03-product-02.jpg',
-          imageAlt:
-              'Arm modeling wristwatch with black leather band, white watch face, thin watch hands, and fine time markings.',
-        },
-        // More products...
-      ],
+      internships: [],
     }
   },
   computed: {
   },
   methods: {
+    ...mapActions('cabinet', ['getOrganizationListVacancy']),
     openCreate() {
       this.$router.push('/cabinet/applications-organization/create');
     }
   },
-  mounted() {
+  async mounted() {
     this.loading = true
+    await this.getOrganizationListVacancy().then((item) => {
+      this.internships = item || []
+    })
     this.loading = false
   }
 }
