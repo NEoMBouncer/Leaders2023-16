@@ -141,7 +141,10 @@ class UserController extends BaseController
             {
                 $education = $i >= $countUserEducations ? new Education() : $userEducations[$i];
                 if ($education->load($educations[$i], '') && $education->validate())
+                {
+                    $education->user_id = $user->id;
                     $education->save();
+                }
                 else
                 {
                     $response = ['success' => false];
