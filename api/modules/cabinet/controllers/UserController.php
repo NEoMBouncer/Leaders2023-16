@@ -107,14 +107,13 @@ class UserController extends BaseController
         $user = Yii::$app->user->identity;
         $profile = UserProfile::findOne(['user_id' => $user->id]);
         $params = Yii::$app->request->post();
+        $educations = Yii::$app->request->post('educations');
+        unset($params['educations']);
         $experiences = Yii::$app->request->post('experiences');
         unset($params['experiences']);
         try {
             if ($profile->load($params, '') && $profile->validate())
-            {
                 $profile->save();
-                return ['success' => true];
-            }
             else
             {
                 $response = ['success' => false];
@@ -126,6 +125,35 @@ class UserController extends BaseController
                     break;
                 }
                 return $response;
+            }
+
+            $countEducations = count($educations);
+            $userEducations = Education::find()->where(['user_id' => $user->id])->all();
+            $countUserEducations = $userEducations ? count($userEducations): 0;
+            $i = 0;
+            if ($countUserEducations > $countEducations)
+            {
+                $count = $countUserEducations - $countEducations;
+                for ($j = 0; $j < $count; $j++)
+                    $userEducations[-1]->delete();
+            }
+            for (; $i < $countEducations; $i++)
+            {
+                $education = $i >= $countUserEducations ? new Education() : $userEducations[$i];
+                if ($education->load($params, '') && $education->validate())
+                    $education->save();
+                else
+                {
+                    $response = ['success' => false];
+                    Yii::$app->response->setStatusCode(422);
+                    $modelErrors = $education->getErrors();
+                    foreach ($modelErrors as $fieldError => $errors)
+                    {
+                        $response['error'] = $errors[0];
+                        break;
+                    }
+                    return $response;
+                }
             }
         }
         catch (\Exception $exception)
