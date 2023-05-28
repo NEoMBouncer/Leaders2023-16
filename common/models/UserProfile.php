@@ -161,8 +161,12 @@ class UserProfile extends ActiveRecord
             $candidateOrder = CandidateOrder::find()->where(['candidate_id' => $candidate->id])
                 ->orderBy('id DESC')->limit(1)->one();
             // Проверка возраста
-            $age = intdiv(time() - ($user->userProfile->age / 1000), 31536000);
-            $checkAge = $age <= 35 && $age >= 18;
+            if ($user->userProfile->age)
+            {
+                $age = intdiv(time() - (strtotime($user->userProfile->age)), 31536000);
+                $checkAge = $age <= 35 && $age >= 18;
+            }
+            else $checkAge = false;
 
             //Проверка гражданства
             $checkCitizenship = $user->userProfile->country_id === 192;
@@ -184,7 +188,7 @@ class UserProfile extends ActiveRecord
             foreach ($experiences as $experience)
             {
                 $specializationsArray = InternshipDirection::getSkills($candidateOrder->direction_id);
-                $keys = unserialize($experience->key_skills);
+                $keys = $experience->key_skills;
                 foreach ($keys as $key)
                     if (in_array($key, $specializationsArray))
                     {

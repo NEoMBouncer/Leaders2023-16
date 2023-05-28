@@ -84,7 +84,11 @@ class CandidateController extends BaseController
                 if ($candidateOrder->validate() && $candidateOrder->save())
                 {
                     if (UserProfile::checkCandidateRecommended($user->id))
+                    {
+                        $candidateOrder->status = CandidateOrder::STATUS_SUCCESS;
+                        $candidateOrder->save();
                         return ['success' => true];
+                    }
                     else {
                         $candidateOrder->status = CandidateOrder::STATUS_CANCEL;
                         $candidateOrder->save();

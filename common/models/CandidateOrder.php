@@ -27,7 +27,6 @@ class CandidateOrder extends ActiveRecord
     const STATUS_PENDING = 0;
     const STATUS_SUCCESS = 1;
     const STATUS_CANCEL = 2;
-    const STATUS_CONFIRM = 3;
 
     /**
      * @inheritdoc
@@ -43,7 +42,6 @@ class CandidateOrder extends ActiveRecord
             self::STATUS_PENDING => Yii::t('common', 'Pending'),
             self::STATUS_SUCCESS => Yii::t('common', 'Success'),
             self::STATUS_CANCEL => Yii::t('common', 'Cancel'),
-            self::STATUS_CONFIRM => Yii::t('common', 'Confirm'),
         ];
     }
 
