@@ -16,7 +16,7 @@ class UserProfile extends \common\models\UserProfile
             'gender',
             'phone',
             'age' => function() {
-                return strtotime($this->age) * 1000;
+                return strtotime($this->age);
             },
             'city',
             'full_address',

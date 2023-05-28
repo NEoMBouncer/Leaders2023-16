@@ -16,6 +16,7 @@ use yii\db\ActiveRecord;
  * @property integer $is_deleted
  *
  * @property User $user
+ * @property InternshipDirection $direction
  */
 class Supervisor extends ActiveRecord
 {
@@ -57,5 +58,13 @@ class Supervisor extends ActiveRecord
     public function getUser(): ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getDirection(): ActiveQuery
+    {
+        return $this->hasOne(InternshipDirection::class, ['id' => 'direction_id']);
     }
 }

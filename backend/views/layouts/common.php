@@ -107,13 +107,11 @@ $logEntries[] = [
                 ],
                 '<li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        '.Html::img(Yii::$app->user->identity->userProfile->getAvatar('/img/anonymous.png'), ['class' => ['img-circle', 'elevation-2', 'bg-white', 'user-image'], 'alt' => 'User image']).'
                         '.Html::tag('span', Yii::$app->user->identity->publicIdentity, ['class' => ['d-none', 'd-md-inline']]).'
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- User image -->
-                        <li class="user-header bg-primary">
-                            '.Html::img(Yii::$app->user->identity->userProfile->getAvatar('/img/anonymous.png'), ['class' => ['img-circle', 'elevation-2', 'bg-white'], 'alt' => 'User image']).'
+                        <li class="user-header bg-primary">                            
                             <p>
                                 '.Yii::$app->user->identity->publicIdentity.'
                                 <small>'.Yii::t('backend', 'Member since {0, date, short}', Yii::$app->user->identity->created_at).'</small>
@@ -165,12 +163,6 @@ $logEntries[] = [
         <div class="sidebar">
             <!-- sidebar user panel -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
-                    <?php echo Html::img(
-                        Yii::$app->user->identity->userProfile->getAvatar('/img/anonymous.png'),
-                        ['class' => ['img-circle', 'elevation-2', 'bg-white'], 'alt' => 'User image']
-                    ) ?>
-                </div>
                 <div class="info">
                     <a href="#" class="d-block"><?php echo Yii::$app->user->identity->publicIdentity ?></a>
                 </div>
@@ -232,6 +224,24 @@ $logEntries[] = [
                             'label' => Yii::t('backend', 'Organization members'),
                             'icon' => FAS::icon('stream', ['class' => ['nav-icon']]),
                             'url' => ['/organization-member/index'],
+                            'visible' => Yii::$app->user->can('administrator'),
+                        ],
+                        [
+                            'label' => Yii::t('backend', 'Mentors'),
+                            'icon' => FAS::icon('stream', ['class' => ['nav-icon']]),
+                            'url' => ['/mentor/index'],
+                            'visible' => Yii::$app->user->can('administrator'),
+                        ],
+                        [
+                            'label' => Yii::t('backend', 'Supervisors'),
+                            'icon' => FAS::icon('stream', ['class' => ['nav-icon']]),
+                            'url' => ['/supervisor/index'],
+                            'visible' => Yii::$app->user->can('administrator'),
+                        ],
+                        [
+                            'label' => Yii::t('backend', 'Interns'),
+                            'icon' => FAS::icon('stream', ['class' => ['nav-icon']]),
+                            'url' => ['/intern/index'],
                             'visible' => Yii::$app->user->can('administrator'),
                         ],
                         [
@@ -388,6 +398,13 @@ $logEntries[] = [
                             'icon' => FAS::icon('clipboard-list', ['class' => ['nav-icon']]),
                             'badge' => SystemLog::find()->count(),
                             'badgeBgClass' => 'badge-danger',
+                        ],
+                        [
+                            'label' => Yii::t('backend', 'Reports'),
+                            'url' => ['/reports/index'],
+                            'icon' => '<i class="fa fa-dashboard"></i>',
+                            'visible' => Yii::$app->user->can('administrator') || Yii::$app->user->can('manager') || Yii::$app->user->can('bounty') || Yii::$app->user->can('operator')
+                            //'visible' => Yii::$app->user->can('administrator'),
                         ],
                     ],
                 ]) ?>

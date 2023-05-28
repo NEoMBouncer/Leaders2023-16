@@ -32,6 +32,12 @@ class Candidate extends \common\models\Candidate
             'order' => function() {
                 $course = Course::getLast();
                 return CandidateOrder::find()->where(['candidate_id' => $this->id, 'course_id' => $course->id])->one();
+            },
+            'scores' => function(){
+                return $this->user->userProfile->scores;
+            },
+            'is_recommended' => function(){
+                return $this->is_recommended;
             }
         ];
     }
