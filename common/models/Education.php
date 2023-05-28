@@ -74,4 +74,10 @@ class Education extends ActiveRecord
             'date_end' => Yii::t('common', 'Date end'),
         ];
     }
+
+    public static function highLevel()
+    {
+        return [self::LEVEL_HIGH, self::LEVEL_BACHELOR, self::LEVEL_MAGISTRACY,
+            self::LEVEL_DOCTOR, self::LEVEL_CANDIDATE, self::LEVEL_MVA];
+    }
 }

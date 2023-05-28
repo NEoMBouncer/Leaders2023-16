@@ -170,9 +170,10 @@ class UserProfile extends ActiveRecord
             //Проверка образования
             $educations = Education::find()->where(['user_id' => $user->id])->all();
             $checkEducation = false;
+            $highLevel = Education::highLevel();
             foreach ($educations as $education)
             {
-                $checkEducation = $education->date_end - date('Y') <= 1;
+                $checkEducation = $education->date_end - date('Y') <= 1 && in_array($education->level, $highLevel);
                 if ($checkEducation === true)
                     break;
             }
