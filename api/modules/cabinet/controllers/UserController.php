@@ -107,10 +107,18 @@ class UserController extends BaseController
         $user = Yii::$app->user->identity;
         $profile = UserProfile::findOne(['user_id' => $user->id]);
         $params = Yii::$app->request->post();
-        $educations = Yii::$app->request->post('educations');
-        unset($params['educations']);
-        $experiences = Yii::$app->request->post('experiences');
-        unset($params['experiences']);
+        $experiences = null;
+        $educations = null;
+        if (Yii::$app->request->post('educations'))
+        {
+            $educations = Yii::$app->request->post('educations');
+            unset($params['educations']);
+        }
+        if (Yii::$app->request->post('experiences'))
+        {
+            $experiences = Yii::$app->request->post('experiences');
+            unset($params['experiences']);
+        }
         try {
             if ($profile->load($params, '') && $profile->validate())
                 $profile->save();
@@ -128,68 +136,74 @@ class UserController extends BaseController
             }
 
             // Education
-            $countEducations = count($educations);
-            $userEducations = Education::find()->where(['user_id' => $user->id])->all();
-            $countUserEducations = $userEducations ? count($userEducations): 0;
-            $i = 0;
+            if ($educations)
+            {
+                $countEducations = count($educations);
+                $userEducations = Education::find()->where(['user_id' => $user->id])->all();
+                $countUserEducations = $userEducations ? count($userEducations): 0;
+                $i = 0;
 //            if ($countUserEducations > $countEducations)
 //            {
 //                $count = $countUserEducations - $countEducations;
 //                for ($j = 0; $j < $count; $j++)
 //                    $userEducations[-1]->delete();
 //            }
-            for (; $i < $countEducations; $i++)
-            {
-                $education = $i >= $countUserEducations ? new Education() : $userEducations[$i];
-                if ($education->load($educations[$i], '') && $education->validate())
+                for (; $i < $countEducations; $i++)
                 {
-                    $education->user_id = $user->id;
-                    $education->save();
-                }
-                else
-                {
-                    $response = ['success' => false];
-                    Yii::$app->response->setStatusCode(422);
-                    $modelErrors = $education->getErrors();
-                    foreach ($modelErrors as $fieldError => $errors)
+                    $education = $i >= $countUserEducations ? new Education() : $userEducations[$i];
+                    if ($education->load($educations[$i], '') && $education->validate())
                     {
-                        $response['error'] = $errors[0];
-                        break;
+                        $education->user_id = $user->id;
+                        $education->save();
                     }
-                    return $response;
+                    else
+                    {
+                        $response = ['success' => false];
+                        Yii::$app->response->setStatusCode(422);
+                        $modelErrors = $education->getErrors();
+                        foreach ($modelErrors as $fieldError => $errors)
+                        {
+                            $response['error'] = $errors[0];
+                            break;
+                        }
+                        return $response;
+                    }
                 }
             }
 
             // Experience
-            $countExperiences = count($experiences);
-            $userExperiences = Experience::find()->where(['user_id' => $user->id])->all();
-            $countUserExperiences = $userExperiences ? count($userExperiences): 0;
-            $j = 0;
+            if ($experiences)
+            {
+                $countExperiences = count($experiences);
+                $userExperiences = Experience::find()->where(['user_id' => $user->id])->all();
+                $countUserExperiences = $userExperiences ? count($userExperiences): 0;
+                $j = 0;
 //            if ($countUserExperiences > $countExperiences)
 //            {
 //                $count = $countUserExperiences - $countExperiences;
 //                for ($j = 0; $j < $count; $j++)
 //                    $userExperience[-1]->delete();
 //            }
-            for (; $j < $countExperiences; $j++)
-            {
-                $experience = $j >= $countUserExperiences ? new Experience() : $userExperiences[$j];
-                if ($experience->load($experiences[$j], '') && $experience->validate())
+                for (; $j < $countExperiences; $j++)
                 {
-                    $experience->user_id = $user->id;
-                    $experience->save();
-                }
-                else
-                {
-                    $response = ['success' => false];
-                    Yii::$app->response->setStatusCode(422);
-                    $modelErrors = $experience->getErrors();
-                    foreach ($modelErrors as $fieldError => $errors)
+                    $experience = $j >= $countUserExperiences ? new Experience() : $userExperiences[$j];
+                    if ($experience->load($experiences[$j], '') && $experience->validate())
                     {
-                        $response['error'] = $errors[0];
-                        break;
+                        $experience->user_id = $user->id;
+                        $experience->save();
                     }
-                    return $response;
+                    else
+                    {
+                        $response = ['success' => false];
+                        Yii::$app->response->setStatusCode(422);
+                        $modelErrors = $experience->getErrors();
+                        foreach ($modelErrors as $fieldError => $errors)
+                        {
+                            $response['error'] = $errors[0];
+                            break;
+                        }
+                        return $response;
+                    }
                 }
             }
             return ['success' => true];

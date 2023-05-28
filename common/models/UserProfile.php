@@ -49,18 +49,10 @@ class UserProfile extends ActiveRecord
         return '{{%user_profile}}';
     }
 
-    public function behaviors()
+    public function beforeSave($insert)
     {
-        return [
-            'timestamp' => [
-                'class' => TimestampBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['age'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['age'],
-                ],
-                'value' => date('Y-m-d H:i:s'),
-            ]
-        ];
+        $this->age = date('Y-m-d H:i:s', $this->age / 1000);
+        return parent::beforeSave($insert);
     }
 
     public static function roles()

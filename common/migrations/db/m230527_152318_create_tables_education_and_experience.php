@@ -20,8 +20,8 @@ class m230527_152318_create_tables_education_and_experience extends Migration
             'address' => $this->string(),
             'city' => $this->string(),
             'speciality' => $this->string(),
-            'date_start' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-            'date_end' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'date_start' => $this->integer(),
+            'date_end' => $this->integer(),
         ]);
 
         $this->createTable('{{%experience}}', [
