@@ -479,7 +479,7 @@ export default {
   computed: {
     ...mapState('cabinet', ['info']),
     disabled() {
-      return !this.directories && (!this.info?.essay || true) && (!this.info?.questionnaire || true)
+      return (this.directories === null) || (!this.info?.essay || false) || (!this.info?.questionnaire || false)
     }
   },
   methods: {
