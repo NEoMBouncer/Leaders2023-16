@@ -49,13 +49,6 @@ class UserProfile extends ActiveRecord
         return '{{%user_profile}}';
     }
 
-    public function beforeSave($insert)
-    {
-        if ($this->age)
-            $this->age = date('Y-m-d H:i:s', $this->age / 1000);
-        return parent::beforeSave($insert);
-    }
-
     public static function roles()
     {
         return [
