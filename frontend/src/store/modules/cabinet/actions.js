@@ -194,7 +194,8 @@ export default {
                         toast.success('Заявка успешно принята')
                         resolve(res?.data)
                     } else {
-                        toast.error('Заявка отклонена')
+                        toast.error(res?.data.error || 'Ваша заявка не прошла по критериям отбора')
+                        resolve(res?.data)
                     }
                 })
                 .catch((err) => {
@@ -249,6 +250,7 @@ export default {
                         resolve(res?.data)
                     } else {
                         toast.error(res?.data?.error || 'Заявка откланена')
+                        resolve(res?.data)
                     }
                 })
                 .catch((err) => {
