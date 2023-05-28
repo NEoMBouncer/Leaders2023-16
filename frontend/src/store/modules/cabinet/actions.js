@@ -240,4 +240,22 @@ export default {
                 })
         })
     },
+    setNextStage({commit}) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.post(`/v1/cabinet/next-stage`)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        toast.success('Поздравляем! Вы прошли на следующий этап!')
+                        resolve(res?.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Заявка откланена')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
 }

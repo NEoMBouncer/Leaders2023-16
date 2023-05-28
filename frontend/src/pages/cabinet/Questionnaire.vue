@@ -131,13 +131,13 @@
               label="Мобильный телефон"
               v-maska="{mask: '+7 (###) ###-##-##', tokens: {'d':{pattern: /[1-9]/}, 'D':{pattern: /[0-9]/}, 'D':{pattern: /[0-9]/}}}"
           />
-          <div class="mt-4 pt-4">
-            <base-button
-                @click="saveProfile"
-                class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">
-              Сохранить
-            </base-button>
-          </div>
+<!--          <div class="mt-4 pt-4">-->
+<!--            <base-button-->
+<!--                @click="saveProfile"-->
+<!--                class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">-->
+<!--              Сохранить-->
+<!--            </base-button>-->
+<!--          </div>-->
         </div>
       </div>
 
@@ -217,13 +217,13 @@
               + Добавить дополнительное образование
             </div>
           </div>
-          <div class="mt-4 pt-4">
-            <base-button
-                @click="saveEducation"
-                class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">
-              Сохранить
-            </base-button>
-          </div>
+<!--          <div class="mt-4 pt-4">-->
+<!--            <base-button-->
+<!--                @click="saveEducation"-->
+<!--                class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">-->
+<!--              Сохранить-->
+<!--            </base-button>-->
+<!--          </div>-->
         </div>
       </div>
 
@@ -319,13 +319,13 @@
               + Добавить дополнительный опыт работы
             </div>
           </div>
-          <div class="mt-4 pt-4">
-            <base-button
-                @click="save"
-                class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">
-              Сохранить
-            </base-button>
-          </div>
+        </div>
+        <div class="mt-4 pt-4">
+          <base-button
+              @click="save"
+              class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">
+            Сохранить
+          </base-button>
         </div>
       </div>
     </template>
@@ -656,6 +656,14 @@ export default {
       await this.setAddEducation(payload)
     },
     async save() {
+      const educations = this.schools?.map((item) => ({
+        ...item,
+        level: item?.level?.value || 0,
+        city: item?.address?.city || '',
+        address: item?.address?.label || '',
+        date_start: item?.date_start?.value || '',
+        date_end: item?.date_end?.value || ''
+      })) || []
       const experiences = this.experiences?.map((item) => ({
         ...item,
         key_skills: item?.key_skills?.map((e) => e.value),
@@ -663,9 +671,19 @@ export default {
         date_end: new Date(item?.date_end)?.getTime().toString() || '',
       })) || []
       const payload = {
+        firstname: this.formPerson?.firstname || '',
+        middlename: this.formPerson?.middlename || '',
+        lastname: this.formPerson.lastname,
+        gender: this.formPerson.gender.value,
+        country_id: this.formPerson.is_russian_citizenship.value,
+        age: new Date(this.formPerson.age).getTime().toString(),
+        city: this.formContacts.address.city,
+        full_address: this.formContacts.address.label,
+        phone: this.formContacts.phone.replace(/\s/g, '').replace(/[()-]/g, ''),
+        educations: educations || [],
         experiences: experiences || [],
       }
-      await this.setAddExperience(payload)
+      await this.setUpdateProfile(payload)
     },
   },
   async mounted() {
@@ -710,7 +728,7 @@ export default {
             } : null,
             phone: e?.phone || ''
           }
-          this.schools = e?.educations?.map((item) => ({
+          this.schools = e?.education?.map((item) => ({
             ...item,
             level: this.levelEducationOptions?.find((s) => s?.value === item?.level) || null,
             address: item?.address ? {
@@ -719,7 +737,16 @@ export default {
             } : null,
             date_start: this.startSchoolOptions?.find((s) => s?.value === item?.date_start) || null,
             date_end: this.endSchoolOptions?.find((s) => s?.value === item?.date_end) || null,
-          })) || []
+          })) || [
+            {
+              level: null,
+              name: '',
+              address: null,
+              speciality: '',
+              date_start: null,
+              date_end: null,
+            }
+          ],
           this.experiences = e?.experiences?.map((item) => ({
             ...item,
             key_skills: item?.key_skills?.map((s) => {
@@ -727,7 +754,17 @@ export default {
             }),
             date_start: item?.date_start ? new Date(Number(item?.date_start || 0)) : null,
             date_end: item?.date_end ? new Date(Number(item?.date_end || 0)) : null,
-          })) || []
+          })) || [
+            {
+              income: '',
+              name: '',
+              post: '',
+              responsibilities: '',
+              key_skills: [],
+              date_start: null,
+              date_end: null,
+            }
+          ]
         })
         .finally(() => {
           this.loading = false

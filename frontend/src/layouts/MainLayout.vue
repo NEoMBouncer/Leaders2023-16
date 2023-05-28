@@ -332,7 +332,7 @@ export default {
     if(this.isAuthenticated) {
       await this.getInfo().then((res) => {
         // ROLE_CANDIDATE
-        if(res?.role === 0) {
+        if((res?.role === 0) || (res?.role === 1)) {
           this.navigation = this.navigation.concat([
               { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false },
               { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: false },
@@ -350,6 +350,24 @@ export default {
             { name: 'Заявления стажеров', href: '/cabinet/statements', icon: DocumentDuplicateIcon, current: false },
             { name: 'Табель стажеров', href: '/cabinet/table', icon: DocumentTextIcon, current: false },
             { name: 'Статистика', href: '/cabinet/statistics', icon: ChartPieIcon, current: false },
+            { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: false },
+          ])
+        }
+        // ROLE_MENTOR
+        if(res?.role === 3) {
+          this.navigation = this.navigation.concat([
+            { name: 'Заявки на стажировку', href: '/cabinet/applications-mentors', icon: UsersIcon, current: false },
+            { name: 'Школа наставников', href: '/cabinet/school', icon: BriefcaseIcon, current: false },
+            { name: 'Расписание стажера', href: '/cabinet/schedule', icon: DocumentDuplicateIcon, current: false },
+            { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: false },
+          ])
+        }
+        // ROLE_ORGANIZATION_MEMBER
+        if(res?.role === 4) {
+          this.navigation = this.navigation.concat([
+            { name: 'Стажировки', href: '/cabinet/applications-organization', icon: UsersIcon, current: false },
+            { name: 'Школа наставников', href: '/cabinet/school-organization', icon: BriefcaseIcon, current: false },
+            { name: 'Рейтинг', href: '/cabinet/rating', icon: ChartPieIcon, current: false },
             { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: false },
           ])
         }

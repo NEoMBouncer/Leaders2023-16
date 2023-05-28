@@ -120,6 +120,64 @@ export const routes = [
         }
     },
 
+    //mentors
+    {
+        path: '/cabinet/applications-mentors',
+        name: 'ApplicationsMentors',
+        component: () => import('@/pages/cabinet/ApplicationsMentors.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
+    {
+        path: '/cabinet/school',
+        name: 'School',
+        component: () => import('@/pages/cabinet/School.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
+    {
+        path: '/cabinet/schedule',
+        name: 'Schedule',
+        component: () => import('@/pages/cabinet/Schedule.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
+
+    //ORGANIZATION
+    {
+        path: '/cabinet/applications-organization',
+        name: 'ApplicationsOrganization',
+        component: () => import('@/pages/cabinet/ApplicationsOrganization.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
+    {
+        path: '/cabinet/school-organization',
+        name: 'SchoolOrganization',
+        component: () => import('@/pages/cabinet/SchoolOrganization.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
+    {
+        path: '/cabinet/rating',
+        name: 'Rating',
+        component: () => import('@/pages/cabinet/Rating.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
+
 
     // SYSTEM
     {
