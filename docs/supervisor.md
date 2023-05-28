@@ -1,7 +1,7 @@
 Все запросы требуют токен авторизации в Headers
 
 ## Подтвердить вакансию и опубликовать
-Адрес **/v1/cabinet/approve-vacancy**
+Адрес **/v1/cabinet/approve-vacancy/"id"**
 
 POST запрос
 
@@ -22,7 +22,7 @@ POST запрос
 }
 ```
 ## Отклонить вакансию
-Адрес **/v1/cabinet/cancel-vacancy**
+Адрес **/v1/cabinet/cancel-vacancy/"id"**
 
 POST запрос
 
