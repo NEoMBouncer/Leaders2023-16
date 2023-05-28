@@ -166,10 +166,12 @@ class UserProfile extends ActiveRecord
                 $age = intdiv(time() - (strtotime($user->userProfile->age)), 31536000);
                 $checkAge = $age <= 35 && $age >= 18;
             }
-            else $checkAge = false;
+            else return 'Неподходящий возраст';
 
             //Проверка гражданства
             $checkCitizenship = $user->userProfile->country_id === 192;
+            if ($checkCitizenship === false)
+                return 'Отсутствие Российского гражданства';
 
             //Проверка образования
             $educations = Education::find()->where(['user_id' => $user->id])->all();
@@ -181,6 +183,8 @@ class UserProfile extends ActiveRecord
                 if ($checkEducation === true)
                     break;
             }
+            if ($checkEducation === false)
+                return 'Наличие высшего образования или последний год учебы';
 
             //Проверка опыта работы
             $experiences = Experience::find()->where(['user_id' => $user->id])->all();
@@ -198,6 +202,8 @@ class UserProfile extends ActiveRecord
                 if ($checkExperience === true)
                     break;
             }
+            if ($checkExperience === false)
+                return 'Отсутствие опыта работы или нерелевантный опыт работы';
             $recommended = $checkAge && $checkCitizenship && $checkExperience && $checkEducation;
             if ($recommended === true)
             {

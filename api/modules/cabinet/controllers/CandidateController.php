@@ -94,7 +94,7 @@ class CandidateController extends BaseController
                     else {
                         $candidateOrder->status = CandidateOrder::STATUS_CANCEL;
                         $candidateOrder->save();
-                        return ['success' => false, 'error' => 'Ваша заявка не прошла по критериям отбора'];
+                        return ['success' => false, 'error' => 'Ваша заявка не прошла по критериям отбора:'];
                     }
                 }
                 else
