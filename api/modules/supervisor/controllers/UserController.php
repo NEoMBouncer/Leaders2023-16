@@ -3,6 +3,7 @@
 namespace api\modules\supervisor\controllers;
 
 use api\controllers\BaseController;
+use api\modules\member\models\Vacancy;
 use api\modules\supervisor\models\Candidate;
 use api\modules\cabinet\models\CandidateOrder;
 use api\modules\cabinet\models\UserProfile;
@@ -20,16 +21,6 @@ class UserController extends BaseController
         parent::init();
     }
 
-    public function beforeAction($action)
-    {
-        if (Yii::$app->user->identity->userProfile->role != UserProfile::ROLE_SUPERVISOR)
-        {
-            Yii::$app->response->setStatusCode(403);
-            return ['success' => false, 'error' => 'Вам не разрешено выполнять данное действие'];
-        }
-        return parent::beforeAction($action);
-    }
-
     /**
      * @inheritdoc
      */
@@ -44,7 +35,59 @@ class UserController extends BaseController
         ];
     }
 
-    public function actionListCandidate()
+    public function actionApproveVacancy($id): array
+    {
+        try {
+            $user = Yii::$app->user->identity;
+            if ($user->userProfile->role != UserProfile::ROLE_SUPERVISOR)
+            {
+                Yii::$app->response->setStatusCode(403);
+                return ['success' => false, 'error' => 'Вам не разрешено выполнять данное действие'];
+            }
+            $vacancy = Vacancy::findOne($id);
+            if ($vacancy)
+            {
+                $vacancy->status = Vacancy::STATUS_SUCCESS;
+                $vacancy->is_publish = 1;
+                $vacancy->save();
+                return ['success' => true];
+            }
+            else return ['success' => false, 'error' => 'Вакансия с таким идентификатором не найдена'];
+        }
+        catch (\Exception $exception)
+        {
+            Yii::$app->response->setStatusCode(500);
+            return ['success' => false, 'Произошла ошибка сервера. Не удалось подтвердить вакансию'];
+        }
+    }
+
+    public function actionCancelVacancy($id): array
+    {
+        try {
+            $user = Yii::$app->user->identity;
+            if ($user->userProfile->role != UserProfile::ROLE_SUPERVISOR)
+            {
+                Yii::$app->response->setStatusCode(403);
+                return ['success' => false, 'error' => 'Вам не разрешено выполнять данное действие'];
+            }
+            $vacancy = Vacancy::findOne($id);
+            if ($vacancy)
+            {
+                $vacancy->status = Vacancy::STATUS_CANCEL;
+                $vacancy->is_publish = 0;
+                $vacancy->save();
+                return ['success' => true];
+            }
+            else return ['success' => false, 'error' => 'Вакансия с таким идентификатором не найдена'];
+        }
+        catch (\Exception $exception)
+        {
+            Yii::$app->response->setStatusCode(500);
+            return ['success' => false, 'Произошла ошибка сервера. Не удалось подтвердить вакансию'];
+        }
+    }
+
+    public function actionListCandidate(): array
     {
         $currentCourse = Course::getActiveCourse();
         $candidates = Candidate::find()
