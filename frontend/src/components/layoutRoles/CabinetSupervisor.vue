@@ -55,7 +55,6 @@ import {
   DocumentDuplicateIcon, DocumentTextIcon,
   UsersIcon
 } from "@heroicons/vue/24/outline";
-import {mapActions} from "vuex";
 
 export default {
   name: "CabinetSupervisor",
