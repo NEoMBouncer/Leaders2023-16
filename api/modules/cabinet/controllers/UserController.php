@@ -432,8 +432,9 @@ class UserController extends BaseController
 
             $profile = Yii::$app->user->identity->userProfile;
             $profile->scores += rand(1, 100);
+            if ($candidate->order_status == Candidate::ORDER_STATUS_CHAMPIONSHIP)
+                $profile->role = UserProfile::ROLE_INTERN;
             $profile->save();
-
             return ['success' => true];
         }
         return ['success' => false, 'error' => 'Что-то не получилось'];
