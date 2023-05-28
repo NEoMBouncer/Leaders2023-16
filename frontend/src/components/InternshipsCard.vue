@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+    <div v-if="!isOrganization" class="border-t border-gray-200 px-4 py-6 sm:px-6">
       <p class="text-sm font-medium text-gray-900">
         {{ value.status }} on <time :datetime="value.datetime">{{ value.date }}</time>
       </p>
@@ -69,11 +69,43 @@
         </div>
       </div>
     </div>
+    <div v-if="isOrganization" class="border-t border-gray-200 px-4 py-6 sm:px-6">
+      <div class="flex justify-between">
+<!--         <span class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700">-->
+<!--            <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">-->
+<!--              <circle cx="3" cy="3" r="3" />-->
+<!--            </svg>-->
+<!--            Отклонена-->
+<!--         </span>-->
+<!--        <span class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-green-100 px-2 py-1 font-medium text-green-700">-->
+<!--            <svg class="h-2 w-2 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">-->
+<!--              <circle cx="3" cy="3" r="3" />-->
+<!--            </svg>-->
+<!--            Опубликована-->
+<!--         </span>-->
+        <span class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-blue-100 px-2 py-1 font-medium text-blue-700">
+            <svg class="h-2 w-2 fill-blue-500" viewBox="0 0 6 6" aria-hidden="true">
+              <circle cx="3" cy="3" r="3" />
+            </svg>
+            На модерации
+         </span>
+        <div class="flex">
+          <div class="text-sm text-green-500 hover:text-green-600 cursor-pointer flex items-center mr-3">
+            <PencilIcon class="h-4 w-4 flex-shrink-0 mr-2" aria-hidden="true" />
+            <span class="hidden sm:flex">Редактировать</span>
+          </div>
+          <div class="text-sm ml-3 text-red-500 hover:text-red-600 cursor-pointer flex items-center">
+            <TrashIcon class="h-4 w-4 flex-shrink-0 mr-2" aria-hidden="true" />
+            <span class="hidden sm:flex">Удалить</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import {StarIcon} from "@heroicons/vue/20/solid";
+import {StarIcon, PencilIcon, TrashIcon} from "@heroicons/vue/20/solid";
 
 export default {
   name: "InternshipsCard",
@@ -82,9 +114,13 @@ export default {
       type: Object,
       default: null,
     },
+    isOrganization: {
+      type:    Boolean,
+      default: false,
+    },
   },
   components: {
-    StarIcon
+    StarIcon, PencilIcon, TrashIcon
   },
   data() {
     return {

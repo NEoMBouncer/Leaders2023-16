@@ -37,19 +37,20 @@
 </template>
 
 <script>
-
-import {ExclamationTriangleIcon} from "@heroicons/vue/20/solid";
+import {ExclamationTriangleIcon, PencilIcon, TrashIcon} from "@heroicons/vue/20/solid";
 import InternshipsCard from "@/components/InternshipsCard.vue";
 import Loading from "@/components/Loading.vue";
 import BaseButton from "@/components/UI/BaseButton.vue";
 
 export default {
-  name: "ApplicationsOrganization",
+  name: "ApplicationsOrganizationForm",
   components: {
     BaseButton,
     Loading,
     InternshipsCard,
-    ExclamationTriangleIcon
+    ExclamationTriangleIcon,
+    PencilIcon,
+    TrashIcon
   },
   data() {
     return {

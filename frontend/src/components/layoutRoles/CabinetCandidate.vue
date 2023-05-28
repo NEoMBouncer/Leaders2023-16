@@ -449,7 +449,6 @@ import {CheckIcon} from "@heroicons/vue/24/outline";
 import {mapActions, mapState} from "vuex";
 import Loading from "@/components/Loading.vue";
 import BaseSelect from "@/components/UI/BaseSelect.vue";
-import login from "@/pages/system/Login.vue";
 
 export default {
   name: "CabinetCandidate",
