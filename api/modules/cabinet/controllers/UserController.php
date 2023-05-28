@@ -131,16 +131,16 @@ class UserController extends BaseController
             $userEducations = Education::find()->where(['user_id' => $user->id])->all();
             $countUserEducations = $userEducations ? count($userEducations): 0;
             $i = 0;
-            if ($countUserEducations > $countEducations)
-            {
-                $count = $countUserEducations - $countEducations;
-                for ($j = 0; $j < $count; $j++)
-                    $userEducations[-1]->delete();
-            }
+//            if ($countUserEducations > $countEducations)
+//            {
+//                $count = $countUserEducations - $countEducations;
+//                for ($j = 0; $j < $count; $j++)
+//                    $userEducations[-1]->delete();
+//            }
             for (; $i < $countEducations; $i++)
             {
                 $education = $i >= $countUserEducations ? new Education() : $userEducations[$i];
-                if ($education->load($params, '') && $education->validate())
+                if ($education->load($educations[$i], '') && $education->validate())
                     $education->save();
                 else
                 {
@@ -155,6 +155,7 @@ class UserController extends BaseController
                     return $response;
                 }
             }
+            return ['success' => true];
         }
         catch (\Exception $exception)
         {
