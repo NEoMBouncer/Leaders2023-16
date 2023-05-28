@@ -1,10 +1,10 @@
 ![Alt text](public/logo.png?raw=true "talent-mos-logo")
 # Dev+
+[https://github.com/Jy4apa/Platform](https://github.com/Jy4apa/Platform)
 
 ### Git Flow
 
-- Production (branch: master) [https://github.com/Jy4apa/Platform/blob/master/docs/cabinet.md](https://github.com/Jy4apa/Platform/blob/master/docs/cabinet.md)
-
+- Production (branch: master) [https://leaders2023-16.website.yandexcloud.net/](https://leaders2023-16.website.yandexcloud.net/)
 
 ## Getting Started
 

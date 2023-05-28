@@ -50,7 +50,7 @@ export default {
                         toast.success('Успешно сохранено')
                         resolve(res?.data)
                     } else {
-                        toast.error(res?.data?.error || 'Ошибка получения данных! Повторите позже')
+                        toast.error(res?.data?.error || 'Ошибка сохранения данных! Повторите позже')
                     }
                 })
                 .catch((err) => {
@@ -251,6 +251,78 @@ export default {
                     } else {
                         toast.error(res?.data?.error || 'Заявка отклонена')
                         resolve(res?.data)
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
+
+    // вакансии
+    setCreateVacancy({commit}, payload) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.post(`/v1/cabinet/create-vacancy`, payload)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        toast.success('Успешно сохранено')
+                        resolve(res?.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
+    getOrganizationListVacancy({commit}) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.get(`/v1/cabinet/organization/list-vacancy`)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        resolve(res.data.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
+    getCabinetVacancy({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.get(`/v1/cabinet/get-vacancy/${id}`)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        resolve(res.data.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
+    setUpdateVacancy({commit}, payload) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.post(`/v1/cabinet/update-vacancy/${payload.id}`, payload.date)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        toast.success('Успешно сохранено')
+                        resolve(res?.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка сохранения данных! Повторите позже')
                     }
                 })
                 .catch((err) => {

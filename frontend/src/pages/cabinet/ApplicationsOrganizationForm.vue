@@ -51,14 +51,14 @@
               v-model="internship.title"
               label="Название"
           />
-          <base-select
-              class="col-span-full"
-              star
-              label="label"
-              select-label="Наставник"
-              v-model="internship.mentor"
-              :options="mentorOptions"
-          />
+<!--          <base-select-->
+<!--              class="col-span-full"-->
+<!--              star-->
+<!--              label="label"-->
+<!--              select-label="Наставник"-->
+<!--              v-model="internship.mentor"-->
+<!--              :options="mentorOptions"-->
+<!--          />-->
           <base-textarea
               class="col-span-full"
               star
@@ -162,7 +162,6 @@ export default {
         directories: null,
         schedule: null,
         address: '',
-        mentor: ''
       },
     }
   },
@@ -172,7 +171,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('cabinet', ['getDirections']),
+    ...mapActions('cabinet', ['getDirections', 'setCreateVacancy', 'getCabinetVacancy', 'setUpdateVacancy']),
     onSearchChange: debounce(function callback(event) {
       if (event.length >= 1) {
         this.loadAddressSuggest(event);
@@ -198,16 +197,52 @@ export default {
         if(res.data?.suggestions?.length) {
           this.optionsAddress = res.data.suggestions.map((item) => ({
             label: item.value,
-            city: item.data?.city || "",
-            location: [item.data?.geo_lat || 0, item.data?.geo_lon || 0]
+            geo_lat: item.data?.geo_lat || 0,
+            geo_lon: item.data?.geo_lon || 0
           }))
         }
       } catch(err) {
         console.error(err)
       }
     },
-    save() {
-      console.log('save')
+    async save() {
+      //редактирование
+      if(this.pageId && this.pageId !== 'create') {
+        const payload = {
+          id: this.pageId,
+          date: {
+            title: this.internship.title,
+            description: this.internship.description,
+            income: this.internship.price,
+            direction_id: this.internship.directories.value,
+            schedule: this.internship.schedule.value,
+            address: this.internship.address.label,
+            geo_lat: +this.internship.address.geo_lat,
+            geo_lon: +this.internship.address.geo_lon,
+          }
+        }
+        await this.setUpdateVacancy(payload).then((res) => {
+          if(res?.success) {
+            this.$router.push('/cabinet/applications-organization/')
+          }
+        })
+      } else {
+        const payload = {
+          title: this.internship.title,
+          description: this.internship.description,
+          income: this.internship.price,
+          direction_id: this.internship.directories.value,
+          schedule: this.internship.schedule.value,
+          address: this.internship.address.label,
+          geo_lat: +this.internship.address.geo_lat,
+          geo_lon: +this.internship.address.geo_lon,
+        }
+        await this.setCreateVacancy(payload).then((res) => {
+          if(res?.success) {
+            this.$router.push('/cabinet/applications-organization/')
+          }
+        })
+      }
     }
   },
   async mounted() {
@@ -219,25 +254,20 @@ export default {
       })) || []
     })
     if(this.pageId && this.pageId !== 'create') {
-      // const payload = {
-      //   poolId: this.currentId,
-      //   objectId: this.currentObjectId,
-      // }
-      // this.getObject(payload).then((res) => {
-      //   this.form = res
-      //   const addressString = res.addressString
-      //   this.getAddressSuggest(addressString)
-      //       .then((addressRes) => {
-      //         const addressStr = {
-      //           label: res?.addressString || ''
-      //         }
-      //         const [address] = addressRes
-      //         if (!address) {
-      //           console.error('coords is not define')
-      //         }
-      //         this.form.address = address || addressStr
-      //       })
-      // })
+      this.getCabinetVacancy(this.pageId).then((res) => {
+        this.internship = {
+          title: res?.title || '',
+          description: res?.description || '',
+          price: res?.income || '',
+          directories: this.directoriesOptions.find(item => item.value === res?.direction?.direction_id),
+          schedule: this.scheduleOptions.find(item => item.value === res?.schedule),
+          address: {
+            label: res?.address || '',
+            geo_lat: res?.geo_lat || 0,
+            geo_lon: res?.geo_lon || 0,
+          },
+        }
+      })
     }
     this.loading = false
   }
