@@ -3,7 +3,7 @@
     <div class="px-4 py-6 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-6">
       <div class="sm:flex lg:col-span-7">
         <router-link :to="value.href" class="aspect-h-1 aspect-w-1 w-full flex-shrink-0 overflow-hidden rounded-lg sm:aspect-none sm:h-40 sm:w-40">
-          <img :src="value.imageSrc" :alt="value.imageAlt" class="h-full w-full object-cover object-center sm:h-full sm:w-full" />
+          <img src="../assets/images/logo.png" :alt="logo" class="h-full w-full object-contain object-center sm:h-full sm:w-full" />
         </router-link>
 
         <div class="mt-6 sm:ml-6 sm:mt-0">
@@ -16,8 +16,9 @@
             </div>
             <p class="text-sm font-medium text-gray-900">Компания</p>
           </div>
-          <p class="mt-2 text-sm font-medium text-gray-900">{{ value.direction }}</p>
-          <p class="mt-3 text-sm text-gray-500">{{ value.description }}</p>
+          <p class="mt-2 text-sm text font-medium text-gray-900">От 20000 руб</p>
+          <p class="mt-1 text-sm font-medium text-gray-900">{{ value.direction }}</p>
+          <p class="mt-2 text-sm text-gray-500">{{ value.description }}</p>
         </div>
       </div>
 
