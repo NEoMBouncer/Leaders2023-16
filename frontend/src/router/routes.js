@@ -148,6 +148,16 @@ export const routes = [
             layout: 'main',
         }
     },
+    {
+        path: '/cabinet/internships-supervisor',
+        name: 'InternshipsSupervisor',
+        component: () => import('@/pages/cabinet/InternshipsSupervisor.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
+
 
     //ORGANIZATION
     {

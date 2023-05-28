@@ -28,12 +28,7 @@
               <button
                   type="button"
                   class="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
-                Принять
-              </button>
-              <button
-                  type="button"
-                  class="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
-                Отклонить
+                Добавить баллы
               </button>
             </div>
             <table class="min-w-full table-fixed divide-y divide-gray-300">
@@ -64,20 +59,20 @@
                   />
                 </td>
                 <td :class="['whitespace-nowrap py-4 pr-3 text-sm font-medium', selected.includes(person.email) ? 'text-indigo-600' : 'text-gray-900']">
-                  {{ person.name }}
-                </td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {{ person.title }}
+                  {{ person.firstname }} {{ person.lastname }}
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                   {{ person.email }}
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {{ person.role }}
+                  {{ person.is_recommended === 0 ? 'Не релевантный' : 'Релевантный' }}
+                </td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  {{ person.scores }}
                 </td>
                 <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3 flex justify-end">
-                  <CheckIcon class="cursor-pointer flex-none rounded text-green-600 hover:text-green-700 h-5 w-5" aria-hidden="true" />
-                  <XMarkIcon class="ml-2 cursor-pointer flex-none rounded text-red-600 hover:text-red-700 h-5 w-5" aria-hidden="true" />
+                  <PlusIcon class="cursor-pointer flex-none rounded text-green-600 hover:text-green-700 h-5 w-5" aria-hidden="true" />
+<!--                  <XMarkIcon class="ml-2 cursor-pointer flex-none rounded text-red-600 hover:text-red-700 h-5 w-5" aria-hidden="true" />-->
                 </td>
               </tr>
               </tbody>
@@ -93,10 +88,12 @@
 import {
     ChevronDownIcon,
     CheckIcon,
-    XMarkIcon
+    XMarkIcon,
+    PlusIcon
 } from '@heroicons/vue/24/outline'
 import BaseSelect from "@/components/UI/BaseSelect.vue";
 import BaseInput from "@/components/UI/BaseInput.vue";
+import {mapActions} from "vuex";
 
 export default {
   name: "Applications",
@@ -105,34 +102,13 @@ export default {
     BaseSelect,
     ChevronDownIcon,
     CheckIcon,
-    XMarkIcon
+    XMarkIcon,
+    PlusIcon
   },
   data() {
     return {
       checked: false,
-      list: [
-        {
-          name: 'Lindsay Walton',
-          title: 'lindsay.walton@example.com',
-          email: 'Рекомендованный',
-          role: 'Рекомендованный',
-          checked: false
-        },
-        {
-          name: 'Lindsay Walton',
-          title: 'Front-end Developer',
-          email: 'Не рекомендованный',
-          role: 'Не рекомендованный',
-          checked: false
-        },
-        {
-          name: 'Lindsay Walton',
-          title: 'Front-end Developer',
-          email: 'lindsay.walton@example.com',
-          role: 'Member',
-          checked: false
-        },
-      ],
+      list: [],
       selected: [],
       recommendedOptions: [
         {
@@ -154,12 +130,18 @@ export default {
     }
   },
   methods: {
+    ...mapActions('cabinet', ['getListCandidate']),
     clearFilters() {
       this.search = ''
       this.recommended = null
     }
   },
-  mounted() {
+  async mounted() {
+    this.loading = true
+    await this.getListCandidate().then((res) => {
+      this.list = res || []
+    })
+    this.loading = false
   }
 }
 </script>
