@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <h1 class="text-2xl font-semibold pb-5">Кабинет</h1>
     <!--кандидат/стажер-->
-    <template v-if="info.role === 0 || info.role === 1">
+    <template v-if="(info.role === 0) || (info.role === 1)">
       <cabinet-candidate/>
     </template>
     <!--куратор-->
