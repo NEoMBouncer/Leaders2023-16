@@ -449,7 +449,6 @@ import {CheckIcon} from "@heroicons/vue/24/outline";
 import {mapActions, mapState} from "vuex";
 import Loading from "@/components/Loading.vue";
 import BaseSelect from "@/components/UI/BaseSelect.vue";
-import login from "@/pages/system/Login.vue";
 
 export default {
   name: "CabinetCandidate",
@@ -480,7 +479,7 @@ export default {
   computed: {
     ...mapState('cabinet', ['info']),
     disabled() {
-      return !this.directories && (!this.info?.essay || true) && (!this.info?.questionnaire || true)
+      return (this.directories === null) || (!this.info?.essay || false) || (!this.info?.questionnaire || false)
     }
   },
   methods: {
