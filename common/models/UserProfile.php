@@ -4,6 +4,7 @@ namespace common\models;
 
 use trntv\filekit\behaviors\UploadBehavior;
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
@@ -46,6 +47,20 @@ class UserProfile extends ActiveRecord
     public static function tableName()
     {
         return '{{%user_profile}}';
+    }
+
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['age'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['age'],
+                ],
+                'value' => date('Y-m-d H:i:s'),
+            ]
+        ];
     }
 
     public static function roles()
