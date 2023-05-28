@@ -4,7 +4,10 @@
       <ol role="list" class="mx-auto flex items-center space-x-2">
         <li>
           <div class="flex items-center">
-            <router-link to="/cabinet/internships" class="mr-2 text-sm font-medium text-gray-600 hover:text-gray-900">
+            <router-link v-if="info?.role === 4" to="/cabinet/applications-organization" class="mr-2 text-sm font-medium text-gray-600 hover:text-gray-900">
+              Стажировки
+            </router-link>
+            <router-link v-else to="/cabinet/internships" class="mr-2 text-sm font-medium text-gray-600 hover:text-gray-900">
               Стажировки
             </router-link>
             <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" aria-hidden="true" class="h-5 w-4 text-gray-300">
@@ -139,6 +142,7 @@ import {
   RadioGroupOption,
 } from '@headlessui/vue'
 import { StarIcon } from '@heroicons/vue/20/solid'
+import {mapState} from "vuex";
 
 export default {
   name: "InternshipsItem",
@@ -206,6 +210,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('cabinet', ['info']),
     mapCenter() {
       // if (this.address) {
       //   const { lat, lng } = this.address

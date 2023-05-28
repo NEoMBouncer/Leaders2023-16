@@ -1,35 +1,113 @@
 <template>
   <div class="flex flex-col">
-<!--    <div class="border-l-4 border-yellow-400 bg-yellow-50 p-4 mb-4">-->
-<!--      <div class="flex">-->
-<!--        <div class="flex-shrink-0">-->
-<!--          <ExclamationTriangleIcon class="h-5 w-5 text-yellow-400" aria-hidden="true" />-->
-<!--        </div>-->
-<!--        <div class="ml-3">-->
-<!--          <p class="text-sm text-yellow-700">-->
-<!--            Этот модуль находится в разработке-->
-<!--          </p>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-    <div class="flex justify-between pb-5">
-      <h1 class="text-2xl font-semibold">Стажировки</h1>
-      <base-button
-          type="primary"
-          class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
-          @click="openCreate"
-      >
-        Создать стажировку
-      </base-button>
-    </div>
     <template v-if="!loading">
-      <div class="mb-6 space-y-3">
-        <internships-card
-            class="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
-            v-for="product in internships" :key="product.id"
-            :value="product"
-            isOrganization
-        />
+      <nav aria-label="Breadcrumb">
+        <ol role="list" class="mx-auto flex items-center space-x-2">
+          <li>
+            <div class="flex items-center">
+              <router-link to="/cabinet/applications-organization" class="mr-2 text-sm font-medium text-gray-600 hover:text-gray-900">
+                Стажировки
+              </router-link>
+              <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" aria-hidden="true" class="h-5 w-4 text-gray-300">
+                <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+              </svg>
+            </div>
+          </li>
+          <li class="text-sm">
+            <span v-if="pageId && pageId === 'create'" class="font-medium text-gray-900">Создание стажировки</span>
+            <span v-else class="font-medium text-gray-900">Редактирование стажировки</span>
+          </li>
+        </ol>
+      </nav>
+      <h1 v-if="pageId && pageId === 'create'"
+          class="text-2xl font-semibold pb-5 pt-6">
+        Создание стажировки
+      </h1>
+      <h1 v-else
+          class="text-2xl font-semibold pb-5 pt-6">
+        Редактирование стажировки
+      </h1>
+      <div class="grid gap-x-8 gap-y-10 pt-2 pb-10">
+        <div class="grid grid-cols-1 gap-x-6 gap-y-3 sm:max-w-xl sm:grid-cols-6">
+          <div class="col-span-full flex items-center gap-x-8">
+            <img
+                class="h-24 w-24 flex justify-center items-center rounded-lg object-contain"
+                src="../../assets/images/logo.png"
+                alt="Image"
+            />
+            <div>
+              <base-button
+                  type="primary"
+                  class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm bg-gray-400"
+              >
+                Изменить логтип
+              </base-button>
+              <p class="mt-2 text-xs leading-5 text-gray-500">JPG, GIF or PNG. 1MB max.</p>
+            </div>
+          </div>
+          <base-input
+              class="col-span-full"
+              star
+              v-model="internship.title"
+              label="Название"
+          />
+          <base-select
+              class="col-span-full"
+              star
+              label="label"
+              select-label="Наставник"
+              v-model="internship.mentor"
+              :options="mentorOptions"
+          />
+          <base-textarea
+              class="col-span-full"
+              star
+              v-model="internship.description"
+              label="Описание"
+          />
+          <base-input
+              class="col-span-full"
+              star
+              type="number"
+              v-model="internship.price"
+              label="Зарплата, от (руб.)"
+          />
+          <base-select
+              class="col-span-full"
+              star
+              label="label"
+              select-label="Направление"
+              v-model="internship.directories"
+              :options="directoriesOptions"
+          />
+          <base-select
+              class="col-span-full"
+              star
+              label="label"
+              select-label="График работы"
+              v-model="internship.schedule"
+              :options="scheduleOptions"
+          />
+          <BaseSelect
+              class="col-span-full"
+              v-model="internship.address"
+              :options="optionsAddress"
+              label="label"
+              select-label="Адрес"
+              :internal-search="false"
+              :clearOnSelect="false"
+              :preserveSearch="true"
+              :clearable="true"
+              @searchChange="onSearchChange"
+          />
+          <div class="mt-8 flex col-span-full">
+            <base-button
+                @click="save"
+                class="w-full inline-flex justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md">
+              Сохранить
+            </base-button>
+          </div>
+        </div>
       </div>
     </template>
     <loading v-else/>
@@ -41,10 +119,19 @@ import {ExclamationTriangleIcon, PencilIcon, TrashIcon} from "@heroicons/vue/20/
 import InternshipsCard from "@/components/InternshipsCard.vue";
 import Loading from "@/components/Loading.vue";
 import BaseButton from "@/components/UI/BaseButton.vue";
+import BaseInput from "@/components/UI/BaseInput.vue";
+import BaseTextarea from "@/components/UI/BaseTextarea.vue";
+import {mapActions} from "vuex";
+import BaseSelect from "@/components/UI/BaseSelect.vue";
+import {debounce} from "lodash";
+import axios from "axios";
 
 export default {
   name: "ApplicationsOrganizationForm",
   components: {
+    BaseSelect,
+    BaseTextarea,
+    BaseInput,
     BaseButton,
     Loading,
     InternshipsCard,
@@ -55,54 +142,103 @@ export default {
   data() {
     return {
       loading: false,
-      internships: [
+      directoriesOptions: [],
+      optionsAddress: [],
+      mentorOptions: [],
+      scheduleOptions: [
         {
-          id: 1,
-          name: 'Название',
-          description:
-              'This durable and portable insulated tumbler will keep your beverage at the perfect temperature during your next adventure.',
-          href: '/cabinet/internships/1',
-          direction: 'IT-город',
-          status: 'Preparing to ship',
-          step: 1,
-          date: 'March 24, 2021',
-          datetime: '2021-03-24',
-          address: ['Floyd Miles', '7363 Cynthia Pass', 'Toronto, ON N3Y 4H8'],
-          email: 'f•••@example.com',
-          phone: '1•••••••••40',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/confirmation-page-03-product-01.jpg',
-          imageAlt: 'Insulated bottle with white base and black snap lid.',
+          label: '20 часов в неделю',
+          value: '20 часов в неделю',
         },
         {
-          id: 2,
-          name: 'Название 2',
-          description: 'This contemporary wristwatch has a clean, minimalist look and high quality components.',
-          href: '/cabinet/internships/2',
-          direction: 'Медийный город',
-          status: 'Shipped',
-          step: 0,
-          date: 'March 23, 2021',
-          datetime: '2021-03-23',
-          address: ['Floyd Miles', '7363 Cynthia Pass', 'Toronto, ON N3Y 4H8'],
-          email: 'f•••@example.com',
-          phone: '1•••••••••40',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/confirmation-page-03-product-02.jpg',
-          imageAlt:
-              'Arm modeling wristwatch with black leather band, white watch face, thin watch hands, and fine time markings.',
+          label: '40 часов в неделю',
+          value: '40 часов в неделю',
         },
-        // More products...
       ],
+      internship: {
+        title: '',
+        description: '',
+        price: '',
+        directories: null,
+        schedule: null,
+        address: '',
+        mentor: ''
+      },
     }
   },
   computed: {
+    pageId() {
+      return this.$route?.params?.id
+    },
   },
   methods: {
-    openCreate() {
-      this.$router.push('/cabinet/applications-organization/create');
+    ...mapActions('cabinet', ['getDirections']),
+    onSearchChange: debounce(function callback(event) {
+      if (event.length >= 1) {
+        this.loadAddressSuggest(event);
+      }
+    }, 300),
+    async loadAddressSuggest(e) {
+      const apiUrl = import.meta.env.VITE_APP_FIAS_URL
+      const token = import.meta.env.VITE_APP_FIAS_TOKEN
+      try {
+        const res = await axios
+            .post(
+                apiUrl,
+                {
+                  query: e,
+                  count: 10,
+                },
+                {
+                  headers: {
+                    Authorization: `Token ${token}`,
+                  },
+                }
+            );
+        if(res.data?.suggestions?.length) {
+          this.optionsAddress = res.data.suggestions.map((item) => ({
+            label: item.value,
+            city: item.data?.city || "",
+            location: [item.data?.geo_lat || 0, item.data?.geo_lon || 0]
+          }))
+        }
+      } catch(err) {
+        console.error(err)
+      }
+    },
+    save() {
+      console.log('save')
     }
   },
-  mounted() {
+  async mounted() {
     this.loading = true
+    await this.getDirections().then((res) => {
+      this.directoriesOptions = res?.map((item) => ({
+        label: item?.title || '',
+        value: item?.id || ''
+      })) || []
+    })
+    if(this.pageId && this.pageId !== 'create') {
+      // const payload = {
+      //   poolId: this.currentId,
+      //   objectId: this.currentObjectId,
+      // }
+      // this.getObject(payload).then((res) => {
+      //   this.form = res
+      //   const addressString = res.addressString
+      //   this.getAddressSuggest(addressString)
+      //       .then((addressRes) => {
+      //         const addressStr = {
+      //           label: res?.addressString || ''
+      //         }
+      //         const [address] = addressRes
+      //         if (!address) {
+      //           console.error('coords is not define')
+      //         }
+      //         this.form.address = address || addressStr
+      //       })
+      // })
+    }
     this.loading = false
   }
 }

@@ -177,6 +177,15 @@ export const routes = [
             layout: 'main',
         }
     },
+    {
+        path: '/cabinet/applications-organization/:id',
+        name: 'ApplicationsOrganizationForm',
+        component: () => import('@/pages/cabinet/ApplicationsOrganizationForm.vue'),
+        meta: {
+            requiresAuth: true,
+            layout: 'main',
+        }
+    },
 
 
     // SYSTEM
