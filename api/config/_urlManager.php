@@ -21,6 +21,7 @@ return [
         ['pattern' => 'v1/cabinet/change-password', 'route' => 'cabinet/user/change-password'],
         ['pattern' => 'v1/cabinet/add-education', 'route' => 'cabinet/user/add-education'],
         ['pattern' => 'v1/cabinet/add-experience', 'route' => 'cabinet/user/add-experience'],
+        ['pattern' => 'v1/cabinet/list-vacancy', 'route' => 'cabinet/user/list-vacancy'],
         ['pattern' => 'v1/cabinet/next-stage', 'route' => 'cabinet/user/next-stage'],
 
         ['pattern' => 'v1/cabinet/get-candidate', 'route' => 'cabinet/candidate/get-candidate'],
@@ -29,6 +30,8 @@ return [
 
         // Supervisor
         ['pattern' => 'v1/cabinet/list-candidate', 'route' => 'supervisor/user/list-candidate'],
+        ['pattern' => 'v1/cabinet/approve-vacancy', 'route' => 'supervisor/user/approve-vacancy'],
+        ['pattern' => 'v1/cabinet/cancel-vacancy', 'route' => 'supervisor/user/cancel-vacancy'],
 
         // Organization member
         ['pattern' => 'v1/cabinet/get-vacancy/<id>', 'route' => 'member/user/get-vacancy'],

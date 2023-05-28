@@ -7,6 +7,7 @@ use api\modules\cabinet\models\Essay;
 use api\modules\cabinet\models\InternshipDirection;
 use api\modules\cabinet\models\Specialization;
 use api\modules\cabinet\models\UserProfile;
+use api\modules\member\models\Vacancy;
 use common\models\Candidate;
 use common\models\Country;
 use common\models\Education;
@@ -419,6 +420,25 @@ class UserController extends BaseController
         {
             Yii::$app->response->setStatusCode(500);
             return ['success' => false, 'error' => 'Возникла внутрення ошибка сервера'];
+        }
+    }
+
+    public function actionListVacancy(): array
+    {
+        try {
+            $user = Yii::$app->user->identity;
+            $query = Vacancy::find();
+            if ($user->userProfile->role != UserProfile::ROLE_SUPERVISOR)
+            {
+                $vacancies = $query->where(['is_publish' => 1])->all();
+                return ['success' => true, 'data' => $vacancies];
+            }
+            else return ['success' => true, 'data' => $query->all()];
+        }
+        catch (\Exception $exception)
+        {
+            Yii::$app->response->setStatusCode(500);
+            return ['success' => false, 'Не удалось получить список вакансий'];
         }
     }
 

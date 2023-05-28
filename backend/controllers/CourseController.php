@@ -59,19 +59,25 @@ class CourseController extends Controller
     public function actionCreate()
     {
         $model = new Course();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $stages = StageCourse::stages();
-            foreach ($stages as $item)
+        if ($model->load(Yii::$app->request->post())) {
+            if (empty($model->date_start))
+                $model->date_start = date('Y-m-d H:i:s');
+            if (empty($model->date_end))
+                $model->date_end = date('Y-m-d H:i:s');
+            if ($model->save())
             {
-                $stage = new StageCourse();
-                $stage->course_id = $model->id;
-                $stage->title = $item;
-                $stage->date_end = $model->date_end;
-                $stage->save();
+                $stages = StageCourse::stages();
+                foreach ($stages as $item)
+                {
+                    $stage = new StageCourse();
+                    $stage->course_id = $model->id;
+                    $stage->title = $item;
+                    $stage->date_end = $model->date_end;
+                    $stage->save();
+                }
+                return $this->redirect(['index']);
             }
-            return $this->redirect(['index']);
         }
-
         return $this->render('create', [
             'model' => $model
         ]);
