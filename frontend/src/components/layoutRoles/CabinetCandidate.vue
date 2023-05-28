@@ -75,7 +75,7 @@
                   Демострация пустого состояния (Прием завершен)
                   {{ ' ' }}
                   <span @click="changeFlow" class="cursor-pointer ml-2 font-medium text-yellow-700 underline hover:text-yellow-600">
-                Поменять состояние
+                {{flow ? 'Пустое состояние' : 'Текущее состояние'}}
               </span>
                 </p>
               </div>
@@ -165,7 +165,7 @@
           </div>
           <!--        Отправить заявку-->
           <base-button
-              v-if="flow"
+              v-if="flow && !failed"
               :disabled="disabled"
               type="primary"
               class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-6"
@@ -173,12 +173,24 @@
           >
             Отправить заявку
           </base-button>
+          <div v-if="failed && flow" class="flex flex-col w-fit mt-6">
+            <span class="mb-3 w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700">
+              <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
+                <circle cx="3" cy="3" r="3" />
+              </svg>
+              Заявка отклонена
+            </span>
+            Будем ждать Вас снова, на следующем отборе!
+          </div>
           <!--        Набор заявок закрыт-->
-          <div v-else class="mt-6">
-            <div class="mx-auto max-w-2xl lg:mx-0">
-              <p class="text-xl font-semibold leading-7 text-indigo-600">Прием завершен</p>
-              <p class="mt-2 text-lg font-bold leading-8 text-gray-700">Мы Вым обязательно напомним о старте записи на стажировку.</p>
-            </div>
+          <div v-if="!flow" class="flex flex-col w-fit mt-6">
+            <span class="mb-3 w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700">
+              <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
+                <circle cx="3" cy="3" r="3" />
+              </svg>
+              Прием завершен
+            </span>
+            Мы Вым обязательно напомним о старте записи на стажировку!
           </div>
         </template>
         <template v-if="activeStep === 2">
@@ -236,12 +248,22 @@
           </div>
           <!--        Отправить заявку-->
           <base-button
+              v-if="!failed"
               type="primary"
               class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-6"
               @click="sendSchool"
           >
             Перейти к тестированию
           </base-button>
+          <div v-if="failed && flow" class="flex flex-col w-fit mt-6">
+            <span class="mb-3 w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700">
+              <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
+                <circle cx="3" cy="3" r="3" />
+              </svg>
+              Заявка отклонена
+            </span>
+            Будем ждать Вас снова, на следующем отборе!
+          </div>
         </template>
         <template v-if="activeStep === 3">
           <div class="border-l-4 border-yellow-400 bg-yellow-50 p-4">
@@ -298,12 +320,22 @@
           </div>
           <!--        Отправить заявку-->
           <base-button
+              v-if="!failed"
               type="primary"
               class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-6"
               @click="sendTest"
           >
             Перейти к кейс-чемпионату
           </base-button>
+          <div v-if="failed && flow" class="flex flex-col w-fit mt-6">
+            <span class="mb-3 w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700">
+              <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
+                <circle cx="3" cy="3" r="3" />
+              </svg>
+              Заявка отклонена
+            </span>
+            Будем ждать Вас снова, на следующем отборе!
+          </div>
         </template>
         <template v-if="activeStep === 4">
           <div class="border-l-4 border-yellow-400 bg-yellow-50 p-4">
@@ -360,12 +392,22 @@
           </div>
           <!--        Отправить заявку-->
           <base-button
+              v-if="!failed"
               type="primary"
               class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-6"
               @click="sendCase"
           >
             Перейти к стажировкам
           </base-button>
+          <div v-if="failed && flow" class="flex flex-col w-fit mt-6">
+            <span class="mb-3 w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700">
+              <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
+                <circle cx="3" cy="3" r="3" />
+              </svg>
+              Заявка отклонена
+            </span>
+            Будем ждать Вас снова, на следующем отборе!
+          </div>
         </template>
         <template v-if="activeStep === 5">
           <h2 class="text-xl font-semibold pt-3 pb-5">Стажировка</h2>
@@ -407,6 +449,7 @@ import {CheckIcon} from "@heroicons/vue/24/outline";
 import {mapActions, mapState} from "vuex";
 import Loading from "@/components/Loading.vue";
 import BaseSelect from "@/components/UI/BaseSelect.vue";
+import login from "@/pages/system/Login.vue";
 
 export default {
   name: "CabinetCandidate",
@@ -547,25 +590,7 @@ export default {
     async sendCase() {
       await this.setNextStage().then((item) => {
         if(item?.success) {
-          this.activeStep = 5
-          this.steps = this.steps.map((item) => {
-            if(item.id === this.activeStep) {
-              return {
-                ...item,
-                status: 'current'
-              }
-            } else if (item.id < this.activeStep) {
-              return {
-                ...item,
-                status: 'complete'
-              }
-            } else {
-              return {
-                ...item,
-                status: 'upcoming'
-              }
-            }
-          })
+          this.$router.replace('/cabinet/internships')
         } else {
           this.failed = true
         }
@@ -578,6 +603,12 @@ export default {
   async mounted() {
     this.loading = true
     this.flow = true
+    await this.getDirections().then((res) => {
+      this.directoriesOptions = res?.map((item) => ({
+        label: item?.title || '',
+        value: item?.id || ''
+      })) || []
+    })
     await this.getCandidate().then((res) => {
       this.activeStep = (res?.order_status || 0) + 1
       // complete/current/upcoming
@@ -599,15 +630,10 @@ export default {
           }
         }
       })
-      if(res?.order?.status === 2) {
+      if(res?.order?.id === 2) {
         this.failed = true
       }
-    })
-    await this.getDirections().then((res) => {
-      this.directoriesOptions = res?.map((item) => ({
-        label: item?.title || '',
-        value: item?.id || ''
-      })) || []
+      this.directories = res?.order.directories !== null ? this.directoriesOptions?.find(item => item.id === res?.order?.directories) : null
     })
     await this.getInfo().finally(() => {
       this.loading = false

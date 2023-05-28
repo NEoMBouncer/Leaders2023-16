@@ -332,13 +332,21 @@ export default {
     if(this.isAuthenticated) {
       await this.getInfo().then((res) => {
         // ROLE_CANDIDATE
-        if((res?.role === 0) || (res?.role === 1)) {
+        if((res?.role === 0)) {
           this.navigation = this.navigation.concat([
-              { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false },
               { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: false },
           ])
           this.teams = this.teams.concat([
               { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false }
+          ])
+        }
+        if(res?.role === 1) {
+          this.navigation = this.navigation.concat([
+            { name: 'Стажировки', href: '/cabinet/internships', icon: UsersIcon, current: false },
+            { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, current: false },
+          ])
+          this.teams = this.teams.concat([
+            { id: 3, name: 'Эссе', href: '/cabinet/essay', initial: 'Э', current: false }
           ])
         }
         // ROLE_SUPERVISOR
