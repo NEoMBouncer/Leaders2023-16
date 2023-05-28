@@ -98,7 +98,6 @@ class UserProfile extends ActiveRecord
     public function afterFind()
     {
         $this->_oldAttributes = $this->attributes;
-        $this->age = strtotime($this->age) * 1000;
         return parent::afterFind();
     }
 
