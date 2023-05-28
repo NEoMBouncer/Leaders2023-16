@@ -441,7 +441,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cabinet', ['getInfo', 'getDirections', 'getCandidate', 'setCreateOrder']),
+    ...mapActions('cabinet', ['getInfo', 'getDirections', 'getCandidate', 'setCreateOrder', 'setNextStage']),
     changeFlow() {
       this.flow = !this.flow
     },
@@ -490,66 +490,84 @@ export default {
         }
       })
     },
-    sendSchool() {
-      this.activeStep = 3
-      this.steps = this.steps.map((item) => {
-        if(item.id === this.activeStep) {
-          return {
-            ...item,
-            status: 'current'
-          }
-        } else if (item.id < this.activeStep) {
-          return {
-            ...item,
-            status: 'complete'
-          }
+    async sendSchool() {
+      await this.setNextStage().then((item) => {
+        if(item?.success) {
+          this.activeStep = 3
+          this.steps = this.steps.map((item) => {
+            if (item.id === this.activeStep) {
+              return {
+                ...item,
+                status: 'current'
+              }
+            } else if (item.id < this.activeStep) {
+              return {
+                ...item,
+                status: 'complete'
+              }
+            } else {
+              return {
+                ...item,
+                status: 'upcoming'
+              }
+            }
+          })
         } else {
-          return {
-            ...item,
-            status: 'upcoming'
-          }
+          this.failed = true
         }
       })
     },
-    sendTest() {
-      this.activeStep = 4
-      this.steps = this.steps.map((item) => {
-        if(item.id === this.activeStep) {
-          return {
-            ...item,
-            status: 'current'
-          }
-        } else if (item.id < this.activeStep) {
-          return {
-            ...item,
-            status: 'complete'
-          }
+    async sendTest() {
+      await this.setNextStage().then((item) => {
+        if(item?.success) {
+          this.activeStep = 4
+          this.steps = this.steps.map((item) => {
+            if(item.id === this.activeStep) {
+              return {
+                ...item,
+                status: 'current'
+              }
+            } else if (item.id < this.activeStep) {
+              return {
+                ...item,
+                status: 'complete'
+              }
+            } else {
+              return {
+                ...item,
+                status: 'upcoming'
+              }
+            }
+          })
         } else {
-          return {
-            ...item,
-            status: 'upcoming'
-          }
+          this.failed = true
         }
       })
     },
-    sendCase() {
-      this.activeStep = 5
-      this.steps = this.steps.map((item) => {
-        if(item.id === this.activeStep) {
-          return {
-            ...item,
-            status: 'current'
-          }
-        } else if (item.id < this.activeStep) {
-          return {
-            ...item,
-            status: 'complete'
-          }
+    async sendCase() {
+      await this.setNextStage().then((item) => {
+        if(item?.success) {
+          this.activeStep = 5
+          this.steps = this.steps.map((item) => {
+            if(item.id === this.activeStep) {
+              return {
+                ...item,
+                status: 'current'
+              }
+            } else if (item.id < this.activeStep) {
+              return {
+                ...item,
+                status: 'complete'
+              }
+            } else {
+              return {
+                ...item,
+                status: 'upcoming'
+              }
+            }
+          })
         } else {
-          return {
-            ...item,
-            status: 'upcoming'
-          }
+          this.failed = true
         }
       })
     },
