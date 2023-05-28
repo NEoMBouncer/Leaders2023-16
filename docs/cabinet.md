@@ -358,5 +358,35 @@ GET запрос
 
 Ответ:
 ```
-
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "direction": {
+        "direction_id": null,
+        "list": {
+          "1": "IT-город",
+          "2": "Медийный город",
+          "3": "Социальный город",
+          "4": "Комфортная городская среда",
+          "5": "Правовое пространство",
+          "6": "Городская экономика",
+          "7": "HR-город"
+        }
+      },
+      "intern_id": null,
+      "mentor_id": 5,
+      "organization": "Департамент тестов",
+      "income": 100000,
+      "title": "test",
+      "address": null,
+      "geo_lat": 123.2342,
+      "geo_lon": 1646584,
+      "description": null,
+      "schedule": null,
+      "status": 1
+    }
+  ]
+}
 ```

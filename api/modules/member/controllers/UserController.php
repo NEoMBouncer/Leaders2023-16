@@ -130,17 +130,4 @@ class UserController extends BaseController
             return ['success' => false, 'error' => 'Ошибка сервера. Не удалось получить список вакансий'];
         }
     }
-
-    public function actionListCandidate()
-    {
-        $currentCourse = Course::getActiveCourse();
-        $candidates = Candidate::find()
-            ->leftJoin('candidate_order', 'candidate.id = candidate_order.candidate_id')
-            ->leftJoin('user_profile', 'candidate.user_id = user_profile.user_id')
-            ->where(['candidate_order.course_id' => $currentCourse->id])
-            ->groupBy('id')
-            ->all();
-
-        return ['success' => true, 'data' => $candidates];
-    }
 }
