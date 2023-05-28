@@ -201,10 +201,10 @@
               </div>
               <div class="ml-3">
                 <p class="text-sm text-yellow-700">
-                  Демострация состояния
+                  Демострация - пользователь не прошел отбор на этапе карьерной школы
                   {{ ' ' }}
                   <span @click="changeFlow" class="cursor-pointer ml-2 font-medium text-yellow-700 underline hover:text-yellow-600">
-                Поменять состояние
+                {{flow ? 'Посмотреть состояние' : 'Текущее состояние'}}
               </span>
                 </p>
               </div>
@@ -216,26 +216,36 @@
             <div class="px-4 py-5 sm:p-6">
               <div class="flex items-center">
                 <h3 class="text-base font-semibold leading-6 text-gray-900">Пройдите карьерную школу</h3>
-                <span class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
+                <span v-if="!flow" class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
                   <svg class="h-1.5 w-1.5 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
                     <circle cx="3" cy="3" r="3" />
                   </svg>
-                  Badge
-              </span>
-                <span class="flex-shrink-0 ml-3">
+                  Отказано
+                </span>
+                <span v-if="flow" class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
+                  <svg class="h-1.5 w-1.5 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
+                    <circle cx="3" cy="3" r="3" />
+                  </svg>
+                  Одобрено
+                </span>
+                <span v-if="flow" class="flex-shrink-0 ml-3">
                   <span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600">
                     <CheckIcon class="h-5 w-5 text-white" aria-hidden="true" />
                   </span>
-              </span>
+                </span>
               </div>
               <div class="mt-2 sm:flex sm:items-start sm:justify-between">
                 <div class="max-w-xl text-sm text-gray-500">
+                  <span class="inline-flex items-center rounded-md py-1 text-gray-600 text-sm font-medium">
+                    У Вас суммарно набрано: {{info.scores}} баллов
+                  </span>
                   <p>
                     Узнай все о структуре Правительства Москвы и познакомься с лучшими городскими проектами.
                   </p>
                 </div>
                 <div class="mt-5 sm:ml-6 sm:mt-0 sm:flex sm:flex-shrink-0 sm:items-center">
                   <base-button
+                      v-if="!failed && flow"
                       type="primary"
                       class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
                       @click="openSchool"
@@ -248,14 +258,14 @@
           </div>
           <!--        Отправить заявку-->
           <base-button
-              v-if="!failed"
+              v-if="!failed || flow"
               type="primary"
               class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-6"
               @click="sendSchool"
           >
             Перейти к тестированию
           </base-button>
-          <div v-if="failed && flow" class="flex flex-col w-fit mt-6">
+          <div v-if="failed || !flow" class="flex flex-col w-fit mt-6">
             <span class="mb-3 w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700">
               <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
                 <circle cx="3" cy="3" r="3" />
@@ -273,10 +283,10 @@
               </div>
               <div class="ml-3">
                 <p class="text-sm text-yellow-700">
-                  Демострация состояния
+                  Демострация - пользователь не прошел отбор на этапе тестирование
                   {{ ' ' }}
                   <span @click="changeFlow" class="cursor-pointer ml-2 font-medium text-yellow-700 underline hover:text-yellow-600">
-                Поменять состояние
+                {{flow ? 'Посмотреть состояние' : 'Текущее состояние'}}
               </span>
                 </p>
               </div>
@@ -288,26 +298,36 @@
             <div class="px-4 py-5 sm:p-6">
               <div class="flex items-center">
                 <h3 class="text-base font-semibold leading-6 text-gray-900">Пройдите тестирование</h3>
-                <span class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
+                <span v-if="!flow" class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
                   <svg class="h-1.5 w-1.5 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
                     <circle cx="3" cy="3" r="3" />
                   </svg>
-                  Badge
-              </span>
-                <span class="flex-shrink-0 ml-3">
+                  Отказано
+                </span>
+                <span v-if="flow" class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
+                  <svg class="h-1.5 w-1.5 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
+                    <circle cx="3" cy="3" r="3" />
+                  </svg>
+                  Одобрено
+                </span>
+                <span v-if="flow" class="flex-shrink-0 ml-3">
                   <span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600">
                     <CheckIcon class="h-5 w-5 text-white" aria-hidden="true" />
                   </span>
-              </span>
+                </span>
               </div>
               <div class="mt-2 sm:flex sm:items-start sm:justify-between">
                 <div class="max-w-xl text-sm text-gray-500">
+                  <span class="inline-flex items-center rounded-md py-1 text-gray-600 text-sm font-medium">
+                    У Вас суммарно набрано: {{info.scores}} баллов
+                  </span>
                   <p>
                     Пройди онлайн-тест на умение анализировать информацию, знание русского языка и компьютерную грамотность.
                   </p>
                 </div>
                 <div class="mt-5 sm:ml-6 sm:mt-0 sm:flex sm:flex-shrink-0 sm:items-center">
                   <base-button
+                      v-if="!failed && flow"
                       type="primary"
                       class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
                       @click="openTest"
@@ -320,14 +340,14 @@
           </div>
           <!--        Отправить заявку-->
           <base-button
-              v-if="!failed"
+              v-if="!failed && flow"
               type="primary"
               class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-6"
               @click="sendTest"
           >
             Перейти к кейс-чемпионату
           </base-button>
-          <div v-if="failed && flow" class="flex flex-col w-fit mt-6">
+          <div v-if="failed || !flow" class="flex flex-col w-fit mt-6">
             <span class="mb-3 w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700">
               <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
                 <circle cx="3" cy="3" r="3" />
@@ -345,10 +365,10 @@
               </div>
               <div class="ml-3">
                 <p class="text-sm text-yellow-700">
-                  Демострация состояния
+                  Демострация - пользователь не прошел отбор на этапе Кейс-чемпионат
                   {{ ' ' }}
                   <span @click="changeFlow" class="cursor-pointer ml-2 font-medium text-yellow-700 underline hover:text-yellow-600">
-                Поменять состояние
+                {{flow ? 'Посмотреть состояние' : 'Текущее состояние'}}
               </span>
                 </p>
               </div>
@@ -360,26 +380,36 @@
             <div class="px-4 py-5 sm:p-6">
               <div class="flex items-center">
                 <h3 class="text-base font-semibold leading-6 text-gray-900">Защити кейс-чемпионат</h3>
-                <span class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
+                <span v-if="!flow" class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
                   <svg class="h-1.5 w-1.5 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
                     <circle cx="3" cy="3" r="3" />
                   </svg>
-                  Badge
-              </span>
-                <span class="flex-shrink-0 ml-3">
+                  Отказано
+                </span>
+                <span v-if="flow" class="inline-flex ml-3 items-center gap-x-1.5 rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
+                  <svg class="h-1.5 w-1.5 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
+                    <circle cx="3" cy="3" r="3" />
+                  </svg>
+                  Одобрено
+                </span>
+                <span v-if="flow" class="flex-shrink-0 ml-3">
                   <span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600">
                     <CheckIcon class="h-5 w-5 text-white" aria-hidden="true" />
                   </span>
-              </span>
+                </span>
               </div>
               <div class="mt-2 sm:flex sm:items-start sm:justify-between">
                 <div class="max-w-xl text-sm text-gray-500">
+                  <span class="inline-flex items-center rounded-md py-1 text-gray-600 text-sm font-medium">
+                    У Вас суммарно набрано: {{info.scores}} баллов
+                  </span>
                   <p>
                     Защити свой проект на кейс-чемпионате. Решайте реальные задачи от организаций Правительства Москвы, презентуя решения перед членами жюри.
                   </p>
                 </div>
                 <div class="mt-5 sm:ml-6 sm:mt-0 sm:flex sm:flex-shrink-0 sm:items-center">
                   <base-button
+                      v-if="!failed && flow"
                       type="primary"
                       class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
                       @click="openCase"
@@ -392,14 +422,14 @@
           </div>
           <!--        Отправить заявку-->
           <base-button
-              v-if="!failed"
+              v-if="!failed && flow"
               type="primary"
               class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-6"
               @click="sendCase"
           >
             Перейти к стажировкам
           </base-button>
-          <div v-if="failed && flow" class="flex flex-col w-fit mt-6">
+          <div v-if="failed || !flow" class="flex flex-col w-fit mt-6">
             <span class="mb-3 w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700">
               <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
                 <circle cx="3" cy="3" r="3" />
@@ -508,24 +538,27 @@ export default {
       }
       await this.setCreateOrder(payload).then((item) => {
         if(item?.success) {
-          this.activeStep = 2
-          this.steps = this.steps.map((item) => {
-            if(item.id === this.activeStep) {
-              return {
-                ...item,
-                status: 'current'
+          this.getInfo().then(() => {
+            this.activeStep = 2
+            this.flow = true
+            this.steps = this.steps.map((item) => {
+              if(item.id === this.activeStep) {
+                return {
+                  ...item,
+                  status: 'current'
+                }
+              } else if (item.id < this.activeStep) {
+                return {
+                  ...item,
+                  status: 'complete'
+                }
+              } else {
+                return {
+                  ...item,
+                  status: 'upcoming'
+                }
               }
-            } else if (item.id < this.activeStep) {
-              return {
-                ...item,
-                status: 'complete'
-              }
-            } else {
-              return {
-                ...item,
-                status: 'upcoming'
-              }
-            }
+            })
           })
         } else {
           this.failed = true
@@ -535,24 +568,27 @@ export default {
     async sendSchool() {
       await this.setNextStage().then((item) => {
         if(item?.success) {
-          this.activeStep = 3
-          this.steps = this.steps.map((item) => {
-            if (item.id === this.activeStep) {
-              return {
-                ...item,
-                status: 'current'
+          this.getInfo().then(() => {
+            this.activeStep = 3
+            this.flow = true
+            this.steps = this.steps.map((item) => {
+              if (item.id === this.activeStep) {
+                return {
+                  ...item,
+                  status: 'current'
+                }
+              } else if (item.id < this.activeStep) {
+                return {
+                  ...item,
+                  status: 'complete'
+                }
+              } else {
+                return {
+                  ...item,
+                  status: 'upcoming'
+                }
               }
-            } else if (item.id < this.activeStep) {
-              return {
-                ...item,
-                status: 'complete'
-              }
-            } else {
-              return {
-                ...item,
-                status: 'upcoming'
-              }
-            }
+            })
           })
         } else {
           this.failed = true
@@ -562,24 +598,27 @@ export default {
     async sendTest() {
       await this.setNextStage().then((item) => {
         if(item?.success) {
-          this.activeStep = 4
-          this.steps = this.steps.map((item) => {
-            if(item.id === this.activeStep) {
-              return {
-                ...item,
-                status: 'current'
+          this.getInfo().then(() => {
+            this.activeStep = 4
+            this.flow = true
+            this.steps = this.steps.map((item) => {
+              if(item.id === this.activeStep) {
+                return {
+                  ...item,
+                  status: 'current'
+                }
+              } else if (item.id < this.activeStep) {
+                return {
+                  ...item,
+                  status: 'complete'
+                }
+              } else {
+                return {
+                  ...item,
+                  status: 'upcoming'
+                }
               }
-            } else if (item.id < this.activeStep) {
-              return {
-                ...item,
-                status: 'complete'
-              }
-            } else {
-              return {
-                ...item,
-                status: 'upcoming'
-              }
-            }
+            })
           })
         } else {
           this.failed = true
@@ -589,7 +628,7 @@ export default {
     async sendCase() {
       await this.setNextStage().then((item) => {
         if(item?.success) {
-          this.$router.replace('/cabinet/internships')
+          this.$router.replace('/cabinet')
         } else {
           this.failed = true
         }
