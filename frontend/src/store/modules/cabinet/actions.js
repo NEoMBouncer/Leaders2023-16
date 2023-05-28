@@ -249,7 +249,7 @@ export default {
                         toast.success('Поздравляем! Вы прошли на следующий этап!')
                         resolve(res?.data)
                     } else {
-                        toast.error(res?.data?.error || 'Заявка откланена')
+                        toast.error(res?.data?.error || 'Заявка отклонена')
                         resolve(res?.data)
                     }
                 })

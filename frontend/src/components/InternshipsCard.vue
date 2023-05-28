@@ -3,7 +3,7 @@
     <div class="px-4 py-6 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-6">
       <div class="sm:flex lg:col-span-7">
         <router-link :to="value.href" class="aspect-h-1 aspect-w-1 w-full flex-shrink-0 overflow-hidden rounded-lg sm:aspect-none sm:h-40 sm:w-40">
-          <img src="../assets/images/logo.png" :alt="logo" class="h-full w-full object-contain object-center sm:h-full sm:w-full" />
+          <img src="../assets/images/logo.png" alt="logo" class="h-full w-full object-contain object-center sm:h-full sm:w-full" />
         </router-link>
 
         <div class="mt-6 sm:ml-6 sm:mt-0">
@@ -83,7 +83,7 @@
 <!--            </svg>-->
 <!--            Опубликована-->
 <!--         </span>-->
-        <span class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-blue-100 px-2 py-1 font-medium text-blue-700">
+        <span class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-blue-100 text-sm px-2 py-1 font-medium text-blue-700">
             <svg class="h-2 w-2 fill-blue-500" viewBox="0 0 6 6" aria-hidden="true">
               <circle cx="3" cy="3" r="3" />
             </svg>

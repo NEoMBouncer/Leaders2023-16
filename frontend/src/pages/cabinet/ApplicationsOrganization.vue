@@ -12,11 +12,11 @@
 <!--        </div>-->
 <!--      </div>-->
 <!--    </div>-->
-    <div class="flex justify-between pb-5">
+    <div class="flex sm:flex-row flex-col justify-between pb-5">
       <h1 class="text-2xl font-semibold">Стажировки</h1>
       <base-button
           type="primary"
-          class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
+          class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm mt-3 sm:mt-0"
           @click="openCreate"
       >
         Создать стажировку

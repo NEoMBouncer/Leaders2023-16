@@ -10,11 +10,11 @@
       <cabinet-supervisor/>
     </template>
     <!--наставник-->
-    <template v-if="info.role === 0">
+    <template v-if="info.role === 3">
       <cabinet-mentor/>
     </template>
     <!--кадровый специалист-->
-    <template v-if="info.role === 0">
+    <template v-if="info.role === 4">
       <cabinet-organization/>
     </template>
   </div>
