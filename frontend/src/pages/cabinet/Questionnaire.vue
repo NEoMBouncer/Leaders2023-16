@@ -112,19 +112,6 @@
               v-model="formPerson.is_russian_citizenship"
               :options="russianCitizenshipOptions"
           />
-        </div>
-      </div>
-
-      <!--контактная информация-->
-      <div class="grid gap-x-8 gap-y-10 py-10">
-        <div>
-          <h2 class="text-xl font-semibold leading-7">Контактная информация</h2>
-          <p class="mt-1 text-sm leading-6 text-gray-500">
-            Поля, отмеченные <sup class="text-red-600">*</sup>, обязательны для заполнения.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 gap-x-6 gap-y-3 sm:max-w-xl sm:grid-cols-6">
           <BaseSelect
               class="col-span-full"
               v-model="formContacts.address"
@@ -144,6 +131,13 @@
               label="Мобильный телефон"
               v-maska="{mask: '+7 (###) ###-##-##', tokens: {'d':{pattern: /[1-9]/}, 'D':{pattern: /[0-9]/}, 'D':{pattern: /[0-9]/}}}"
           />
+          <div class="mt-4 pt-4">
+            <base-button
+                @click="saveProfile"
+                class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">
+              Сохранить
+            </base-button>
+          </div>
         </div>
       </div>
 
@@ -176,17 +170,17 @@
                   label="label"
                   star
                   select-label="Уровень образования"
-                  v-model="school.levelEducation"
+                  v-model="school.level"
                   :options="levelEducationOptions"
               />
               <base-input
                   class="col-span-full"
-                  v-model="school.institutionEducation"
+                  v-model="school.name"
                   label="Учебное заведение"
               />
               <BaseSelect
                   class="col-span-full"
-                  v-model="school.addressEducation"
+                  v-model="school.address"
                   :options="optionsEducationAddress"
                   label="label"
                   select-label="Адрес учебного заведения"
@@ -207,7 +201,7 @@
                   label="label"
                   star
                   select-label="Начало учебы"
-                  v-model="school.startSchool"
+                  v-model="school.date_start"
                   :options="startSchoolOptions"
               />
               <base-select
@@ -215,13 +209,20 @@
                   label="label"
                   star
                   select-label="Завершение учебы"
-                  v-model="school.endSchool"
+                  v-model="school.date_end"
                   :options="endSchoolOptions"
               />
             </div>
             <div @click="addSchool" class="text-sm pt-6 text-indigo-600 cursor-pointer">
               + Добавить дополнительное образование
             </div>
+          </div>
+          <div class="mt-4 pt-4">
+            <base-button
+                @click="saveEducation"
+                class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">
+              Сохранить
+            </base-button>
           </div>
         </div>
       </div>
@@ -273,19 +274,19 @@
                   class="col-span-full"
                   label="Дата начала"
                   autoApply
-                  v-model="item.startDate"
+                  v-model="item.date_start"
               />
               <base-datepicker
                   v-if="isExperiences.value"
                   class="col-span-full"
                   label="Дата окончания"
                   autoApply
-                  v-model="item.endDate"
+                  v-model="item.date_end"
               />
               <base-input
                   v-if="isExperiences.value"
                   class="col-span-full"
-                  v-model="item.organization"
+                  v-model="item.name"
                   label="Организация"
               />
               <base-select
@@ -293,7 +294,7 @@
                   class="col-span-full multiple"
                   label="label"
                   select-label="Ключевые навыки"
-                  v-model="item.keySkills"
+                  v-model="item.key_skills"
                   multiple
                   :closeOnSelect="false"
                   :searchable="true"
@@ -318,15 +319,14 @@
               + Добавить дополнительный опыт работы
             </div>
           </div>
+          <div class="mt-4 pt-4">
+            <base-button
+                @click="save"
+                class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">
+              Сохранить
+            </base-button>
+          </div>
         </div>
-      </div>
-
-      <div class="mt-4 pt-4">
-        <base-button
-            @click="save"
-            class="sm:max-w-xl inline-flex justify-center py-2 px-4 text-sm font-medium rounded-md">
-          Сохранить
-        </base-button>
       </div>
     </template>
     <loading v-else/>
@@ -391,12 +391,12 @@ export default {
       optionsSchool: [],
       schools: [
         {
-          levelEducation: null,
-          institutionEducation: '',
-          addressEducation: null,
+          level: null,
+          name: '',
+          address: null,
           speciality: '',
-          startSchool: null,
-          endSchool: null,
+          date_start: null,
+          date_end: null,
         }
       ],
       optionsEducationAddress: [],
@@ -448,12 +448,12 @@ export default {
       experiences: [
         {
           income: '',
-          startDate: null,
-          endDate: null,
-          organization: '',
+          name: '',
           post: '',
           responsibilities: '',
-          keySkills: [],
+          key_skills: [],
+          date_start: null,
+          date_end: null,
         }
       ],
       experiencesOptions: [
@@ -479,7 +479,7 @@ export default {
     ...mapState('cabinet', ['info']),
   },
   methods: {
-    ...mapActions('cabinet', ['getSpecializations', 'getProfile', 'setUpdateProfile']),
+    ...mapActions('cabinet', ['getSpecializations', 'getProfile', 'setUpdateProfile', 'setAddEducation', 'setAddExperience']),
     isImageFile(file) {
       if(file.type) {
         return /^image\/\w+$/.test(file.type)
@@ -599,12 +599,12 @@ export default {
     addSchool() {
       this.schools.push(
           {
-            levelEducation: null,
-            institutionEducation: '',
-            addressEducation: null,
+            level: null,
+            name: '',
+            address: null,
             speciality: '',
-            startSchool: null,
-            endSchool: null,
+            date_start: null,
+            date_end: null,
           }
       )
     },
@@ -615,53 +615,58 @@ export default {
       this.experiences.push(
           {
             income: '',
-            startDate: null,
-            endDate: null,
-            organization: '',
+            date_start: null,
+            date_end: null,
+            name: '',
             post: '',
             responsibilities: '',
-            keySkills: [],
+            key_skills: [],
           }
       )
     },
     removeExperiences(index) {
       this.experiences = this.experiences.filter((item, indexItem) => indexItem !== index)
     },
-    save() {
-      const schools = this.schools?.map((item) => ({
+    async saveProfile() {
+      const payload = {
+        firstname: this.formPerson?.firstname || '',
+        middlename: this.formPerson?.middlename || '',
+        lastname: this.formPerson.lastname,
+        gender: this.formPerson.gender.value,
+        country_id: this.formPerson.is_russian_citizenship.value,
+        age: new Date(this.formPerson.age).getTime().toString(),
+        city: this.formContacts.address.city,
+        full_address: this.formContacts.address.label,
+        phone: this.formContacts.phone.replace(/\s/g, '').replace(/[()-]/g, '')
+      }
+      await this.setUpdateProfile(payload)
+    },
+    async saveEducation() {
+      const educations = this.schools?.map((item) => ({
         ...item,
-        levelEducation: item?.levelEducation?.value || '',
-        addressEducation: item?.addressEducation?.city || '',
-        addressEducationFull: item?.addressEducation?.label || '',
-        startSchool: item?.startSchool?.value || '',
-        endSchool: item?.endSchool?.value || ''
-      })) || []
-      const experiences = this.experiences?.map((item) => ({
-        ...item,
-        experiences: item?.experiences?.value || 0,
-        startDate: new Date(item?.startDate)?.getTime().toString() || '',
-        endDate: new Date(item?.endDate)?.getTime().toString() || '',
-        keySkills: item?.keySkills?.map((e) => e.value)
+        level: item?.level?.value || 0,
+        city: item?.address?.city || '',
+        address: item?.address?.label || '',
+        date_start: item?.date_start?.value || '',
+        date_end: item?.date_end?.value || ''
       })) || []
       const payload = {
-        // formPerson
-        firstname: this.formPerson?.firstname || '',
-        lastname: this.formPerson?.lastname || '',
-        middlename: this.formPerson?.middlename || '',
-        gender: this.formPerson?.gender?.value || '',
-        age: new Date(this.formPerson?.age)?.getTime().toString() || '',
-        is_russian_citizenship: this.formPerson?.is_russian_citizenship?.value || '',
-        // formContacts
-        city: this.formContacts?.address?.city || '',
-        fullAddress: this.formContacts?.address?.label || '',
-        phone: this.formContacts?.phone?.replace(/\s|[^a-zA-ZА-Яа-яёЁ0-9]/g, "") || '',
-        // schools
-        schools: schools || [],
-        // experiences
+        educations: educations
+      }
+      await this.setAddEducation(payload)
+    },
+    async save() {
+      const experiences = this.experiences?.map((item) => ({
+        ...item,
+        key_skills: item?.key_skills?.map((e) => e.value),
+        date_start: new Date(item?.date_start)?.getTime().toString() || '',
+        date_end: new Date(item?.date_end)?.getTime().toString() || '',
+      })) || []
+      const payload = {
         experiences: experiences || [],
       }
-      console.log('save', payload)
-    }
+      await this.setAddExperience(payload)
+    },
   },
   async mounted() {
     this.loading = true
@@ -694,14 +699,35 @@ export default {
             firstname: e?.firstname || '',
             lastname: e?.lastname || '',
             middlename: e?.middlename || '',
-            age: e?.age ? new Date(e?.age) : null,
+            age: e?.age ? new Date(Number(e?.age || 0)) : null,
             gender: this.genderOptions?.find(item => item.value === e.gender) || null,
             is_russian_citizenship: this.russianCitizenshipOptions?.find(item => item.value === e.country_id.value) || null,
           }
           this.formContacts = {
-            address: null,
+            address: e?.full_address ? {
+              label: e?.full_address || '',
+              city: e?.city || ''
+            } : null,
             phone: e?.phone || ''
           }
+          this.schools = e?.educations?.map((item) => ({
+            ...item,
+            level: this.levelEducationOptions?.find((s) => s?.value === item?.level) || null,
+            address: item?.address ? {
+              label: item?.address || '',
+              city: item?.city || ''
+            } : null,
+            date_start: this.startSchoolOptions?.find((s) => s?.value === item?.date_start) || null,
+            date_end: this.endSchoolOptions?.find((s) => s?.value === item?.date_end) || null,
+          })) || []
+          this.experiences = e?.experiences?.map((item) => ({
+            ...item,
+            key_skills: item?.key_skills?.map((s) => {
+              this.specializationsOptions.find(r => r.value === s)
+            }),
+            date_start: item?.date_start ? new Date(Number(item?.date_start || 0)) : null,
+            date_end: item?.date_end ? new Date(Number(item?.date_end || 0)) : null,
+          })) || []
         })
         .finally(() => {
           this.loading = false
