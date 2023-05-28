@@ -168,12 +168,12 @@ class UserProfile extends ActiveRecord
             }
             else return 'Неподходящий возраст';
 
-            //Проверка гражданства
+            // Проверка гражданства
             $checkCitizenship = $user->userProfile->country_id === 192;
             if ($checkCitizenship === false)
                 return 'Отсутствие Российского гражданства';
 
-            //Проверка образования
+            // Проверка образования
             $educations = Education::find()->where(['user_id' => $user->id])->all();
             $checkEducation = false;
             $highLevel = Education::highLevel();
@@ -186,13 +186,13 @@ class UserProfile extends ActiveRecord
             if ($checkEducation === false)
                 return 'Наличие высшего образования или последний год учебы';
 
-            //Проверка опыта работы
+            // Проверка опыта работы
             $experiences = Experience::find()->where(['user_id' => $user->id])->all();
             $checkExperience = false;
             foreach ($experiences as $experience)
             {
                 $specializationsArray = InternshipDirection::getSkills($candidateOrder->direction_id);
-                $keys = $experience->key_skills;
+                $keys = unserialize($experience->key_skills);
                 foreach ($keys as $key)
                     if (in_array($key, $specializationsArray))
                     {
