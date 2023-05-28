@@ -3,15 +3,15 @@
 namespace common\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
  * Course model
  *
  * @property integer $id
- * @property int $date_start
- * @property int $date_end
+ * @property string $title
+ * @property string $date_start
+ * @property string $date_end
  * @property int $status
  */
 class Course extends ActiveRecord
@@ -33,7 +33,9 @@ class Course extends ActiveRecord
     public function rules()
     {
         return [
-            [['date_start', 'date_end', 'status'], 'integer'],
+            ['title', 'string', 'max' => 255],
+            ['status', 'integer'],
+            [['date_start', 'date_end'], 'safe'],
         ];
     }
 
@@ -65,5 +67,16 @@ class Course extends ActiveRecord
     public static function getLast()
     {
         return self::find()->orderBy('id DESC')->one();
+    }
+
+    public static function getList()
+    {
+        $courses = self::find()->select(['id', 'title'])->all();
+        $data = [];
+        foreach ($courses as $course)
+            $data[] = [
+                $course->id => $course->title
+            ];
+        return $data;
     }
 }

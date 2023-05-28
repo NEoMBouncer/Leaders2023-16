@@ -60,6 +60,7 @@ return [
     'If you leave this field empty, the slug will be generated automatically' => 'Если вы оставите это поле пустым, ЧПУ будет сгенерирован автоматически',
     'Incorrect username or password.' => 'Неправильный логин или пароль',
     'Internal IP' => 'Внутренний IP',
+    'Internship course' => 'Курс стажировки',
     'Kernel version' => 'Версия ядра',
     'Key' => 'Ключ',
     'Key Storage Items' => 'Записи',

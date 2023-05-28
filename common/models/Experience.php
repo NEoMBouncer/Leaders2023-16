@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
@@ -11,8 +12,8 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $user_id
  * @property double $income
- * @property int $date_start
- * @property int $date_end
+ * @property string $date_start
+ * @property string $date_end
  * @property string $name
  * @property string $post
  * @property string $responsibilities
@@ -35,7 +36,8 @@ class Experience extends ActiveRecord
     {
         return [
             ['income', 'number', 'min' => 0],
-            [['user_id', 'date_start', 'date_end'], 'integer'],
+            ['user_id', 'integer'],
+            [['date_start', 'date_end'], 'safe'],
             [['name', 'post'], 'string', 'max' => 255],
             [['responsibilities', 'key_skills'], 'string'],
         ];
@@ -50,6 +52,20 @@ class Experience extends ActiveRecord
     public function beforeValidate() {
         $this->key_skills = serialize($this->key_skills);
         return parent::beforeValidate();
+    }
+
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['date_start', 'date_end'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['date_start', 'date_end'],
+                ],
+                'value' => date('Y-m-d H:i:s'),
+            ]
+        ];
     }
 
     /**

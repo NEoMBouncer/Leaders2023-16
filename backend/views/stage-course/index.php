@@ -37,26 +37,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'id',
                     'options' => ['style' => 'width: 5%'],
                 ],
-                'title',
                 [
-                    'attribute' => 'date_start',
+                    'attribute' => 'course_id',
                     'value' => function ($model) {
-                        return date('d.m.Y H:i:s', strtotime($model->date_start));
+                        return Course::findOne($model->course_id)->title;
                     }
                 ],
+                'title',
                 [
                     'attribute' => 'date_end',
                     'value' => function ($model) {
                         return date('d.m.Y H:i:s', strtotime($model->date_end));
                     }
                 ],
-                [
-                    'class' => EnumColumn::class,
-                    'attribute' => 'status',
-                    'enum' => Course::statuses(),
-                    'filter' => Course::statuses()
-                ],
-
                 [
                     'class' => \common\widgets\ActionColumn::class,
                     'template' => '{view} {update} {delete}',

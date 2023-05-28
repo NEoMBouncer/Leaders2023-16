@@ -16,20 +16,8 @@ use yii\bootstrap4\ActiveForm;
     <?php $form = ActiveForm::begin() ?>
         <div class="card">
             <div class="card-body">
-                <?php echo $form->field($model, 'title')->textInput() ?>
-                <div class="border border-secondary rounded p-1" style="width:320px">
-                    <?php echo $form->field($model, 'date_start')->widget(
-                        DateTimePicker::class,
-                        [
-                            'type' => DateTimePicker::TYPE_INLINE,
-                            'pluginOptions' => [
-                                'format' => 'yyyy-mm-dd hh:ii',
-                                'showMeridian' => true,
-                                'todayBtn' => true,
-                            ]
-                        ]
-                    ) ?>
-                </div>
+                <?php echo $form->field($model, 'course_id')->dropDownList(\common\models\Course::getList()) ?>
+                <?php echo $form->field($model, 'title')->dropDownList(\common\models\StageCourse::stages()) ?>
                 <div class="border border-secondary rounded p-1" style="width:320px">
                     <?php echo $form->field($model, 'date_end')->widget(
                         DateTimePicker::class,
@@ -43,7 +31,6 @@ use yii\bootstrap4\ActiveForm;
                         ]
                     ) ?>
                 </div>
-                <?php echo $form->field($model, 'status')->dropDownList(\common\models\Course::statuses()) ?>
             </div>
             <div class="card-footer">
                 <?php echo Html::submitButton(Yii::t('backend', 'Save'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>

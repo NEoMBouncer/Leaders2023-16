@@ -3,14 +3,15 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
  * Education model
  *
  * @property integer $id
- * @property int $date_start
- * @property int $date_end
+ * @property string $date_start
+ * @property string $date_end
  * @property int $user_id
  * @property int $level
  * @property string $name
@@ -44,8 +45,23 @@ class Education extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'level', 'date_start', 'date_end'], 'integer'],
+            [['user_id', 'level'], 'integer'],
+            [['date_start', 'date_end'], 'safe'],
             [['name', 'address', 'city', 'speciality'], 'string', 'max' => 255],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['date_start', 'date_end'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['date_start', 'date_end'],
+                ],
+                'value' => date('Y-m-d H:i:s'),
+            ]
         ];
     }
 

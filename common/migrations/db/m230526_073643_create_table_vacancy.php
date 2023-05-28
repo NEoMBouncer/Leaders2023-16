@@ -18,10 +18,12 @@ class m230526_073643_create_table_vacancy extends Migration
             'organization_id' => $this->integer()->notNull(),
             'intern_id' => $this->integer(),
             'mentor_id' => $this->integer(),
+            'income' => $this->integer()->unsigned(),
             'title' => $this->string(),
             'description' => $this->string(),
             'schedule' => $this->string(),
             'status' => $this->tinyInteger()->notNull(),
+            'is_publish' => $this->tinyInteger()->notNull()->defaultValue(0),
             'created_by' => $this->integer(),
             'created_at' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP')

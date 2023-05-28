@@ -35,7 +35,7 @@ class m140703_123000_user extends Migration
             'middlename' => $this->string(),
             'position' => $this->string()->null(),
             'lastname' => $this->string(),
-            'age' => $this->string(),
+            'age' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'city' => $this->string(),
             'full_address' => $this->string()->null(),
             'avatar' => $this->string()->defaultValue('/storage/source/user/default_avatar.png'),

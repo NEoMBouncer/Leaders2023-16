@@ -164,17 +164,17 @@ class UserController extends BaseController
             $countExperiences = count($experiences);
             $userExperiences = Experience::find()->where(['user_id' => $user->id])->all();
             $countUserExperiences = $userExperiences ? count($userExperiences): 0;
-            $i = 0;
+            $j = 0;
 //            if ($countUserExperiences > $countExperiences)
 //            {
 //                $count = $countUserExperiences - $countExperiences;
 //                for ($j = 0; $j < $count; $j++)
 //                    $userExperience[-1]->delete();
 //            }
-            for (; $i < $countExperiences; $i++)
+            for (; $j < $countExperiences; $j++)
             {
-                $experience = $i >= $countUserExperiences ? new Experience() : $userExperiences[$i];
-                if ($experience->load($experiences[$i], '') && $experience->validate())
+                $experience = $j >= $countUserExperiences ? new Experience() : $userExperiences[$j];
+                if ($experience->load($experiences[$j], '') && $experience->validate())
                 {
                     $experience->user_id = $user->id;
                     $experience->save();
