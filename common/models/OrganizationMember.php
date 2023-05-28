@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  * @property int $user_id
  * @property int $organization_id
  * @property string $position
+ * @property bool $is_deleted
  *
  * @property User $user
  * @property Organization $organization
@@ -33,6 +34,7 @@ class OrganizationMember extends ActiveRecord
     public function rules()
     {
         return [
+            [['user_id', 'organization_id'], 'required'],
             [['user_id', 'organization_id', 'is_deleted'], 'integer'],
             ['position', 'string', 'max' => 255]
         ];

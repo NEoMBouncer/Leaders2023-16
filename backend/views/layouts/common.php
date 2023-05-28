@@ -223,6 +223,18 @@ $logEntries[] = [
                             'visible' => Yii::$app->user->can('administrator'),
                         ],
                         [
+                            'label' => Yii::t('backend', 'Organizations'),
+                            'icon' => FAS::icon('stream', ['class' => ['nav-icon']]),
+                            'url' => ['/organization/index'],
+                            'visible' => Yii::$app->user->can('administrator'),
+                        ],
+                        [
+                            'label' => Yii::t('backend', 'Organization members'),
+                            'icon' => FAS::icon('stream', ['class' => ['nav-icon']]),
+                            'url' => ['/organization-member/index'],
+                            'visible' => Yii::$app->user->can('administrator'),
+                        ],
+                        [
                             'label' => Yii::t('backend', 'Users'),
                             'icon' => FAS::icon('users', ['class' => ['nav-icon']]),
                             'url' => ['/user/index'],

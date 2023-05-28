@@ -83,7 +83,8 @@ class CandidateController extends BaseController
                 $candidateOrder->course_id = $course->id;
                 if ($candidateOrder->validate() && $candidateOrder->save())
                 {
-                    if (UserProfile::checkCandidateRecommended($user->id))
+                    $recommended = UserProfile::checkCandidateRecommended($user->id);
+                    if ($recommended === true)
                     {
                         $candidate->order_status = Candidate::ORDER_STATUS_CAREER_SCHOOL;
                         $candidate->save();
@@ -94,7 +95,7 @@ class CandidateController extends BaseController
                     else {
                         $candidateOrder->status = CandidateOrder::STATUS_CANCEL;
                         $candidateOrder->save();
-                        return ['success' => false, 'error' => 'Ваша заявка не прошла по критериям отбора:'];
+                        return ['success' => false, 'error' => 'Ваша заявка не прошла по критериям отбора: ' . $recommended];
                     }
                 }
                 else
