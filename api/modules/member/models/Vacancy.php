@@ -28,9 +28,8 @@ class Vacancy extends \common\models\Vacancy
             'income',
             'title',
             'address',
-            'location' => function(){
-                return unserialize($this->location);
-            },
+            'geo_lat',
+            'geo_lon',
             'description',
             'schedule',
             'status',
