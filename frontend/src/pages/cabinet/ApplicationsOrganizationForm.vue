@@ -175,7 +175,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('cabinet', ['getDirections', 'setCreateVacancy', 'getCabinetVacancy', 'setUpdateVacancy']),
+    ...mapActions('cabinet', ['getDirections', 'setCreateVacancy', 'getCabinetVacancy', 'setUpdateVacancy', 'setEditVacancy']),
     onSearchChange: debounce(function callback(event) {
       if (event.length >= 1) {
         this.loadAddressSuggest(event);
@@ -225,11 +225,19 @@ export default {
             geo_lon: +this.internship.address.geo_lon,
           }
         }
-        await this.setUpdateVacancy(payload).then((res) => {
-          if(res?.success) {
-            this.$router.push('/cabinet/applications-organization/')
-          }
-        })
+        if(this.info.role === 2) {
+          await this.setEditVacancy(payload).then((res) => {
+            if(res?.success) {
+              this.$router.push('/cabinet/internships-supervisor/')
+            }
+          })
+        } else {
+          await this.setUpdateVacancy(payload).then((res) => {
+            if(res?.success) {
+              this.$router.push('/cabinet/applications-organization/')
+            }
+          })
+        }
       } else {
         const payload = {
           title: this.internship.title,
