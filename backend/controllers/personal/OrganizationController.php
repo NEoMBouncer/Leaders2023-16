@@ -1,9 +1,9 @@
 <?php
 
-namespace backend\controllers;
+namespace backend\controllers\personal;
 
-use backend\models\search\MentorSearch;
-use common\models\Mentor;
+use backend\models\search\OrganizationSearch;
+use common\models\Organization;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -11,7 +11,7 @@ use yii\web\NotFoundHttpException;
 /**
  * Application timeline controller
  */
-class MentorController extends Controller
+class OrganizationController extends Controller
 {
     public $layout = 'common';
 
@@ -21,7 +21,7 @@ class MentorController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new MentorSearch();
+        $searchModel = new OrganizationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->sort = [
             'defaultOrder' => ['id' => SORT_DESC]
@@ -52,7 +52,7 @@ class MentorController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Mentor();
+        $model = new Organization();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
@@ -98,12 +98,12 @@ class MentorController extends Controller
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Mentor the loaded model
+     * @return Organization the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Mentor::findOne($id)) !== null) {
+        if (($model = Organization::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

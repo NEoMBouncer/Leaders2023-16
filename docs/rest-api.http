@@ -16,8 +16,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "identity": "xjyx105@mail.ru",
-  "password": "123qwe",
+  "identity": "xjyx10@mail.ru",
+  "password": "12345678",
   "rememberMe": true
 }
 
@@ -209,9 +209,14 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6ImpUeEhpWHJFZU
 }
 
 ###
+GET http://api.platform.local/v1/cabinet/list-vacancy?page=1&count=2&direction_id=2&title=te
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjM5cFRmcHduNWEyVmJHSSs2aDRUTEVITU0wYXYyZUdsWHNacllOVEZCNlE9In0.eyJpc3MiOiJodHRwOlwvXC9wbGF0Zm9ybS5sb2NhbFwvYXBpIiwiYXVkIjoiaHR0cDpcL1wvcGxhdGZvcm0ubG9jYWxcL2FwaSIsImp0aSI6IjM5cFRmcHduNWEyVmJHSSs2aDRUTEVITU0wYXYyZUdsWHNacllOVEZCNlE9IiwiaWF0IjoxNjg2MDk1MjM5LCJleHAiOjE2ODg2ODcyMzksInVpZCI6eyJ1c2VybmFtZSI6InhqeXgxMDkiLCJleHBpcmVzIjoxNjg4Njg3MjM5fX0.8m1DBVvrEC4RKKdGQCtadJNJ0xIFojKkKOvXL--tgXY
+
+###
 GET http://api.platform.local/v1/cabinet/organization/list-vacancy
 Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6ImpCNTVlYm5Dd25SYnUwQjduRjBvd1AwU2lGaUI4ejVqU00relBpc3RJaVk9In0.eyJpc3MiOiJodHRwOlwvXC9wbGF0Zm9ybS5sb2NhbFwvYXBpIiwiYXVkIjoiaHR0cDpcL1wvcGxhdGZvcm0ubG9jYWxcL2FwaSIsImp0aSI6ImpCNTVlYm5Dd25SYnUwQjduRjBvd1AwU2lGaUI4ejVqU00relBpc3RJaVk9IiwiaWF0IjoxNjg1Mjk1MDY1LCJleHAiOjE2ODc4ODcwNjUsInVpZCI6eyJ1c2VybmFtZSI6InhqeXgxMDEiLCJleHBpcmVzIjoxNjg3ODg3MDY1fX0.y7Wam7GzP2tKhdAIRQB5tQAqXXo2uSUKvlr_Y1rRrEo
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjM5cFRmcHduNWEyVmJHSSs2aDRUTEVITU0wYXYyZUdsWHNacllOVEZCNlE9In0.eyJpc3MiOiJodHRwOlwvXC9wbGF0Zm9ybS5sb2NhbFwvYXBpIiwiYXVkIjoiaHR0cDpcL1wvcGxhdGZvcm0ubG9jYWxcL2FwaSIsImp0aSI6IjM5cFRmcHduNWEyVmJHSSs2aDRUTEVITU0wYXYyZUdsWHNacllOVEZCNlE9IiwiaWF0IjoxNjg2MDk1MjM5LCJleHAiOjE2ODg2ODcyMzksInVpZCI6eyJ1c2VybmFtZSI6InhqeXgxMDkiLCJleHBpcmVzIjoxNjg4Njg3MjM5fX0.8m1DBVvrEC4RKKdGQCtadJNJ0xIFojKkKOvXL--tgXY
 
 ###
 GET http://api.platform.local/v1/cabinet/list-candidate

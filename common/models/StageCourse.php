@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
  * @property string $title
  * @property int $course_id
  * @property string $date_end
+ * @property int $count
  */
 class StageCourse extends ActiveRecord
 {
@@ -37,6 +38,7 @@ class StageCourse extends ActiveRecord
         return [
             ['title', 'string', 'max' => 255],
             ['course_id', 'integer'],
+            ['count', 'integer', 'min' => 0],
             [['date_end'], 'safe'],
         ];
     }

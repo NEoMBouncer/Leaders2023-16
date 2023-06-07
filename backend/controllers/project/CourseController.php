@@ -1,16 +1,11 @@
 <?php
 
-namespace backend\controllers;
+namespace backend\controllers\project;
 
 use backend\models\search\CourseSearch;
-use backend\models\search\TimelineEventSearch;
-use backend\models\UserForm;
 use common\models\Course;
 use common\models\StageCourse;
-use common\models\User;
-use common\models\UserToken;
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 

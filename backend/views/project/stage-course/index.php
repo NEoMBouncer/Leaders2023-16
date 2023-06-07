@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 ],
                 'title',
+                'count',
                 [
                     'attribute' => 'date_end',
                     'value' => function ($model) {
@@ -55,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'template' => '{view} {update} {delete}',
                     'options' => ['style' => 'width: 140px'],
 
-                ],
+                ]
             ],
         ]); ?>
     </div>

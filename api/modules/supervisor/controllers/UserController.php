@@ -8,6 +8,7 @@ use api\modules\supervisor\models\Candidate;
 use api\modules\cabinet\models\CandidateOrder;
 use api\modules\cabinet\models\UserProfile;
 use common\models\Course;
+use common\models\OrganizationMember;
 use Yii;
 use yii\rest\OptionsAction;
 use yii\web\Response;
@@ -84,6 +85,35 @@ class UserController extends BaseController
         {
             Yii::$app->response->setStatusCode(500);
             return ['success' => false, 'Произошла ошибка сервера. Не удалось подтвердить вакансию'];
+        }
+    }
+
+    public function actionEditVacancy($id): array
+    {
+        try {
+            $user = Yii::$app->user->identity;
+            $vacancy = Vacancy::findOne($id);
+            if ($user->userProfile->role != UserProfile::ROLE_SUPERVISOR) {
+                Yii::$app->response->setStatusCode(403);
+                return ['success' => false, 'error' => 'Вам не разрешено выполнять данное действие'];
+            } else {
+                if ($vacancy->load(Yii::$app->request->post(), '') && $vacancy->validate()) {
+                    $vacancy->save();
+                    return ['success' => true];
+                } else {
+                    $response = ['success' => false];
+                    Yii::$app->response->setStatusCode(422);
+                    $modelErrors = $vacancy->getErrors();
+                    foreach ($modelErrors as $fieldError => $errors) {
+                        $response['error'] = $errors[0];
+                        break;
+                    }
+                    return $response;
+                }
+            }
+        } catch (\Exception $exception) {
+            Yii::$app->response->setStatusCode(500);
+            return ['success' => false, 'error' => 'Ошибка сервера. Не удалось редактировать вакансию'];
         }
     }
 

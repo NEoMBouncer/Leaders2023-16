@@ -12,8 +12,10 @@ use common\models\Candidate;
 use common\models\Country;
 use common\models\Education;
 use common\models\Experience;
+use common\models\search\VacancySearch;
 use common\modules\user\models\ChangePasswordForm;
 use Yii;
+use yii\data\Pagination;
 use yii\rest\OptionsAction;
 use yii\web\Response;
 
@@ -428,13 +430,26 @@ class UserController extends BaseController
     {
         try {
             $user = Yii::$app->user->identity;
-            $query = Vacancy::find();
-            if ($user->userProfile->role != UserProfile::ROLE_SUPERVISOR)
-            {
-                $vacancies = $query->where(['is_publish' => 1])->all();
-                return ['success' => true, 'data' => $vacancies];
-            }
-            else return ['success' => true, 'data' => $query->all()];
+            $searchModel = new VacancySearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $user->id);
+            $count = (int)Yii::$app->request->get('count') ? (int)Yii::$app->request->get('count') : 10;
+            $count = min($count, 100);
+            $page = intval(Yii::$app->request->get('page')) > 1 ? intval(Yii::$app->request->get('page')) - 1 : 0;
+            $pages = new Pagination([
+                'totalCount' => $dataProvider->query->count(),
+                'pageSize' => $count,
+                'page' => $page
+            ]);
+
+            return [
+                'success' => true,
+                'data' => $dataProvider->query->offset($pages->offset)->limit($count)->all(),
+                'pagination' => [
+                    'pages_count' => $pages->pageCount,
+                    'vacancies_count' => intval($pages->totalCount),
+                    'page_size' => $count
+                ],
+            ];
         }
         catch (\Exception $exception)
         {

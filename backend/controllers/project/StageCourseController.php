@@ -1,9 +1,9 @@
 <?php
 
-namespace backend\controllers;
+namespace backend\controllers\project;
 
-use backend\models\search\SupervisorSearch;
-use common\models\Supervisor;
+use backend\models\search\StageCourseSearch;
+use common\models\StageCourse;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -11,7 +11,7 @@ use yii\web\NotFoundHttpException;
 /**
  * Application timeline controller
  */
-class SupervisorController extends Controller
+class StageCourseController extends Controller
 {
     public $layout = 'common';
 
@@ -21,7 +21,7 @@ class SupervisorController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new SupervisorSearch();
+        $searchModel = new StageCourseSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->sort = [
             'defaultOrder' => ['id' => SORT_DESC]
@@ -52,7 +52,7 @@ class SupervisorController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Supervisor();
+        $model = new StageCourse();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
@@ -72,6 +72,8 @@ class SupervisorController extends Controller
         $model = $this->findModel($id);
 
         $data = Yii::$app->request->post();
+        unset($data['course_id']);
+        unset($data['title']);
         if ($model->load($data) && $model->save()) {
             return $this->redirect(['index']);
         }
@@ -98,12 +100,12 @@ class SupervisorController extends Controller
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Supervisor the loaded model
+     * @return StageCourse the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Supervisor::findOne($id)) !== null) {
+        if (($model = StageCourse::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

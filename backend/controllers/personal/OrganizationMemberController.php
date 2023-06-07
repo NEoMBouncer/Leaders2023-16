@@ -1,22 +1,17 @@
 <?php
 
-namespace backend\controllers;
+namespace backend\controllers\personal;
 
-use backend\models\search\StageCourseSearch;
-use backend\models\search\TimelineEventSearch;
-use backend\models\UserForm;
-use common\models\StageCourse;
-use common\models\User;
-use common\models\UserToken;
+use backend\models\search\OrganizationMemberSearch;
+use common\models\OrganizationMember;
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
  * Application timeline controller
  */
-class StageCourseController extends Controller
+class OrganizationMemberController extends Controller
 {
     public $layout = 'common';
 
@@ -26,7 +21,7 @@ class StageCourseController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new StageCourseSearch();
+        $searchModel = new OrganizationMemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->sort = [
             'defaultOrder' => ['id' => SORT_DESC]
@@ -57,7 +52,7 @@ class StageCourseController extends Controller
      */
     public function actionCreate()
     {
-        $model = new StageCourse();
+        $model = new OrganizationMember();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
@@ -77,8 +72,6 @@ class StageCourseController extends Controller
         $model = $this->findModel($id);
 
         $data = Yii::$app->request->post();
-        unset($data['course_id']);
-        unset($data['title']);
         if ($model->load($data) && $model->save()) {
             return $this->redirect(['index']);
         }
@@ -105,12 +98,12 @@ class StageCourseController extends Controller
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return StageCourse the loaded model
+     * @return OrganizationMember the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = StageCourse::findOne($id)) !== null) {
+        if (($model = OrganizationMember::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

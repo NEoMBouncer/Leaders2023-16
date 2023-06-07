@@ -29,6 +29,7 @@ use yii\bootstrap4\ActiveForm;
                         ]
                     ) ?>
                 </div>
+                <?php echo $form->field($model, 'count')->textInput(['type' => 'number', 'step' => 1, 'min' => 0]) ?>
             </div>
             <div class="card-footer">
                 <?php echo Html::submitButton(Yii::t('backend', 'Save'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>

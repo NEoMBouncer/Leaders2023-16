@@ -32,6 +32,7 @@ return [
         ['pattern' => 'v1/cabinet/list-candidate', 'route' => 'supervisor/user/list-candidate'],
         ['pattern' => 'v1/cabinet/approve-vacancy/<id>', 'route' => 'supervisor/user/approve-vacancy'],
         ['pattern' => 'v1/cabinet/cancel-vacancy/<id>', 'route' => 'supervisor/user/cancel-vacancy'],
+        ['pattern' => 'v1/cabinet/edit-vacancy/<id>', 'route' => 'supervisor/user/edit-vacancy'],
 
         // Organization member
         ['pattern' => 'v1/cabinet/get-vacancy/<id>', 'route' => 'member/user/get-vacancy'],

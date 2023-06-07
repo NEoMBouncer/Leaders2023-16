@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers;
+namespace backend\controllers\personal;
 
 use backend\models\search\InternSearch;
 use common\models\Intern;

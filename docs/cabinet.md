@@ -356,37 +356,42 @@ POST запрос
 
 GET запрос
 
+Query фильтр параметры:
+- page - номер страницы пагинации
+- count - количество позиций на странице
+- direction_id - id направления стажировки
+- title - часть названия вакансии
+
 Ответ:
 ```
 {
   "success": true,
   "data": [
     {
-      "id": 1,
-      "direction": {
-        "direction_id": null,
-        "list": {
-          "1": "IT-город",
-          "2": "Медийный город",
-          "3": "Социальный город",
-          "4": "Комфортная городская среда",
-          "5": "Правовое пространство",
-          "6": "Городская экономика",
-          "7": "HR-город"
-        }
-      },
+      "id": 4,
+      "direction_id": 2,
+      "organization_id": 1,
       "intern_id": null,
-      "mentor_id": 5,
-      "organization": "Департамент тестов",
-      "income": 100000,
-      "title": "test",
-      "address": null,
-      "geo_lat": 123.2342,
-      "geo_lon": 1646584,
-      "description": null,
-      "schedule": null,
-      "status": 1
+      "mentor_id": null,
+      "income": 22222,
+      "title": "test12",
+      "address": "г Москва, ул Поварская, д 52/55 стр 1",
+      "geo_lat": 55.7582,
+      "geo_lon": 37.58695,
+      "description": "Описание Описание Описание Описание Описани Описание Описание Описание Описание Описание",
+      "schedule": "20 часов в неделю",
+      "status": 1,
+      "is_publish": 1,
+      "created_by": null,
+      "created_at": "2023-06-06 20:48:18",
+      "updated_at": "2023-06-06 20:48:42",
+      "is_deleted": 0
     }
-  ]
+  ],
+  "pagination": {
+    "pages_count": 1,
+    "vacancies_count": 1,
+    "page_size": 2
+  }
 }
 ```

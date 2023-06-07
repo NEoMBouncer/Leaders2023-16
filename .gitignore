@@ -31,5 +31,9 @@ phpunit.phar
 # Vagrant
 /.vagrant
 
+#storage temp
+storage/temp
+!storage/temp/.gitkeep
+
 # Tests
 tests/codeception/*/_support/_generated/*
