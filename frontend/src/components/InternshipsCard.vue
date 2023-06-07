@@ -5,7 +5,6 @@
         <router-link :to="`/cabinet/internships/${value.id}`" class="aspect-h-1 aspect-w-1 w-full flex-shrink-0 overflow-hidden rounded-lg sm:aspect-none sm:h-40 sm:w-40">
           <img src="../assets/images/logo.png" alt="logo" class="h-full w-full object-contain object-center sm:h-full sm:w-full" />
         </router-link>
-
         <div class="mt-6 sm:ml-6 sm:mt-0">
           <h3 class="text-base font-medium text-gray-900">
             <router-link :to="`/cabinet/internships/${value.id}`">{{ value.title }}</router-link>
@@ -83,29 +82,41 @@
         </div>
       </template>
     </div>
-    <div v-if="isSupervisor" class="border-t border-gray-200 px-4 py-6 sm:px-6">
-      <template v-if="value.status === 0">
+    <div v-if="isSupervisor" class="border-t border-gray-200 px-4 py-6 sm:px-6 flex justify-between">
+      <div>
+        <template v-if="value.status === 0">
         <span @click="appVacancy" class="cursor-pointer w-fit inline-flex items-center gap-x-1.5 rounded-md bg-green-100 px-2 py-1 font-medium text-green-700 hover:text-green-900">
             Опубликовать
         </span>
-        <span @click="cancelVacancy" class="ml-3 cursor-pointer w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700 hover:text-red-900">
+          <span @click="cancelVacancy" class="ml-3 cursor-pointer w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 px-2 py-1 font-medium text-red-700 hover:text-red-900">
             Отклонить
          </span>
-      </template>
-      <template v-else>
+        </template>
+        <template v-else>
         <span v-if="value.status === 2" class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-red-100 text-sm px-2 py-1 font-medium text-red-700">
             <svg class="h-2 w-2 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
               <circle cx="3" cy="3" r="3" />
             </svg>
             Отклонена
          </span>
-        <span v-if="value.status === 1" class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-green-100 text-sm px-2 py-1 font-medium text-green-700">
+          <span v-if="value.status === 1" class="w-fit inline-flex items-center gap-x-1.5 rounded-md bg-green-100 text-sm px-2 py-1 font-medium text-green-700">
             <svg class="h-2 w-2 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
               <circle cx="3" cy="3" r="3" />
             </svg>
             Опубликована
          </span>
-      </template>
+        </template>
+      </div>
+      <div class="flex">
+        <div @click="edit(value.id)" class="text-sm text-green-500 hover:text-green-600 cursor-pointer flex items-center mr-3">
+          <PencilIcon class="h-4 w-4 flex-shrink-0 mr-2" aria-hidden="true" />
+          <span class="hidden sm:flex">Редактировать</span>
+        </div>
+        <div class="text-sm ml-3 text-red-500 hover:text-red-600 cursor-pointer flex items-center">
+          <TrashIcon class="h-4 w-4 flex-shrink-0 mr-2" aria-hidden="true" />
+          <span class="hidden sm:flex">Удалить</span>
+        </div>
+      </div>
     </div>
     <div v-if="isOrganization" class="border-t border-gray-200 px-4 py-6 sm:px-6">
       <div class="flex justify-between">
@@ -191,11 +202,13 @@ export default {
     async appVacancy() {
       await this.setAddVacancy(this.value.id).then((res) => {
         this.$router.push(`/cabinet/internships-supervisor`)
+        this.$emit('updateVacancy');
       })
     },
     async cancelVacancy() {
       await this.setCancelVacancy(this.value.id).then((res) => {
         this.$router.push(`/cabinet/internships-supervisor`)
+        this.$emit('updateVacancy');
       })
     }
   },

@@ -7,6 +7,9 @@
             <router-link v-if="info?.role === 4" to="/cabinet/applications-organization" class="mr-2 text-sm font-medium text-gray-600 hover:text-gray-900">
               Стажировки
             </router-link>
+            <router-link v-else-if="info?.role === 2" to="/cabinet/internships-supervisor" class="mr-2 text-sm font-medium text-gray-600 hover:text-gray-900">
+              Стажировки
+            </router-link>
             <router-link v-else to="/cabinet/internships" class="mr-2 text-sm font-medium text-gray-600 hover:text-gray-900">
               Стажировки
             </router-link>

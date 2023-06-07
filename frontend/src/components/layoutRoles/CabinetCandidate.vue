@@ -693,7 +693,7 @@ export default {
       if(res?.order?.id === 2) {
         this.failed = true
       }
-      this.directories = res?.order.directories !== null ? this.directoriesOptions?.find(item => item.id === res?.order?.directories) : null
+      this.directories = res?.order?.directories !== null ? this.directoriesOptions?.find(item => item.id === res?.order?.directories) : null
     })
     await this.getInfo().finally(() => {
       this.loading = false

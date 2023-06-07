@@ -19,13 +19,14 @@
           </div>
         </div>
         <div
+            v-if="clear"
             @click="clearFilters"
-            class="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer text-sm mt-2"
-            :class="!clear && 'text-gray-50 hover:text-gray-50 cursor-default'"
+            class="flex items-center h-5 text-gray-600 hover:text-gray-800 cursor-pointer text-sm mt-2"
         >
           <x-mark-icon class="w-4 h-4 mr-1.5" />
           Сбросить фильтры
         </div>
+        <div v-else class="mt-2 h-5"/>
       </div>
       <div class="mb-6 space-y-3">
         <internships-card
@@ -33,6 +34,7 @@
             v-for="product in internships" :key="product.id"
             :value="product"
             isSupervisor
+            @updateVacancy="updateVacancy"
         />
       </div>
     </template>
@@ -85,6 +87,11 @@ export default {
     },
     closeMap() {
       this.isMap = false
+    },
+    async updateVacancy() {
+      await this.getListVacancy().then((res) => {
+        this.internships = res || []
+      })
     }
   },
   async mounted() {

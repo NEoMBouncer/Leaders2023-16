@@ -19,13 +19,14 @@
           </div>
         </div>
         <div
+            v-if="clear"
             @click="clearFilters"
-            class="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer text-sm mt-2"
-            :class="!clear && 'text-gray-50 hover:text-gray-50 cursor-default'"
+            class="flex items-center text-gray-600 hover:text-gray-800 h-5 cursor-pointer text-sm mt-2"
         >
           <x-mark-icon class="w-4 h-4 mr-1.5" />
           Сбросить фильтры
         </div>
+        <div v-else class="mt-2 h-5"/>
         <div class="flex text-sm w-fit mt-3 items-center text-indigo-600 hover:text-indigo-900 cursor-pointer" @click="onMap">
           <MapIcon class="h-5 w-5 mr-2"/>
           Посмотреть на карте
@@ -33,7 +34,7 @@
       </div>
       <YandexMapPage
           v-if="isMap"
-          :coordsMarket="internships.length ? [internships[0].geo_lon, internships[0].geo_lat] : []"
+          :coordsMarket="internships"
           class="mb-5"
           @closeMap="closeMap"
       />

@@ -5,7 +5,10 @@
         <ol role="list" class="mx-auto flex items-center space-x-2">
           <li>
             <div class="flex items-center">
-              <router-link to="/cabinet/applications-organization" class="mr-2 text-sm font-medium text-gray-600 hover:text-gray-900">
+              <router-link v-if="info?.role === 4" to="/cabinet/applications-organization" class="mr-2 text-sm font-medium text-gray-600 hover:text-gray-900">
+                Стажировки
+              </router-link>
+              <router-link v-else to="/cabinet/internships-supervisor" class="mr-2 text-sm font-medium text-gray-600 hover:text-gray-900">
                 Стажировки
               </router-link>
               <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" aria-hidden="true" class="h-5 w-4 text-gray-300">
@@ -121,7 +124,7 @@ import Loading from "@/components/Loading.vue";
 import BaseButton from "@/components/UI/BaseButton.vue";
 import BaseInput from "@/components/UI/BaseInput.vue";
 import BaseTextarea from "@/components/UI/BaseTextarea.vue";
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 import BaseSelect from "@/components/UI/BaseSelect.vue";
 import {debounce} from "lodash";
 import axios from "axios";
@@ -166,6 +169,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('cabinet', ['info']),
     pageId() {
       return this.$route?.params?.id
     },
