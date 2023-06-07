@@ -18,6 +18,7 @@ use yii\db\ActiveRecord;
  *
  * @property User $user
  * @property Organization $organization
+ * @property Vacancy $vacancy
  */
 class Mentor extends ActiveRecord
 {
@@ -68,5 +69,13 @@ class Mentor extends ActiveRecord
     public function getOrganization(): ActiveQuery
     {
         return $this->hasOne(Organization::class, ['id' => 'organization_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getVacancy(): ActiveQuery
+    {
+        return $this->hasOne(Vacancy::class, ['id' => 'mentor_id']);
     }
 }

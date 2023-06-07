@@ -21,7 +21,12 @@ class Vacancy extends \common\models\Vacancy
                 return ['direction_id' => $this->direction_id, 'list' => $directions];
             },
             'intern_id',
-            'mentor_id',
+            'mentor_id' => function(){
+                return [
+                    'value' => $this->mentor_id,
+                    'list' => Mentor::getFreeMentors($this->organization_id)
+                ];
+            },
             'organization' => function(){
                 return $this->organization->title;
             },

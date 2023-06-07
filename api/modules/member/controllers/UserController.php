@@ -3,6 +3,7 @@
 namespace api\modules\member\controllers;
 
 use api\controllers\BaseController;
+use api\modules\member\models\Mentor;
 use api\modules\member\models\Vacancy;
 use api\modules\supervisor\models\Candidate;
 use api\modules\cabinet\models\UserProfile;
@@ -112,6 +113,24 @@ class UserController extends BaseController
             Yii::$app->response->setStatusCode(500);
             return ['success' => false, 'error' => 'Ошибка сервера. Не удалось редактировать вакансию'];
         }
+    }
+
+    public function actionListMentors(): array
+    {
+//        try {
+            $user = Yii::$app->user->identity;
+            $organizationMember = OrganizationMember::find()->where(['user_id' => $user->id])->one();
+            if ($organizationMember)
+                return ['success' => true, 'data' => Mentor::getFreeMentors($organizationMember->organization_id)];
+            else {
+                Yii::$app->response->setStatusCode(403);
+                return ['success' => false, 'error' => 'Вам не разрешено выполнять данное действие'];
+            }
+//        }
+//        catch (\Exception $exception) {
+//            Yii::$app->response->setStatusCode(500);
+//            return ['success' => false, 'error' => 'Ошибка сервера. Не удалось получить список наставников'];
+//        }
     }
 
     public function actionListVacancyOrganization(): array
