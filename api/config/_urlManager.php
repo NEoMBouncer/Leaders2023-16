@@ -43,5 +43,9 @@ return [
 
         // Intern
         ['pattern' => 'v1/cabinet/reply', 'route' => 'intern/user/reply'],
+
+        // Mentor
+        ['pattern' => 'v1/cabinet/get-mentor', 'route' => 'mentor/user/get-mentor'],
+        ['pattern' => 'v1/cabinet/list-replies', 'route' => 'mentor/user/list-replies'],
     ]
 ];
