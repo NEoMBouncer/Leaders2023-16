@@ -213,7 +213,13 @@ $logEntries[] = [
                             'label' => Yii::t('backend', 'Personal management'),
                             'icon' => '<i class="fa fa-user-circle"></i>',
                             'url' => ['/personal/index'],
-                            'visible' => Yii::$app->user->can('manager'),
+                            'visible' => Yii::$app->user->can('administrator') || Yii::$app->user->can('manager'),
+                        ],
+                        [
+                            'label' => Yii::t('backend', 'Statistics'),
+                            'url' => ['/statistics/index'],
+                            'icon' => '<i class="fa fa-server"></i>',
+                            'visible' => Yii::$app->user->can('administrator') || Yii::$app->user->can('manager'),
                         ],
                         [
                             'label' => Yii::t('backend', 'Users'),

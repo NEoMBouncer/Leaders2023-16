@@ -36,7 +36,8 @@
     "rmrevin/yii2-fontawesome": "^3.4",
     "kartik-v/yii2-widgets": "^3.4",
     "sizeg/yii2-jwt": "^2.0",
-    "codeception/codeception": "*"
+    "codeception/codeception": "*",
+    "onmotion/yii2-widget-apexcharts": "^1.0"
   },
   "require-dev": {
     "yiisoft/yii2-gii": "^2.0.0",

@@ -68,6 +68,7 @@ return [
     'Internship courses' => 'Курсы стажировки',
     'Stage course' => 'Этап стажировки',
     'Stage courses' => 'Этапы стажировки',
+    'Statistics' => 'Статистика',
     'Organization' => 'Организация',
     'Organizations' => 'Организации',
     'Organization members' => 'Кадровые специалисты',
