@@ -8,6 +8,7 @@
             <base-input
                 label="Поиск"
                 v-model="search"
+                @input="updateSearch"
             />
             <base-select
                 class="ml-3 max-w-xs w-full"
@@ -15,6 +16,7 @@
                 v-model="direction"
                 :options="directoriesOptions"
                 label="label"
+                @onChange="updateVacancy"
             />
           </div>
         </div>
@@ -44,6 +46,9 @@
             v-for="product in internships" :key="product.id"
             :value="product"
         />
+        <div v-if="!internships.length" class="text-gray-600 text-center mt-6">
+          По заданным фильтрам подходящих стажировок нет
+        </div>
       </div>
     </template>
     <loading v-else/>
@@ -59,6 +64,7 @@ import {XMarkIcon, MapIcon} from "@heroicons/vue/24/outline";
 import {mapActions} from "vuex";
 import Loading from "@/components/Loading.vue";
 import YandexMapPage from "@/components/Map/YandexMap.vue";
+import {debounce} from 'lodash'
 
 export default {
   name: "Internships",
@@ -89,12 +95,27 @@ export default {
     clearFilters() {
       this.search = ''
       this.direction = null
+      this.updateVacancy()
     },
     onMap() {
       this.isMap = !this.isMap
     },
     closeMap() {
       this.isMap = false
+    },
+    updateSearch: debounce(function callback(event) {
+      this.updateVacancy()
+    }, 500),
+    async updateVacancy() {
+      const payload = {
+        page: 1,
+        count: 1000,
+        direction_id: this.direction?.value || undefined,
+        title: this.search || undefined
+      }
+      await this.getListVacancy(payload).then((res) => {
+        this.internships = res || []
+      })
     }
   },
   async mounted() {
@@ -105,7 +126,13 @@ export default {
         value: item?.id || ''
       })) || []
     })
-    await this.getListVacancy().then((res) => {
+    const payload = {
+      page: 1,
+      count: 1000,
+      direction_id: this.direction?.value || undefined,
+      title: this.search || undefined
+    }
+    await this.getListVacancy(payload).then((res) => {
       this.internships = res || []
     })
     this.loading = false

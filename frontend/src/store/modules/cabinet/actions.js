@@ -334,9 +334,11 @@ export default {
                 })
         })
     },
-    getListVacancy({commit}) {
+    getListVacancy({commit}, payload) {
         return new Promise((resolve, reject) => {
-            axiosConfig.get(`/v1/cabinet/list-vacancy`)
+            axiosConfig.get(`/v1/cabinet/list-vacancy`, {
+                params: payload
+            })
                 .then((res) => {
                     if(res?.data?.success) {
                         resolve(res.data.data)
@@ -402,6 +404,25 @@ export default {
                 .catch((err) => {
                     console.error(err)
                     toast.error(err?.response?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
+
+    setEditVacancy({commit}, payload) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.post(`/v1/cabinet/edit-vacancy/${payload.id}`, payload.date)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        toast.success('Успешно отклонена')
+                        resolve(res?.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка сохранения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка сохранения данных! Повторите позже')
                     reject()
                 })
         })
