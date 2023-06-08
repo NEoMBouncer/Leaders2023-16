@@ -11,6 +11,7 @@ $config = [
         'supervisor' => api\modules\supervisor\Module::class,
         'member' => api\modules\member\Module::class,
         'intern' => api\modules\intern\Module::class,
+        'mentor' => api\modules\mentor\Module::class,
         'user' => [
             'class' => common\modules\user\Module::class,
             'shouldBeActivated' => false,
