@@ -64,6 +64,7 @@ class UserController extends BaseController
                     return ['success' => true];
                 }
             }
+            return ['success' => false, 'error' => 'Не удалось получить информацию о стажере'];
         }
         catch (\Exception $exception)
         {
