@@ -7,6 +7,7 @@ use api\modules\cabinet\models\Essay;
 use api\modules\cabinet\models\InternshipDirection;
 use api\modules\cabinet\models\Specialization;
 use api\modules\cabinet\models\UserProfile;
+use api\modules\intern\models\Intern;
 use api\modules\member\models\Vacancy;
 use common\models\Candidate;
 use common\models\Country;
@@ -469,7 +470,12 @@ class UserController extends BaseController
             $profile = Yii::$app->user->identity->userProfile;
             $profile->scores += rand(1, 100);
             if ($candidate->order_status == Candidate::ORDER_STATUS_CHAMPIONSHIP)
+            {
                 $profile->role = UserProfile::ROLE_INTERN;
+                $intern = new Intern();
+                $intern->user_id = $profile->user_id;
+                $intern->save();
+            }
             $profile->save();
             return ['success' => true];
         }

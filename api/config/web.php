@@ -10,6 +10,7 @@ $config = [
         'cabinet' => api\modules\cabinet\Module::class,
         'supervisor' => api\modules\supervisor\Module::class,
         'member' => api\modules\member\Module::class,
+        'intern' => api\modules\intern\Module::class,
         'user' => [
             'class' => common\modules\user\Module::class,
             'shouldBeActivated' => false,

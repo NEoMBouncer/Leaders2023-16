@@ -40,5 +40,8 @@ return [
         ['pattern' => 'v1/cabinet/update-vacancy/<id>', 'route' => 'member/user/update-vacancy'],
         ['pattern' => 'v1/cabinet/list-mentors', 'route' => 'member/user/list-mentors'],
         ['pattern' => 'v1/cabinet/organization/list-vacancy', 'route' => 'member/user/list-vacancy-organization'],
+
+        // Intern
+        ['pattern' => 'v1/cabinet/reply', 'route' => 'intern/user/reply'],
     ]
 ];

@@ -19,6 +19,10 @@ use yii\db\ActiveRecord;
 
 class InternOrder extends ActiveRecord
 {
+    const STATUS_PENDING = 0;
+    const STATUS_SUCCESS = 1;
+    const STATUS_CANCEL = 2;
+
     /**
      * @inheritdoc
      */

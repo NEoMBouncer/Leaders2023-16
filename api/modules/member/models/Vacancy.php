@@ -3,6 +3,8 @@
 namespace api\modules\member\models;
 
 use api\modules\cabinet\models\InternshipDirection;
+use api\modules\intern\models\Intern;
+use common\models\InternOrder;
 use Yii;
 
 class Vacancy extends \common\models\Vacancy
@@ -10,6 +12,7 @@ class Vacancy extends \common\models\Vacancy
 
     public function fields()
     {
+        $user = Yii::$app->user->identity;
         return [
             'id',
             'direction' => function(){
@@ -29,6 +32,13 @@ class Vacancy extends \common\models\Vacancy
             },
             'organization' => function(){
                 return $this->organization->title;
+            },
+            'reply' => function() use ($user){
+                $intern = Intern::find()->where(['user_id' => $user->id])->limit(1)->one();
+                if (!$intern)
+                    return null;
+                $order = InternOrder::find()->where(['intern_id' => $intern->id, 'vacancy_id' => $this->id])->limit(1)->one();
+                return $order?->status;
             },
             'income',
             'title',

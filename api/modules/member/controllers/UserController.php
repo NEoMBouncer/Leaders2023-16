@@ -117,7 +117,7 @@ class UserController extends BaseController
 
     public function actionListMentors(): array
     {
-//        try {
+        try {
             $user = Yii::$app->user->identity;
             $organizationMember = OrganizationMember::find()->where(['user_id' => $user->id])->one();
             if ($organizationMember)
@@ -126,17 +126,22 @@ class UserController extends BaseController
                 Yii::$app->response->setStatusCode(403);
                 return ['success' => false, 'error' => 'Вам не разрешено выполнять данное действие'];
             }
-//        }
-//        catch (\Exception $exception) {
-//            Yii::$app->response->setStatusCode(500);
-//            return ['success' => false, 'error' => 'Ошибка сервера. Не удалось получить список наставников'];
-//        }
+        }
+        catch (\Exception $exception) {
+            Yii::$app->response->setStatusCode(500);
+            return ['success' => false, 'error' => 'Ошибка сервера. Не удалось получить список наставников'];
+        }
     }
 
     public function actionListVacancyOrganization(): array
     {
         try {
             $user = Yii::$app->user->identity;
+            if ($user->userProfile->role != UserProfile::ROLE_ORGANIZATION_MEMBER)
+            {
+                Yii::$app->response->setStatusCode(403);
+                return ['success' => false, 'error' => 'Вам не разрешено выполнять данное действие'];
+            }
             $organizationMember = OrganizationMember::find()->where(['user_id' => $user->id])->one();
             $vacancies = Vacancy::find()->where([
                 'organization_id' => $organizationMember->organization_id,
