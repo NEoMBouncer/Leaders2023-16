@@ -17,31 +17,33 @@ use yii\bootstrap4\ActiveForm;
         <div class="card">
             <div class="card-body">
                 <?php echo $form->field($model, 'title')->textInput() ?>
-                <div class="border border-secondary rounded p-1" style="width:320px">
-                    <?php echo $form->field($model, 'date_start')->widget(
-                        DateTimePicker::class,
-                        [
-                            'type' => DateTimePicker::TYPE_INLINE,
-                            'pluginOptions' => [
-                                'format' => 'yyyy-mm-dd hh:ii',
-                                'showMeridian' => true,
-                                'todayBtn' => true,
-                            ]
-                        ]
-                    ) ?>
-                </div>
-                <div class="border border-secondary rounded p-1" style="width:320px">
-                    <?php echo $form->field($model, 'date_end')->widget(
-                        DateTimePicker::class,
-                        [
-                            'type' => DateTimePicker::TYPE_INLINE,
-                            'pluginOptions' => [
-                                'format' => 'yyyy-mm-dd hh:ii',
-                                'showMeridian' => true,
-                                'todayBtn' => true,
-                            ]
-                        ]
-                    ) ?>
+                <div style="display:flex, justify-content:space-between">
+                    <div class="border border-secondary rounded p-1" style="width:320px">
+                                        <?php echo $form->field($model, 'date_start')->widget(
+                                            DateTimePicker::class,
+                                            [
+                                                'type' => DateTimePicker::TYPE_INLINE,
+                                                'pluginOptions' => [
+                                                    'format' => 'yyyy-mm-dd hh:ii',
+                                                    'showMeridian' => true,
+                                                    'todayBtn' => true,
+                                                ]
+                                            ]
+                                        ) ?>
+                                    </div>
+                                    <div class="border border-secondary rounded p-1" style="width:320px">
+                                        <?php echo $form->field($model, 'date_end')->widget(
+                                            DateTimePicker::class,
+                                            [
+                                                'type' => DateTimePicker::TYPE_INLINE,
+                                                'pluginOptions' => [
+                                                    'format' => 'yyyy-mm-dd hh:ii',
+                                                    'showMeridian' => true,
+                                                    'todayBtn' => true,
+                                                ]
+                                            ]
+                                        ) ?>
+                                    </div>
                 </div>
                 <?php echo $form->field($model, 'status')->dropDownList(\common\models\Course::statuses()) ?>
             </div>
