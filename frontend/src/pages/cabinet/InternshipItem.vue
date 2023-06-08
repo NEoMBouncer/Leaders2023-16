@@ -98,7 +98,7 @@
             />
 
             <div class="ml-3">
-              <p class="text-sm font-medium text-gray-900 mt-2 xl:mt-0">Иван Смирнов</p>
+              <p class="text-sm font-medium text-gray-900 mt-2 xl:mt-0">{{mentor}}</p>
               <div class="mt-2 flex items-center">
                 <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[4 > rating ? 'text-indigo-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" />
               </div>
@@ -215,6 +215,12 @@ export default {
         return this.internship?.direction?.list[+this.internship?.direction?.direction_id || '1']
       }
       return ''
+    },
+    mentor() {
+      if(this.internship && this.internship?.mentor_id?.list && this.internship?.mentor_id?.value) {
+        return this.internship?.mentor_id?.list.find((item) => item.id === (+this.internship?.mentor_id?.value || '1')).user
+      }
+      return 'Не определен'
     }
   },
   methods: {

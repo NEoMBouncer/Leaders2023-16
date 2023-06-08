@@ -54,14 +54,15 @@
               v-model="internship.title"
               label="Название"
           />
-<!--          <base-select-->
-<!--              class="col-span-full"-->
-<!--              star-->
-<!--              label="label"-->
-<!--              select-label="Наставник"-->
-<!--              v-model="internship.mentor"-->
-<!--              :options="mentorOptions"-->
-<!--          />-->
+          <base-select
+              v-if="info?.role === 4"
+              class="col-span-full"
+              star
+              label="label"
+              select-label="Наставник"
+              v-model="internship.mentor"
+              :options="mentorOptions"
+          />
           <base-textarea
               class="col-span-full"
               star
@@ -165,6 +166,7 @@ export default {
         directories: null,
         schedule: null,
         address: '',
+        mentor: null,
       },
     }
   },
@@ -175,7 +177,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('cabinet', ['getDirections', 'setCreateVacancy', 'getCabinetVacancy', 'setUpdateVacancy', 'setEditVacancy']),
+    ...mapActions('cabinet', ['getDirections', 'setCreateVacancy', 'getCabinetVacancy', 'setUpdateVacancy', 'setEditVacancy', 'getListMentors']),
     onSearchChange: debounce(function callback(event) {
       if (event.length >= 1) {
         this.loadAddressSuggest(event);
@@ -223,6 +225,7 @@ export default {
             address: this.internship.address.label,
             geo_lat: +this.internship.address.geo_lat,
             geo_lon: +this.internship.address.geo_lon,
+            mentor_id: this.internship?.mentor?.value || null
           }
         }
         if(this.info.role === 2) {
@@ -248,6 +251,7 @@ export default {
           address: this.internship.address.label,
           geo_lat: +this.internship.address.geo_lat,
           geo_lon: +this.internship.address.geo_lon,
+          mentor_id: this.internship?.mentor?.value || null
         }
         await this.setCreateVacancy(payload).then((res) => {
           if(res?.success) {
@@ -265,6 +269,14 @@ export default {
         value: item?.id || ''
       })) || []
     })
+    if(this.info?.role === 4) {
+      await this.getListMentors().then((res) => {
+        this.mentorOptions = res?.map((item) => ({
+          label: item?.user || '',
+          value: item?.id || ''
+        })) || []
+      })
+    }
     if(this.pageId && this.pageId !== 'create') {
       this.getCabinetVacancy(this.pageId).then((res) => {
         this.internship = {
@@ -278,6 +290,7 @@ export default {
             geo_lat: res?.geo_lat || 0,
             geo_lon: res?.geo_lon || 0,
           },
+          mentor: this.mentorOptions?.find(item => item.value === res?.mentor_id?.value) || null,
         }
       })
     }

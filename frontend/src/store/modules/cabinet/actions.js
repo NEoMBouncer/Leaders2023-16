@@ -427,4 +427,23 @@ export default {
                 })
         })
     },
+
+    // Список свободных наставников
+    getListMentors({commit}) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.get(`/v1/cabinet/list-mentors`)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        resolve(res.data.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
 }
