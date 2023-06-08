@@ -45,6 +45,7 @@
             class="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
             v-for="product in internships" :key="product.id"
             :value="product"
+            @updateVacancy="updateVacancy"
         />
         <div v-if="!internships.length" class="text-gray-600 text-center mt-6">
           По заданным фильтрам подходящих стажировок нет

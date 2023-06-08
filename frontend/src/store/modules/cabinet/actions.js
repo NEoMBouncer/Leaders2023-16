@@ -446,4 +446,61 @@ export default {
                 })
         })
     },
+
+    // Отклик на вакансию
+    setReply({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.post(`/v1/cabinet/reply`, {vacancy_id: id})
+                .then((res) => {
+                    if(res?.data?.success) {
+                        resolve(res.data.success)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка отправки заявки! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка отправки заявки! Повторите позже')
+                    reject()
+                })
+        })
+    },
+
+    // Информация о наставнике
+    getMentor({commit}) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.get(`/v1/cabinet/get-mentor`)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        resolve(res.data.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
+
+    // Список откликов на вакансию
+    getListReplies({commit}) {
+        return new Promise((resolve, reject) => {
+            axiosConfig.get(`/v1/cabinet/list-replies`)
+                .then((res) => {
+                    if(res?.data?.success) {
+                        resolve(res.data.data)
+                    } else {
+                        toast.error(res?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error(err?.response?.data?.error || 'Ошибка получения данных! Повторите позже')
+                    reject()
+                })
+        })
+    },
 }

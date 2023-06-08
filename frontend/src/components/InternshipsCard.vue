@@ -51,7 +51,7 @@
     </div>
 
     <div v-if="!isOrganization && !isSupervisor" class="border-t border-gray-200 px-4 py-6 sm:px-6">
-      <template v-if="!isActive">
+      <template v-if="value.reply !== 0">
         <base-button
             type="primary"
             class="rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
@@ -198,12 +198,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cabinet', ['setAddVacancy', 'setCancelVacancy']),
+    ...mapActions('cabinet', ['setAddVacancy', 'setCancelVacancy', 'setReply']),
     edit(id) {
       this.$router.push(`/cabinet/applications-organization/${id}`)
     },
     clickActive() {
-      this.isActive = !this.isActive
+      this.setReply(this.value.id).then((e) => {
+        if(e) {
+          this.$emit('updateVacancy');
+        }
+      })
     },
     async appVacancy() {
       await this.setAddVacancy(this.value.id).then((res) => {

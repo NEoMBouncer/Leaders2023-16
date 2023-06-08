@@ -13,6 +13,22 @@
           </div>
         </div>
       </div>
+      <div class="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5">
+        <dl class="grid max-w-7xl grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 lg:px-2 xl:px-0">
+          <div :class="['flex flex-col items-start flex-wrap gap-y-2 gap-x-4 border-t border-gray-900/5 px-4 py-4 sm:px-6 lg:border-t-0 xl:px-8']">
+            <dt class="text-sm font-medium leading-6 text-gray-500">Название организации:</dt>
+            <dd :class="['text-grey-600', 'text-sm font-medium']">{{ organization.title }}</dd>
+          </div>
+          <div :class="['sm:border-l flex flex-col items-baseline flex-wrap justify-between gap-y-2 gap-x-4 border-t border-gray-900/5 px-4 py-4 sm:px-6 lg:border-t-0 xl:px-8']">
+            <dt class="text-sm font-medium leading-6 text-gray-500">Описание организации:</dt>
+            <dd :class="['text-grey-600', 'text-sm font-medium']">{{ organization.description }}</dd>
+          </div>
+          <div :class="['sm:border-l flex flex-col items-baseline flex-wrap justify-between gap-y-2 gap-x-4 border-t border-gray-900/5 px-4 py-4 sm:px-6 lg:border-t-0 xl:px-8']">
+            <dt class="text-sm font-medium leading-6 text-gray-500">Адресс организации:</dt>
+            <dd :class="['text-grey-600', 'text-sm font-medium']">{{ organization.address }}</dd>
+          </div>
+        </dl>
+      </div>
       <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <div v-for="item in stats" :key="item.name" class="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6">
           <dt>
@@ -55,6 +71,7 @@ import {
   DocumentDuplicateIcon, DocumentTextIcon,
   UsersIcon
 } from "@heroicons/vue/24/outline";
+import {mapActions} from "vuex";
 
 export default {
   name: "CabinetMentor",
@@ -71,9 +88,27 @@ export default {
         { name: 'Школа наставников', href: '/cabinet/school-of-mentors', icon: BriefcaseIcon, stat: 'Пройдено', change: '', changeType: '' },
         { name: 'Расписание стажера', href: '/cabinet/schedule', icon: DocumentDuplicateIcon, stat: '4 всего', change: '1', changeType: 'increase' },
         { name: 'Уведомления и сообщения', href: '/cabinet/notifications', icon: BellIcon, stat: '1 всего', change: '1', changeType: 'increase' },
-      ]
+      ],
+      organization: {
+        address: "",
+        description: '',
+        id: 1,
+        location: "",
+        logo: "",
+        title: ""
+      }
     }
   },
+  methods: {
+    ...mapActions('cabinet', ['getMentor']),
+  },
+  async mounted() {
+    this.loading = true
+    await this.getMentor().then((res) => {
+      this.organization = res.organization
+    })
+    this.loading = false
+  }
 }
 </script>
 
