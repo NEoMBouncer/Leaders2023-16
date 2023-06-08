@@ -17,7 +17,7 @@ use yii\bootstrap4\ActiveForm;
         <div class="card">
             <div class="card-body">
                 <?php echo $form->field($model, 'title')->textInput() ?>
-                <div style="display:flex, justify-content:space-between">
+                <div style="display:flex; margin-bottom:8px;">
                     <div class="border border-secondary rounded p-1" style="width:320px">
                                         <?php echo $form->field($model, 'date_start')->widget(
                                             DateTimePicker::class,
@@ -31,7 +31,7 @@ use yii\bootstrap4\ActiveForm;
                                             ]
                                         ) ?>
                                     </div>
-                                    <div class="border border-secondary rounded p-1" style="width:320px">
+                                    <div class="border border-secondary rounded p-1" style="width:320px; margin-left:12px;">
                                         <?php echo $form->field($model, 'date_end')->widget(
                                             DateTimePicker::class,
                                             [
