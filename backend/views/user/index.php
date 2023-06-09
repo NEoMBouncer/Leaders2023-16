@@ -56,8 +56,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 [
                     'class' => \common\widgets\ActionColumn::class,
-                    'template' => '{login} {view} {update} {delete}',
-                    'options' => ['style' => 'width: 140px'],
+                    'template' => '{view} {update}',
+                    'options' => ['style' => 'width: 90px'],
                     'buttons' => [
                         'login' => function ($url) {
                             return Html::a(
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                     ],
                     'visibleButtons' => [
-                        'login' => Yii::$app->user->can('administrator')
+                        'login' => Yii::$app->user->can('administrator') || Yii::$app->user->can('manager')
                     ]
 
                 ],

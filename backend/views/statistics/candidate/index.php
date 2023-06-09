@@ -6,7 +6,7 @@ use yii\helpers\ArrayHelper;
 /* @var $searchModel backend\models\search\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('backend', 'Users');
+$this->title = Yii::t('backend', 'Recommended candidates');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -19,18 +19,21 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 </style>
 
-<div class="user-group">
+<div class="list">
 
     <?php
 
-    $data = ArrayHelper::map($usersData, 'city', 'cnt');
-    $labels = [];
-    array_walk($data, function($item, $key) use(&$labels) {
-        $labels[] = "$key: $item";
-    });
+    $data = ArrayHelper::map($candidateData, 'is_recommended', 'cnt');
+
+    $series = [
+        [
+            'name' => Yii::t('backend', 'Total'),
+            'data' => array_values($data),
+        ],
+    ];
 
     echo \onmotion\apexcharts\ApexchartsWidget::widget([
-        'type' => 'pie', // default area
+        'type' => 'bar', // default area
         'height' => '600', // default 350
         'chartOptions' => [
             'chart' => [
@@ -39,26 +42,38 @@ $this->params['breadcrumbs'][] = $this->title;
                     'autoSelected' => 'zoom'
                 ],
             ],
-            'labels' => $labels,
+            'xaxis' => [
+                'labels' => [
+                    'rotate' => -45
+                ],
+                'categories' => array_keys($data),
+            ],
             'plotOptions' => [
                 'bar' => [
                     'horizontal' => false,
                 ],
+            ],
+            'dataLabels' => [
+                'enabled' => false
+            ],
+            'stroke' => [
+                'curve' => 'smooth',
+                'colors' => ['transparent']
             ],
             'fill' => [
                 'type' => 'solid',
                 'fillOpacity' => 0.7
             ],
             'legend' => [
-                'position' => 'left',
-                'width' => '300',
+                'verticalAlign' => 'bottom',
+                'horizontalAlign' => 'left',
             ],
         ],
-        'series' => array_values($data)
+        'series' => $series
     ]); ?>
 </div>
 
 <div class="group">
     <hr>
-    <?php echo Yii::t('backend', 'Total'); ?>: <b><?= array_sum($data); ?> <?php echo Yii::t('backend', 'users'); ?></b>
+    <?php echo Yii::t('backend', 'Total'); ?>: <b><?= array_sum($data); ?> <?php echo Yii::t('backend', 'candidates'); ?></b>
 </div>

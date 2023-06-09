@@ -20,6 +20,8 @@ use yii\db\ActiveRecord;
  */
 class Candidate extends ActiveRecord
 {
+
+    public int $cnt = 0;
     const NOT_RECOMMENDED = 0;
     const RECOMMENDED = 1;
 

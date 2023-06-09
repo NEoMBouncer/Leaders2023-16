@@ -226,17 +226,11 @@ $logEntries[] = [
                             'icon' => FAS::icon('users', ['class' => ['nav-icon']]),
                             'url' => ['/user/index'],
                             'active' => Yii::$app->controller->id === 'user',
-                            'visible' => Yii::$app->user->can('administrator'),
+                            'visible' => Yii::$app->user->can('administrator') || Yii::$app->user->can('manager'),
                         ],
                         [
                             'label' => Yii::t('backend', 'Content'),
                             'options' => ['class' => 'nav-header'],
-                        ],
-                        [
-                            'label' => Yii::t('backend', 'Static pages'),
-                            'url' => ['/content/page/index'],
-                            'icon' => FAS::icon('thumbtack', ['class' => ['nav-icon']]),
-                            'active' => Yii::$app->controller->id === 'page',
                         ],
                         [
                             'label' => Yii::t('backend', 'Articles'),
@@ -257,33 +251,6 @@ $logEntries[] = [
                                     'url' => ['/content/category/index'],
                                     'icon' => FAR::icon('circle', ['class' => ['nav-icon']]),
                                     'active' => Yii::$app->controller->id === 'category',
-                                ],
-                            ],
-                        ],
-                        [
-                            'label' => Yii::t('backend', 'Widgets'),
-                            'url' => '#',
-                            'icon' => FAS::icon('puzzle-piece', ['class' => ['nav-icon']]),
-                            'options' => ['class' => 'nav-item has-treeview'],
-                            'active' => Yii::$app->controller->module->id === 'widget',
-                            'items' => [
-                                [
-                                    'label' => Yii::t('backend', 'Text Blocks'),
-                                    'url' => ['/widget/text/index'],
-                                    'icon' => FAR::icon('circle', ['class' => ['nav-icon']]),
-                                    'active' => Yii::$app->controller->id === 'text',
-                                ],
-                                [
-                                    'label' => Yii::t('backend', 'Menu'),
-                                    'url' => ['/widget/menu/index'],
-                                    'icon' => FAR::icon('circle', ['class' => ['nav-icon']]),
-                                    'active' => Yii::$app->controller->id === 'menu',
-                                ],
-                                [
-                                    'label' => Yii::t('backend', 'Carousel'),
-                                    'url' => ['/widget/carousel/index'],
-                                    'icon' => FAR::icon('circle', ['class' => ['nav-icon']]),
-                                    'active' => in_array(Yii::$app->controller->id, ['carousel', 'carousel-item']),
                                 ],
                             ],
                         ],
