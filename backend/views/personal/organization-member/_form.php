@@ -18,11 +18,14 @@ foreach ($organizationsData as $datum)
         'id' => $datum->id,
     ];
 $users = [];
-foreach ($usersData as $datum)
-    $users[] = [
-        'name' => $datum->user->email . ' ' . $datum->lastname . ' ' . $datum->firstname,
-        'id' => $datum->user_id,
-    ];
+foreach ($usersData as $datum) {
+    $organizationMember = \common\models\OrganizationMember::find()->where(['user_id' => $datum->user_id])->one();
+    if ($organizationMember->organization_id != null)
+        $users[] = [
+            'name' => $datum->user->email . ' ' . $datum->lastname . ' ' . $datum->firstname,
+            'id' => $datum->user_id,
+        ];
+}
 ?>
 
 <div class="user-form">
