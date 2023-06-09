@@ -21,7 +21,7 @@ foreach ($organizationsData as $datum)
 $users = [];
 foreach ($usersData as $datum) {
     $mentor = \common\models\Mentor::find()->where(['user_id' => $datum->user_id])->one();
-    if ($mentor->organization_id != null)
+    if ($mentor->organization_id == null)
         $users[] = [
             'name' => $datum->user->email . ' ' . $datum->lastname . ' ' . $datum->firstname,
             'id' => $datum->user_id,

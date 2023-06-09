@@ -20,7 +20,7 @@ foreach ($organizationsData as $datum)
 $users = [];
 foreach ($usersData as $datum) {
     $organizationMember = \common\models\OrganizationMember::find()->where(['user_id' => $datum->user_id])->one();
-    if ($organizationMember->organization_id != null)
+    if ($organizationMember->organization_id == null)
         $users[] = [
             'name' => $datum->user->email . ' ' . $datum->lastname . ' ' . $datum->firstname,
             'id' => $datum->user_id,
