@@ -81,8 +81,11 @@ class UserProfile extends ActiveRecord
                 if ($this->_oldAttributes['role'] != $this->$attribute &&
                     $this->_oldAttributes['role'] == self::ROLE_CANDIDATE) {
                     $candidate = Candidate::find()->where(['user_id' => $this->user_id])->limit(1)->one();
-                    $candidate->is_deleted = 1;
-                    $candidate->save();
+                    if ($candidate)
+                    {
+                        $candidate->is_deleted = 1;
+                        $candidate->save();
+                    }
                 }
             }]
         ];
