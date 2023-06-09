@@ -302,6 +302,7 @@ $logEntries[] = [
                         [
                             'label' => Yii::t('backend', 'System'),
                             'options' => ['class' => 'nav-header'],
+                            'visible' => Yii::$app->user->can('administrator'),
                         ],
                         [
                             'label' => Yii::t('backend', 'RBAC Rules'),
@@ -309,6 +310,7 @@ $logEntries[] = [
                             'icon' => FAS::icon('user-shield', ['class' => ['nav-icon']]),
                             'options' => ['class' => 'nav-item has-treeview'],
                             'active' => (Yii::$app->controller->module->id == 'rbac'),
+                            'visible' => Yii::$app->user->can('administrator'),
                             'items' => [
                                 [
                                     'label' => Yii::t('backend', 'Assignments'),
@@ -338,6 +340,7 @@ $logEntries[] = [
                             'icon' => FAS::icon('folder-open', ['class' => ['nav-icon']]),
                             'options' => ['class' => 'nav-item has-treeview'],
                             'active' => (Yii::$app->controller->module->id == 'file'),
+                            'visible' => Yii::$app->user->can('administrator'),
                             'items' => [
                                 [
                                     'label' => Yii::t('backend', 'Storage'),
@@ -357,31 +360,28 @@ $logEntries[] = [
                             'label' => Yii::t('backend', 'Key-Value Storage'),
                             'url' => ['/system/key-storage/index'],
                             'icon' => FAS::icon('exchange-alt', ['class' => ['nav-icon']]),
+                            'visible' => Yii::$app->user->can('administrator'),
                             'active' => (Yii::$app->controller->id == 'key-storage'),
                         ],
                         [
                             'label' => Yii::t('backend', 'Cache'),
                             'url' => ['/system/cache/index'],
                             'icon' => FAS::icon('sync', ['class' => ['nav-icon']]),
+                            'visible' => Yii::$app->user->can('administrator'),
                         ],
                         [
                             'label' => Yii::t('backend', 'System Information'),
                             'url' => ['/system/information/index'],
                             'icon' => FAS::icon('tachometer-alt', ['class' => ['nav-icon']]),
+                            'visible' => Yii::$app->user->can('administrator'),
                         ],
                         [
                             'label' => Yii::t('backend', 'Logs'),
                             'url' => ['/system/log/index'],
                             'icon' => FAS::icon('clipboard-list', ['class' => ['nav-icon']]),
                             'badge' => SystemLog::find()->count(),
+                            'visible' => Yii::$app->user->can('administrator'),
                             'badgeBgClass' => 'badge-danger',
-                        ],
-                        [
-                            'label' => Yii::t('backend', 'Reports'),
-                            'url' => ['/reports/index'],
-                            'icon' => '<i class="fa fa-dashboard"></i>',
-                            'visible' => Yii::$app->user->can('administrator') || Yii::$app->user->can('manager') || Yii::$app->user->can('bounty') || Yii::$app->user->can('operator')
-                            //'visible' => Yii::$app->user->can('administrator'),
                         ],
                     ],
                 ]) ?>

@@ -186,7 +186,7 @@ class UserProfile extends ActiveRecord
             foreach ($experiences as $experience)
             {
                 $specializationsArray = InternshipDirection::getSkills($candidateOrder->direction_id);
-                $keys = unserialize($experience->key_skills);
+                $keys = gettype($experience->key_skills) == 'array' ? $experience->key_skills : unserialize($experience->key_skills);
                 foreach ($keys as $key)
                     if (in_array($key, $specializationsArray))
                     {

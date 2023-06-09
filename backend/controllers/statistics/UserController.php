@@ -32,6 +32,8 @@ class UserController extends Controller
             ->queryAll();
 
         $usersData = array_map(function($el) {
+            if ($el['city'] == null)
+                $el['city'] = 'Не задан';
             return ['city' => $el['city'], 'cnt' => $el['cnt'] + 0];
         }, $usersData);
 
