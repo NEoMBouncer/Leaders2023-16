@@ -1,16 +1,16 @@
 <?php
 
 use common\grid\EnumColumn;
-use common\models\Intern;
+use common\models\Candidate;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
 /**
  * @var yii\web\View $this
- * @var backend\models\search\InternSearch $searchModel
+ * @var backend\models\search\CandidateSearch $searchModel
  * @var yii\data\ActiveDataProvider $dataProvider
  */
-$this->title = Yii::t('backend', 'Intern');
+$this->title = Yii::t('backend', 'Candidate');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -36,6 +36,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'user_id',
                     'value' => function ($model) {
                         return $model->user->userProfile->lastname . ' ' . $model->user->userProfile->firstname . ' (' . $model->user->email . ')';
+                    }
+                ],
+                [
+                    'attribute' => 'age',
+                    'value' => function ($model) {
+                        return $model->user->userProfile->age . ' (' . date('Y', time()) - date('Y', strtotime($model->user->userProfile->age)) . ')';
+                    }
+                ],
+                [
+                    'attribute' => 'city',
+                    'value' => function ($model) {
+                        return $model->user->userProfile->city;
                     }
                 ],
                 [

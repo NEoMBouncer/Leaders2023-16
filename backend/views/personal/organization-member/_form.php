@@ -20,7 +20,7 @@ foreach ($organizationsData as $datum)
 $users = [];
 foreach ($usersData as $datum) {
     $organizationMember = \common\models\OrganizationMember::find()->where(['user_id' => $datum->user_id])->one();
-    if ($organizationMember->organization_id == null)
+    if (!$organizationMember)
         $users[] = [
             'name' => $datum->user->email . ' ' . $datum->lastname . ' ' . $datum->firstname,
             'id' => $datum->user_id,
@@ -32,11 +32,14 @@ foreach ($usersData as $datum) {
     <?php $form = ActiveForm::begin() ?>
     <div class="card">
         <div class="card-body">
-            <?php echo $form->field($model, 'user_id')->dropDownList(\yii\helpers\ArrayHelper::map(
-                $users,
-                'id',
-                'name'
-            ), ['prompt' => '']) ?>
+
+            <?php if ($model->isNewRecord) {
+                echo $form->field($model, 'user_id')->dropDownList(\yii\helpers\ArrayHelper::map(
+                    $users,
+                    'id',
+                    'name'
+                ), ['prompt' => '']);
+            }?>
             <?php echo $form->field($model, 'organization_id')->dropDownList(\yii\helpers\ArrayHelper::map(
                 $organizations,
                 'id',

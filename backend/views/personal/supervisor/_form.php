@@ -19,22 +19,28 @@ foreach ($directionsData as $datum)
     ];
 $usersData = \common\models\UserProfile::find()->where(['role' => \common\models\UserProfile::ROLE_SUPERVISOR])->all();
 $users = [];
-foreach ($usersData as $datum)
-    $users[] = [
-        'name' => $datum->user->email . ' ' . $datum->lastname . ' ' . $datum->firstname,
-        'id' => $datum->user_id,
-    ];
+foreach ($usersData as $datum) {
+    $supervisor = \common\models\Supervisor::find()->where(['user_id' => $datum->user_id])->one();
+    if (!$supervisor)
+        $users[] = [
+            'name' => $datum->user->email . ' ' . $datum->lastname . ' ' . $datum->firstname,
+            'id' => $datum->user_id,
+        ];
+}
 ?>
 
 <div class="user-form">
     <?php $form = ActiveForm::begin() ?>
         <div class="card">
             <div class="card-body">
-                <?php echo $form->field($model, 'user_id')->dropDownList(\yii\helpers\ArrayHelper::map(
-                    $users,
-                    'id',
-                    'name'
-                ), ['prompt' => '']) ?>
+
+                <?php if ($model->isNewRecord) {
+                    echo $form->field($model, 'user_id')->dropDownList(\yii\helpers\ArrayHelper::map(
+                        $users,
+                        'id',
+                        'name'
+                    ), ['prompt' => '']);
+                }?>
                 <?php echo $form->field($model, 'direction_id')->dropDownList(\yii\helpers\ArrayHelper::map(
                     $directions,
                     'id',
