@@ -1,11 +1,11 @@
-![Alt text](public/logo.png?raw=true "talent-mos-logo")
 # Dev+
-[https://github.com/Jy4apa/Platform](https://github.com/Jy4apa/Platform)
 
 ### Backend
 
 - Production (branch: master) [https://api-devplus.ru/backend](https://api-devplus.ru/backend)
 
+### Frontend
+- Production (branch: master) [https://leaders2023-16.website.yandexcloud.net/](https://leaders2023-16.website.yandexcloud.net/)
 
 ## Локальное развертывание через Docker
 

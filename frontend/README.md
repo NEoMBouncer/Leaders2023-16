@@ -1,6 +1,5 @@
 ![Alt text](public/logo.png?raw=true "talent-mos-logo")
 # Dev+
-[https://github.com/Jy4apa/Platform](https://github.com/Jy4apa/Platform)
 
 ### Git Flow
 
