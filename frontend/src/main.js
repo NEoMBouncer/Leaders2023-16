@@ -12,7 +12,7 @@ import YmapPlugin from 'vue-yandex-maps'
 const options = {}
 
 const settings = {
-    apiKey: 'ca913e0d-396f-41fb-aba4-8537720869c5',
+    apiKey: import.meta.env.VITE_APP_MAP_KEY || '',
     lang: 'ru_RU',
     coordorder: 'longlat',
     version: '2.1'

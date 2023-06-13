@@ -36,7 +36,7 @@ import {
 const MOSCOW_COORDS = [37.61556, 55.75222]
 const DEFAULT_ZOOM = 10
 const settings = {
-  apiKey: 'ca913e0d-396f-41fb-aba4-8537720869c5',
+  apiKey: import.meta.env.VITE_APP_MAP_KEY || '',
   lang: 'ru_RU',
   coordorder: 'longlat',
   enterprise: false,
